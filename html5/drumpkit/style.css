@@ -1,0 +1,123 @@
+/* css reset
+有些浏览器的默认样式
+需手动统一保准，重置（reset)样式
+*/
+/*
+  Eric Meyer's Reset CSS v3.0.0 (https://meyerweb.com/eric/tools/css/reset/)
+  License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, i, u, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 建议补充：现代开发常用的全局设置 */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block; /* 避免图片下方出现间隙 */
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 业务样式 */
+html,body{
+ height: 100%;
+}
+
+body,html{
+  /* fz10 */
+  font-size: 10px;
+  background: url('./background.jpg') bottom center no-repeat;
+  /* 背景图片等比例放缩，将超过盒子大小的图片放进盒子中 */
+  /*
+   contatin:以图片为主，将图片正好放进容器 
+  cover：以容器为主，将容器填满
+  */
+  background-size: cover; 
+
+}
+.keys{
+  display: flex; /*弹性布局*/
+  min-height: 100vh; /*vh 是现代的相对单位,不同手机，高度不一样，100vh 占满整个
+  可以解决不同设备间的兼容 
+  */
+
+  /* background: green;  背景颜色调试法*/
+  align-items: center;
+  justify-content: center;
+}
+.key{
+  /* background: red; */
+  border: .4rem solid black;
+  border-radius: 0.5rem;
+  margin: 1rem;
+  font-size: 1.5rem;
+  padding: 1rem 0.5rem;
+  width: 10rem;
+  text-align: center;
+  color: white;
+  background: rgba(0, 0, 0, 0.4);
+  text-shadow: 0 0 .5rem black;
+}
+.key h3{
+  display: block;
+  font-size: 4rem;
+}
+.key span{
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  color: #ffc600;
+}
+.active{
+  transform: scale(1.1);  /* 变基属性 放大1.5倍*/
+  border-color: #ffc600;
+  box-shadow: 0 0 1rem  #ffc600;
+}
