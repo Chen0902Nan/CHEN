@@ -21,7 +21,7 @@
   git remote add origin https://gitee.com/chen090299/lesson_zp.git
   git push -u origin "master"
 
-- git add. // 添加所有的修改到暂存区
+- git add . // 添加所有的修改到暂存区
 - git commit -m 'message' //确认提交
 - git remote add origin https://gitee.com/chen090299/lesson_zp.git
 - git push origin master 本地代码提交到远程仓库
