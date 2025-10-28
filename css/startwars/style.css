@@ -226,8 +226,8 @@ img{
   /* 动画属性 
   star  animation-name 动作脚本
   10s animation-duration
-  ease-out animation-timing-function
-  infinite animation-interation-count
+  ease-out animation-timing-function 设置动画速度
+  infinite animation-interation-count  动画重复次数，infinite为无限重复
   */
   animation: star 10s ease-out infinite;
 }

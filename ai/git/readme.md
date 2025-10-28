@@ -23,7 +23,7 @@
 
 - git add . // 添加所有的修改到暂存区
 - git commit -m 'message' //确认提交
-- git remote add origin https://gitee.com/chen090299/lesson_zp.git
+- git remote add origin https://gitee.com/chen090299/lesson_zp.git //初次提交
 - git push origin master 本地代码提交到远程仓库
 
 - # learn git
