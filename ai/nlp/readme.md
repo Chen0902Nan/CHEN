@@ -14,6 +14,27 @@
   - 基于新学习的内容 -> 回答问题 体现机器学习智能的表现
 
 - 拿出样本数据 data
+  const data = [
+  { "input": "implementing a caching mechanism improves performance", "output": "backend" },
+  { "input": "hover effects on buttons", "output": "frontend" },
+  { "input": "optimizing SQL queries", "output": "backend" },
+  { "input": "using flexbox for layout", "output": "frontend" },
+  { "input": "setting up a CI/CD pipeline", "output": "backend" },
+  { "input": "SVG animations for interactive graphics", "output": "frontend" },
+  { "input": "authentication using OAuth", "output": "backend" },
+  { "input": "responsive images for different screen sizes", "output": "frontend" },
+  { "input": "creating REST API endpoints", "output": "backend" },
+  { "input": "CSS grid for complex layouts", "output": "frontend" },
+  { "input": "database normalization for efficiency", "output": "backend" },
+  { "input": "custom form validation", "output": "frontend" },
+  { "input": "implementing web sockets for real-time communication", "output": "backend" },
+  { "input": "parallax scrolling effect", "output": "frontend" },
+  { "input": "securely storing user passwords", "output": "backend" },
+  { "input": "creating a theme switcher (dark/light mode)", "output": "frontend" },
+  { "input": "load balancing for high traffic", "output": "backend" },
+  { "input": "accessibility features for disabled users", "output": "frontend" },
+  { "input": "scalable architecture for growing user base", "output": "backend" }
+  ];
 
   - input 给大模型的输入
   - bran.js 计算后

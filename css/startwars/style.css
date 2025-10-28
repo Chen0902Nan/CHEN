@@ -188,7 +188,7 @@ body{
 默认字体大小是16 */
 width: 34em;
 height: 17em;
-/* 绝对定位 */
+/* 绝对定位 居中 */
 position: absolute;
 top: 50%;
 left: 50%;
