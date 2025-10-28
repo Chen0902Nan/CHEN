@@ -38,3 +38,13 @@
   console.log(output)
 
 ## 大模型训练师 trainner
+
+## 25 年 AI 的发展
+
+- openai 发布了 Sora2 冲击 tiktok
+- 豆包植入了一键购买功能 AI 电商
+- openai 发布了 Atlas AI 浏览器 冲击 Google
+- to B（to Business） 企业端 AI Agents 正在提高效率 to C（to Consumer）
+
+使用大模型来搜索、解决问题 LLM 有比百度/淘宝更好的**用户体验**，
+很多用户用，当用户产生依赖 -> 流量 -> money
