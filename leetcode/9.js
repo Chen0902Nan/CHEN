@@ -4,28 +4,29 @@
  * @return {number[]}
  */
 var findAnagrams = function (s, p) {
-  const ans = []
-  const cntP = new Array(26).fill(0)
-  const cntS = new Array(26).fill(0)
-  // 统计p中每个字符的出现次数
-  for (const c of p) {
-    cntP[c.charCodeAt() - 'a'.charCodeAt()]++
+  let ans = []
+  let left = 0
+  let P = new Array(26).fill(0)
+  let S = new Array(26).fill(0)
+  //统计p中字母出现次数
+  for (const x of p) {
+    P[x.charCodeAt() - 'a'.charCodeAt()]++
   }
   for (let right = 0; right < s.length; right++) {
-    cntS[s[right].charCodeAt() - 'a'.charCodeAt()]++
+    //右边界进入窗口
+    S[s[right].charCodeAt() - 'a'.charCodeAt()]++
     //计算左边界
     left = right - p.length + 1
-    //窗口长度不够，进入下次循环
+    //窗口太小，直接进入下一次循环
     if (left < 0) {
       continue
     }
-    // 检查当前窗口是否是p的字母异位词
-    if (_.isEqual(cntS, cntP)) {
-      //追加起始索引
+    //如果窗口===P，追加左边界
+    if (_.isEqual(P, S)) {
       ans.push(left)
     }
-    //左边界离开窗口
-    cntS[s[left].charCodeAt() - 'a'.charCodeAt()]--
+    //左边界移除窗口，进入下一次循环
+    S[s[left].charCodeAt() - 'a'.charCodeAt()]--
   }
   return ans
 }
