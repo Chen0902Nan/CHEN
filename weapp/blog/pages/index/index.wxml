@@ -1,0 +1,44 @@
+<view class="container">
+  <view class="search" bindtap="toSearch">
+    <van-search placeholder="搜索" background="#49b849"/>
+  </view>
+  <view class="weui-grids">
+    <!-- block 是一个可以接收指令的标签
+  wx:for data.menus 循环输出
+  wx:key 唯一的ID -->
+    <block wx:for="{{menus}}" wx:key="{{item.id}}">
+      <navigator class="weui-grid" url="../articles/articles">
+        <image class="weui-grid__icon" src="{{item.typePic}}"/>
+        <view class="weui-grid__label">
+        {{item.typeName}}
+        </view>
+      </navigator>
+    </block>
+  </view>
+  <!-- 广告 -->
+<swiper class="banner" indicator-dots="true" autoplay="true" interval="5000">
+<block wx:for="{{advertPaics}}" wx:key="index">
+<swiper-item>
+  <image src="{{item}}" class="slide-image" mdoe="widthFix"/>
+</swiper-item>
+</block>
+</swiper>
+<!-- 滚动条 -->
+<scroll-view scroll-y="true">
+    <block wx:for="{{articles}}" wx:key="index" 
+      wx:for-item="article">
+      <navigator url="../articles/articles">
+        <view class="article">
+          <view class="article-title">
+            <view class="article-title__text">{{article.title}}</view>
+            <view class="article-title__time">{{article.time}}</view>
+          </view>
+          <view class="article-column">
+            <image class="article-column__img" src="{{article.imgUrl}}"/>
+            <view class="article-column__text">{{article.text}}</view>
+          </view>
+        </view>
+      </navigator>
+    </block>
+  </scroll-view>
+</view>
