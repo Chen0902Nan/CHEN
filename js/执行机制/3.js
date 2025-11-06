@@ -2,7 +2,9 @@ var a = 1
 function fn (a) {
   console.log(a)
   var a = 2
-  // function a () {}
+  console.log(a)
+
+  function a () {}
   var b = a
   console.log(a)
 }

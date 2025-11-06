@@ -1,8 +1,6 @@
 showName()
-
 console.log(myName)
 console.log('lisi')
-
 var myName = 'zhangsan'
 let hero = 'lisi'
 function showName () {
