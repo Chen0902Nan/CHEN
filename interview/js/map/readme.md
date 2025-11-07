@@ -27,10 +27,11 @@
     string：要被解析的值。如果参数不是一个字符串，则将其转换为字符串 (使用 ToString 抽象操作)。字符串开头的空白符将会被忽略。
     radix: 2-36 的整数 超出这个范围会判断 NaN，但 0 为特例，会默认推理为 10 进制
 
-- console.log([1,2,3].map(parseInt))
-  -> parseInt(1,0,[1,2,3])
-  -> parseInt(2,1,[1,2,3])
-  -> parseInt(3,2,[1,2,3])
+- 腾讯面试题
+  - console.log([1,2,3].map(parseInt))
+    -> parseInt(1,0,[1,2,3])
+    -> parseInt(2,1,[1,2,3])
+    -> parseInt(3,2,[1,2,3])
 
 # JS 面向对象式编程
 
@@ -48,3 +49,15 @@
     const strObj=new String('hello')
     strObj.length
     strObj=null // 释放掉
+
+- str.slice()
+  支持传入负数
+  但不会逆置大小顺序
+- str.substring()
+  不支持负数
+  但可以逆置大小顺序
+
+- str.indexOf('')
+  返回 str 中某个字母的第一个下标
+- str.lastIndexOf('')
+  返回 str 中某个字母的最后一个下标
