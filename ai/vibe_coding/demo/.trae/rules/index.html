@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Trae</title>
+    <style>
+        /* 基础样式设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 4rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            max-width: 600px;
+            width: 90%;
+            animation: fadeIn 1s ease-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            color: #333;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        p {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            animation: slideIn 0.8s ease-out 0.2s both;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: slideIn 0.8s ease-out 0.4s both;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .animation-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 20%;
+            right: 15%;
+            animation-delay: -5s;
+        }
+
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 15%;
+            left: 20%;
+            animation-delay: -2s;
+        }
+
+        .shape:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            bottom: 25%;
+            right: 25%;
+            animation-delay: -8s;
+        }
+
+        /* 动画定义 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(20px, -20px) rotate(5deg);
+            }
+            50% {
+                transform: translate(0, 20px) rotate(0deg);
+            }
+            75% {
+                transform: translate(-20px, -10px) rotate(-5deg);
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 3rem 1.5rem;
+                margin: 1rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .shape {
+                transform: scale(0.7);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景动画区域 -->
+    <div class="animation-area">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <!-- 主内容容器 -->
+    <div class="container">
+        <h1>Hello Trae!</h1>
+        <p>欢迎使用 Trae AI 编辑器，这是一个现代化、高效的开发环境。开始你的编程之旅吧！</p>
+        <button class="btn" id="greetingBtn">点击问候</button>
+    </div>
+
+    <script>
+        // 获取按钮元素
+        const greetingBtn = document.getElementById('greetingBtn');
+        const heading = document.querySelector('h1');
+        
+        // 定义问候语数组
+        const greetings = [
+            'Hello Trae!',
+            '你好，Trae！',
+            'Welcome to Trae!',
+            'Hola Trae!',
+            'Bonjour Trae!',
+            'Ciao Trae!',
+            'こんにちは Trae！'
+        ];
+        
+        // 随机选择问候语
+        const getRandomGreeting = () => {
+            return greetings[Math.floor(Math.random() * greetings.length)];
+        };
+        
+        // 按钮点击事件处理
+        greetingBtn.addEventListener('click', () => {
+            // 添加点击动画
+            greetingBtn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                greetingBtn.style.transform = 'scale(1)';
+            }, 150);
+            
+            // 更新问候语并添加过渡效果
+            const newGreeting = getRandomGreeting();
+            heading.style.opacity = '0';
+            setTimeout(() => {
+                heading.textContent = newGreeting;
+                heading.style.opacity = '1';
+            }, 300);
+            
+            // 创建粒子效果
+            createParticles(event.clientX, event.clientY);
+        });
+        
+        // 创建粒子效果
+        function createParticles(x, y) {
+            const particlesCount = 20;
+            const container = document.body;
+            
+            for (let i = 0; i < particlesCount; i++) {
+                const particle = document.createElement('div');
+                
+                // 设置粒子样式
+                particle.style.position = 'fixed';
+                particle.style.width = `${Math.random() * 10 + 5}px`;
+                particle.style.height = `${Math.random() * 10 + 5}px`;
+                particle.style.background = `rgba(255, 255, 255, ${Math.random() * 0.8 + 0.2})`;
+                particle.style.borderRadius = '50%';
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '9999';
+                particle.style.opacity = '0';
+                
+                // 随机动画参数
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 50 + 20;
+                const duration = Math.random() * 1000 + 1000;
+                
+                // 添加到DOM
+                container.appendChild(particle);
+                
+                // 执行动画
+                setTimeout(() => {
+                    particle.style.transition = `all ${duration}ms ease-out`;
+                    particle.style.opacity = '1';
+                    particle.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+                }, 10);
+                
+                // 动画结束后移除
+                setTimeout(() => {
+                    particle.style.transition = 'opacity 300ms ease-out';
+                    particle.style.opacity = '0';
+                    setTimeout(() => {
+                        container.removeChild(particle);
+                    }, 300);
+                }, duration);
+            }
+        }
+        
+        // 页面加载动画
+        window.addEventListener('load', () => {
+            // 可以在这里添加额外的页面加载效果
+            console.log('页面加载完成');
+        });
+    </script>
+</body>
+</html>
