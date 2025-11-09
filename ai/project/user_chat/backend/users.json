@@ -1,0 +1,24 @@
+{
+  "users":[
+  {
+    "id":1,
+    "username":"曹威威",
+    "hometown":"九江"
+  },
+  {
+    "id":2,
+    "username":"宋婉琳",
+    "hometown":"吉安"
+  },
+  {
+    "id":3,
+    "username":"习皓俊",
+    "hometown":"吉安"
+  },
+  {
+    "id":"4",
+    "username":"王毓宸",
+    "hometown":"吉安"
+  }
+  ]
+}
