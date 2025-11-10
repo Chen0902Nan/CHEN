@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>异步 async</title>
+  </head>
+  <body>
+    <script>
+      // 代码的编写顺序
+      // 代码的执行顺序
+      console.log(1);
+      // 定时器
+      // 等？ 同步代码
+      // js 不等， js是一门单线程的脚本语言
+      // 响应用户的事件、页面滚动
+      // 代码执行是线程负责，最小单元 进程是资源调度最小单元
+      // 单线程简单
+      // setTimeout 异步代码，放到event loop中
+      setTimeout(function () {
+        console.log(2);
+      }, 3000);
+      console.log(3);
+    </script>
+  </body>
+</html>
