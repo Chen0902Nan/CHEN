@@ -8,7 +8,7 @@ import { config } from 'dotenv'
 config({
   path: '.env'
 })
-console.log(process.env.OPENAI_API_KEY, '////')
+// console.log(process.env.OPENAI_API_KEY, '////')
 
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,

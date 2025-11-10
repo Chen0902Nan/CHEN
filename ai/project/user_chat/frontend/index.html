@@ -9,13 +9,13 @@
       rel="stylesheet"
     />
   </head>
-  <body>
-    <!-- PC端页面框架 
+  <!-- PC端页面框架 
     bootstrap Layout 行列 
     列的布局， 总共12个单位， 
   col-md-6 一半
 
   -->
+  <body>
     <div class="container">
       <div class="row col-md-6 col-md-offset-3">
         <table class="table table-striped" id="user_table">
@@ -33,7 +33,7 @@
       <div class="row">
         <form name="aiForm">
           <div class="form-group">
-            <label for="questionInput">请输入问题：</label>
+            <!-- <label for="questionInput">请输入问题：</label> -->
             <input
               type="text"
               class="form-control"
@@ -52,7 +52,7 @@
     </div>
     <script>
       const oForm = document.forms["aiForm"];
-      const oBody = document.querySelector("#user_table ");
+      const oBody = document.querySelector("#user_table");
       const oBtn = document.querySelector(".btn");
       let users;
 
@@ -66,11 +66,11 @@
           return;
         }
         oBtn.disabled = true;
-        console.log(
-          `http://localhost:1314/?question=${question}&data=${JSON.stringify(
-            users
-          )}`
-        );
+        // console.log(
+        //   `http://localhost:1314/?question=${question}&data=${JSON.stringify(
+        //     users
+        //   )}`
+        // );
         fetch(
           `http://localhost:1314/?question=${question}&data=${JSON.stringify(
             users

@@ -22,4 +22,4 @@
         npm run dev
         json-server --watch users.json --port 3001
   - llm
-    npm i -g nodemen 边写边更新服务器
+    npm i -g nodemon 边写边更新服务器
