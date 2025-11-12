@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Label的for属性示例</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f7fa;
+      }
+
+      h1 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      .example {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        flex: 1;
+        min-width: 300px;
+      }
+
+      h2 {
+        color: #3498db;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="checkbox"],
+      input[type="radio"] {
+        margin-right: 8px;
+      }
+
+      .highlight {
+        background-color: #e8f4fc;
+        padding: 15px;
+        border-radius: 5px;
+        margin: 15px 0;
+        border-left: 4px solid #3498db;
+      }
+
+      .benefits {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      ul {
+        padding-left: 20px;
+      }
+
+      li {
+        margin-bottom: 10px;
+      }
+
+      code {
+        background-color: #f1f1f1;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: Consolas, monospace;
+      }
+
+      .interactive-demo {
+        background: #2c3e50;
+        color: white;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 20px;
+      }
+
+      .demo-label {
+        cursor: pointer;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+      }
+
+      .demo-label:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Label标签的for属性详解</h1>
+
+    <div class="container">
+      <div class="example">
+        <h2>基本用法</h2>
+        <div class="form-group">
+          <label for="username">用户名：</label>
+          <input type="text" id="username" placeholder="请输入用户名" />
+        </div>
+
+        <div class="form-group">
+          <label for="email">电子邮箱：</label>
+          <input type="email" id="email" placeholder="请输入电子邮箱" />
+        </div>
+
+        <div class="highlight">
+          <p><strong>代码示例：</strong></p>
+          <code>&lt;label for="username"&gt;用户名：&lt;/label&gt;</code><br />
+          <code>&lt;input type="text" id="username"&gt;</code>
+        </div>
+      </div>
+
+      <div class="example">
+        <h2>单选按钮和复选框</h2>
+        <p>使用for属性可以增大可点击区域，提升用户体验：</p>
+
+        <div class="form-group">
+          <input type="radio" id="option1" name="options" value="1" />
+          <label for="option1">选项一</label>
+        </div>
+
+        <div class="form-group">
+          <input type="radio" id="option2" name="options" value="2" />
+          <label for="option2">选项二</label>
+        </div>
+
+        <div class="form-group">
+          <input type="checkbox" id="subscribe" name="subscribe" />
+          <label for="subscribe">订阅新闻通讯</label>
+        </div>
+
+        <div class="highlight">
+          <p><strong>代码示例：</strong></p>
+          <code>&lt;input type="checkbox" id="subscribe"&gt;</code><br />
+          <code>&lt;label for="subscribe"&gt;订阅新闻通讯&lt;/label&gt;</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="benefits">
+      <h2>使用for属性的好处</h2>
+      <ul>
+        <li>
+          <strong>提升用户体验：</strong>
+          点击标签文本即可激活对应的表单控件，特别是对于小尺寸的单选按钮和复选框非常有用
+        </li>
+        <li>
+          <strong>增强可访问性：</strong>
+          屏幕阅读器能够正确识别标签与表单控件的关系，为视障用户提供更好的体验
+        </li>
+        <li>
+          <strong>提高表单可用性：</strong>
+          在移动设备上，更大的点击区域使表单更易于操作
+        </li>
+        <li>
+          <strong>语义化：</strong>
+          明确表达标签与表单控件的关系，使代码结构更清晰
+        </li>
+      </ul>
+    </div>
+
+    <div class="interactive-demo">
+      <h2>交互演示</h2>
+      <p>尝试点击下面的标签文本，观察对应的输入框如何获得焦点：</p>
+
+      <div class="form-group">
+        <label for="demoInput" class="demo-label">点击我试试 →</label>
+        <input
+          type="text"
+          id="demoInput"
+          placeholder="点击上面的标签看看会发生什么"
+        />
+      </div>
+
+      <div class="form-group">
+        <input type="checkbox" id="demoCheckbox" />
+        <label for="demoCheckbox" class="demo-label"
+          >点击这个标签文本也可以选中复选框</label
+        >
+      </div>
+    </div>
+
+    <script>
+      // 添加一些简单的交互效果
+      document.querySelectorAll("input").forEach((input) => {
+        input.addEventListener("focus", function () {
+          this.style.boxShadow = "0 0 0 2px #3498db";
+        });
+
+        input.addEventListener("blur", function () {
+          this.style.boxShadow = "";
+        });
+      });
+    </script>
+  </body>
+</html>

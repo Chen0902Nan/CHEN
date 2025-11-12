@@ -67,8 +67,10 @@
       inputs.forEach((input) => input.addEventListener("change", handleUpdate));
 
       function handleUpdate() {
-        // this指向？ this作为处理函数时，指向事件发生的元素
+        // this指向 this作为事件处理函数时，指向事件发生的元素
         const suffix = this.dataset.sizing || ``;
+        // document.documentElement -> html元素
+        // serProperty()动态设置css的自定义属性
         document.documentElement.style.setProperty(
           `--${this.name}`,
           this.value + suffix
