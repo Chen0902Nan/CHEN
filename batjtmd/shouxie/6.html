@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ajax</title>
+  </head>
+  <body>
+    <script>
+      const getJSON = (url) =>
+        new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open("GET", url, true);
+          xhr.send();
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              const data = xhr.responseText;
+              resolve(data);
+            }
+          };
+          xhr.onerror = function () {
+            reject(console.log("请求失败"));
+          };
+        });
+
+      getJSON("https://api.github.com/users/shunwuyu")
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    </script>
+  </body>
+</html>
