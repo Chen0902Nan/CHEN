@@ -16,11 +16,15 @@
           xhr.open("GET", url, true);
           xhr.send();
           xhr.onreadystatechange = function () {
+            // readyState 5个状态 0-4 4表示已完成
             if (xhr.readyState === 4 && xhr.status === 200) {
               const data = JSON.parse(xhr.responseText);
               // 成功之后 将数据传给实例化对象
               resolve(data);
             }
+          };
+          xhr.onerror = function () {
+            reject("请求出错了");
           };
         });
 
@@ -28,9 +32,13 @@
       // promise 实例 then
       // promise
       // promise 实例 resolve 后运行
-      getJSON("https://api.github.com/users/shunwuyu").then((data) => {
-        console.log(data);
-      });
+      getJSON("https://api.github.com/users/shunwuyu")
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     </script>
   </body>
 </html>
