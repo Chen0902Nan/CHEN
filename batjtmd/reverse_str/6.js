@@ -1,7 +1,6 @@
-const arr = [1, 2, 3, 4, 5, 6]
-res = arr.reduce((acc, cur, index, arr) => {
-  console.log(acc + 1)
+// reduce
+function reverseStr (str) {
+  return [...str].reduce((reversed, cur) => cur + reversed, '')
+}
 
-  console.log(cur)
-})
-console.log(res)
+console.log(reverseStr('Hello'))
