@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS 继承属性</title>
+    <style>
+      body {
+        background-color: green;
+      }
+      * {
+        padding: 0;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <p>Hello world</p>
+    <div
+      style="
+        overflow: hidden;
+        font-size: 28px;
+        height: 300px;
+        background-color: yellow;
+        color: pink;
+      "
+    >
+      你好
+      <p style="background-color: red; height: inherit">大唐异世录</p>
+    </div>
+  </body>
+</html>
