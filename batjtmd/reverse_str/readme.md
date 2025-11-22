@@ -1,9 +1,5 @@
 <!-- 反转字符串 abc -> cba -->
 
-function reversStr(str){
-return str.split('').reverse().join('')
-}
-
 # 反转字符串
 
 - 面试官的内心
@@ -17,5 +13,17 @@ return str.split('').reverse().join('')
       - 退出条件
       - 爆栈（风险），内存开销比较大
     - 循环
+      - for of 循环
+      - str.length--
     - JS API .split().reverse.join
     - 字符串展开 [...str].reverse().join('')
+    - reduce()
+
+## 递归 Recursion
+
+- 含义：函数调用函数本身
+- 思想：将大的问题拆解成一个个小的问题去解决
+- 写法思路：
+  - 确定问题 -> 确定好参数
+  - 解决基准问题 -> 什么时候结束递归
+  - 拆分问题 -> 将大的问题拆解模拟成小的问题
