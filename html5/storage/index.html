@@ -36,6 +36,7 @@
                 ${item.done ? "checked" : ""}
               />
               <label for="item${index}"> ${item.text}</label>
+              <button class="delete-btn" data-index=${index}>删除</button>
             </li>
           `;
           })
@@ -66,7 +67,15 @@
           items[index].done = !items[index].done;
           localStorage.setItem("todos", JSON.stringify(items));
           populateList(items, itemsList);
+        } else if (el.classList.contains("delete-btn")) {
+          deleteItem(el.dataset.index);
         }
+      }
+
+      function deleteItem(index) {
+        items.splice(index, 1);
+        localStorage.setItem("todos", JSON.stringify(items));
+        populateList(items, itemsList);
       }
       addItems.addEventListener("submit", addItem);
       itemsList.addEventListener("click", toggleDone);

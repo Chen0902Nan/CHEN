@@ -33,6 +33,8 @@ h2 {
   padding: 10px 0;
   font-weight: 100;
   display: flex; /*设置弹性格式化上下文*/
+  align-items: center;
+  justify-content: space-between;
 }
 .plates label {
   flex: 1;
@@ -55,4 +57,19 @@ h2 {
   padding: 10px;
   outline: 5px solid rgba(14, 14, 211, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.delete-btn {
+  background-color: #ff4757;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.delete-btn:hover {
+  background-color: #ff3838;
 }
