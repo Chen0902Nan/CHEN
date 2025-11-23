@@ -1,13 +1,35 @@
+// /**
+//  * @param {number[]} nums
+//  * @param {number} target
+//  * @return {number[]}
+//  */
+// var twoSum = function (nums, target) {
+//   let len = nums.length
+//   let hash = new Map()
+//   for (let i = 0; i < len; i++) {
+//     let content = target - nums[i]
+//     if (hash.has(content)) {
+//       return [hash.get(content), i]
+//     } else {
+//       hash.set(nums[i], i)
+//     }
+//   }
+// }
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
 var twoSum = function (nums, target) {
-  const idx = new Map() // 创建一个空哈希表
-  for (let j = 0; ; j++) {
-    // 枚举 j
-    const x = nums[j]
-    // 在左边找 nums[i]，满足 nums[i]+x=target
-    if (idx.has(target - x)) {
-      // 找到了
-      return [idx.get(target - x), j] // 返回两个数的下标
+  let len = nums.length
+  let diffs = {}
+  for (let i = 0; i < len; i++) {
+    const complement = target - nums[i]
+    // 杜绝 索引为0 带来的 if（0）
+    if (diffs[complement] !== undefined) {
+      return [diff[complement], i]
+    } else {
+      diffs[nums[i]] = i
     }
-    idx.set(x, j) // 保存 nums[j] 和 j
   }
 }

@@ -3,7 +3,7 @@ function twoSum (nums, target) {
   const len = nums.length
   for (let i = 0; i < len; i++) {
     const complement = target - nums[i]
-    if (diffs[complement]) {
+    if (diffs[complement] !== undefined) {
       return [diffs[complement], i]
     }
     diffs[nums[i]] = i
