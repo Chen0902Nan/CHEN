@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en ">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS 事件机制</title>
+    <style>
+      #parent {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+      }
+      #child {
+        width: 100px;
+        height: 100px;
+        background-color: blue;
+      }
+    </style>
+  </head>
+  <!-- 默认也是冒泡阶段触发 -->
+  <body onclick="alert('橘子')">
+    <div id="parent">
+      <div id="child"></div>
+    </div>
+    <script>
+      document.getElementById("parent").addEventListener(
+        "click",
+        function (e) {
+          e.stopPropagation();
+          console.log("parent click");
+        },
+        true
+      );
+      document.getElementById("child").addEventListener(
+        "click",
+        function () {
+          console.log("clild click");
+        },
+        false
+      );
+    </script>
+  </body>
+</html>
