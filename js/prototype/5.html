@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Person(name, age) {
+        Person.prototype.species = "人类";
+        Person.prototype.saiHi = function () {
+          console.log(`你好，我是${this.name}`);
+        };
+      }
+      let p1 = new Person("华高俊", 18);
+      // 原型对象独立于实例对象之外
+      p1.species = "和平精英达人"; // 实例上设置属性 不是修改了原型上的属性
+      // 如果实例上有属性,就不会去原型上查找
+      console.log(p1, p1.__proto__);
+      console.log(p1.__proto__.__proto__);
+    </script>
+  </body>
+</html>

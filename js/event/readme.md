@@ -4,7 +4,7 @@
   - DOM 树
   - 页面是画出来的 (平面)
     - 捕获阶段 capture
-      documen 开始 一层层缩小
+      window 开始 一层层缩小
       parent 节点上添加了 click 事件的监听
     - 目标阶段 event.target child
     - 冒泡阶段 bubble
