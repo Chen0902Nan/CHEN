@@ -1,27 +1,42 @@
 <script setup>
-const users = [
-  {
-    name: '陈炳南',
-    studentId: '2023213101',
-    age: 20,
-    major: '软件工程',
-    class: '2321804'
-  }
-]
+import { ref } from 'vue'
+
+// 定义计数器状态
+const count = ref(0)
+
+// 定义增加和减少的方法
+const increment = () => {
+  count.value++
+}
+
+const decrement = () => {
+  count.value--
+}
 </script>
 
 <template>
   <div class="app-container">
-    <div class="user-list-container">
-      <h1>用户信息列表</h1>
-      <div class="user-list">
-        <div v-for="user in users" :key="user.studentId" class="user-info">
-          <h2>{{ user.name }}</h2>
-          <p><strong>学号：</strong>{{ user.studentId }}</p>
-          <p><strong>年龄：</strong>{{ user.age }}</p>
-          <p><strong>专业：</strong>{{ user.major }}</p>
-          <p><strong>班级：</strong>{{ user.class }}</p>
-        </div>
+    <div class="counter-container">
+      <h1>计数器</h1>
+      
+      <!-- 计数器显示 -->
+      <div class="count-display">
+        <span :style="{ color: count > 0 ? 'green' : count < 0 ? 'red' : 'black' }">
+          {{ count }}
+        </span>
+      </div>
+      
+      <!-- 条件提示信息 -->
+      <div class="count-message">
+        <p v-if="count > 0">当前为正数</p>
+        <p v-else-if="count < 0">当前为负数</p>
+        <p v-else>当前为零</p>
+      </div>
+      
+      <!-- 按钮控制 -->
+      <div class="counter-controls">
+        <button @click="increment" class="btn btn-increment">+1</button>
+        <button @click="decrement" class="btn btn-decrement">-1</button>
       </div>
     </div>
   </div>
@@ -46,66 +61,97 @@ body {
 .app-container {
   min-height: 100vh;
   padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.user-list-container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.user-list-container h1 {
+.counter-container {
+  max-width: 500px;
+  width: 100%;
+  background-color: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
+}
+
+.counter-container h1 {
   color: #333;
   margin-bottom: 30px;
   font-size: 32px;
 }
 
-.user-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+.count-display {
+  font-size: 72px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  transition: color 0.3s ease;
+}
+
+.count-message {
+  margin-bottom: 30px;
+  font-size: 18px;
+  color: #666;
+}
+
+.counter-controls {
+  display: flex;
+  justify-content: center;
   gap: 20px;
 }
 
-.user-info {
-  border: 1px solid #e0e0e0;
+.btn {
+  padding: 12px 32px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
   border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-  background-color: #fafafa;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 80px;
 }
 
-.user-info:hover {
+.btn-increment {
+  background-color: #42b983;
+  color: white;
+}
+
+.btn-increment:hover {
+  background-color: #35495e;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.user-info h2 {
-  margin-top: 0;
-  color: #333;
-  font-size: 24px;
-  border-bottom: 2px solid #42b983;
-  padding-bottom: 10px;
+.btn-decrement {
+  background-color: #f06543;
+  color: white;
 }
 
-.user-info p {
-  margin: 10px 0;
-  color: #666;
-  font-size: 16px;
+.btn-decrement:hover {
+  background-color: #e74c3c;
+  transform: translateY(-2px);
 }
 
-.user-info strong {
-  color: #333;
+.btn:active {
+  transform: translateY(0);
 }
 
 @media (max-width: 768px) {
-  .user-list {
-    grid-template-columns: 1fr;
+  .counter-container {
+    padding: 20px;
   }
-
-  .user-list-container h1 {
+  
+  .counter-container h1 {
     font-size: 24px;
+  }
+  
+  .count-display {
+    font-size: 48px;
+  }
+  
+  .btn {
+    padding: 10px 24px;
+    font-size: 16px;
   }
 }
 </style>

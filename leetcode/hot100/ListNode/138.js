@@ -12,12 +12,17 @@
  * @return {_Node}
  */
 var copyRandomList = function (head) {
-  let cur = head
-  let nHead = new _Node(cur.val, cur.next, cur.random)
-  let dummy = new _Node(0, nHead, 0)
-
+  let dummy = new _Node(0, head, 0)
+  let cur = dummy.next
+  let nHead = new _Node(head.val, head, head.random)
+  let nDummy = nHead
+  let count = 0
   while (cur) {
-    nHead = nHead.next
+    nDummy.next = cur
+    nDummy = nDummy.next
     cur = cur.next
+    count++
   }
+  while (count--) {}
+  return nHead.next
 }
