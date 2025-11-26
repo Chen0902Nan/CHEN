@@ -30,6 +30,6 @@
     - 原型对象上有一个 constructor 属性，指向构造函数 -> .constructor
       由这个构造函数创建的实例，可以享用原型对象 -> ._proto_
 
-- 任何对象都有一个 prototype 属性
+- 任何对象都有一个 _proto_ 属性
 - 任何对象都默认指向 Object.prototype, 除非，new 一个其他的构造函数
 - Object.prototype._proto_ -> null 停止查找
