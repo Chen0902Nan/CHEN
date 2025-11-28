@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // promise 实例 __proto__
+      const p = new Promise((resolve, reject) => {
+        // executor 立即执行
+        console.log(111);
+        // 异步任务
+        setTimeout(() => {
+          resolve("结果1");
+        }, 1000);
+      }).then((data) => {
+        console.log(data);
+      });
+      console.log(p.__proto__);
+      console.log(p.__proto__ == Promise.prototype);
+    </script>
+  </body>
+</html>
