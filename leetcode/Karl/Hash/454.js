@@ -8,48 +8,30 @@
 var fourSumCount = function (nums1, nums2, nums3, nums4) {
   let ans = 0
   let sum1 = [] //1,2
-  let sum2 = [] //1,3
-  let sum3 = [] //1,4
-  let sum4 = [] //2,3
-  let sum5 = [] //2,4
   let sum6 = [] //3,4
+  let map = new Map()
   // 两数和
   for (const x of nums1) {
     for (const y of nums2) {
       sum1.push(x + y)
     }
   }
-  for (const x of nums1) {
-    for (const y of nums3) {
-      sum2.push(x + y)
-    }
-  }
-  for (const x of nums1) {
-    for (const y of nums4) {
-      sum3.push(x + y)
-    }
-  }
-  for (const x of nums2) {
-    for (const y of nums3) {
-      sum4.push(x + y)
-    }
-  }
-  for (const x of nums2) {
-    for (const y of nums4) {
-      sum5.push(x + y)
-    }
-  }
   for (const x of nums3) {
     for (const y of nums4) {
       sum6.push(x + y)
+      if (!map.has(x + y)) {
+        map.set(x + y, 1)
+      } else {
+        map.set(x + y, map.get(x + y) + 1)
+      }
     }
   }
+  let len = sum1.length
   // 四数和
-  for (const x of sum1) {
-    for (const y of sum6) {
-      if (x + y == 0) ans++
+  for (let i = 0; i < len; i++) {
+    if (map.has(-sum1[i])) {
+      ans = ans + map.get(-sum1[i])
     }
   }
-
   return ans
 }
