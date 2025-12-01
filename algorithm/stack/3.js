@@ -4,7 +4,7 @@
 class ListNode {
   constructor (val) {
     this.val = val
-    this.next = this.next
+    this.next = null
   }
 }
 
@@ -41,14 +41,13 @@ class LinkedListStack {
     return this.#size
   }
   toArry () {
-    let node = this.#size
-    const res = new Array(this.size)
-
-    for (let i = res.length - 1; i >= 0; i--) {
-      res[i] = node.val
+    const res = []
+    let node = this.#stackPeek
+    while (node) {
+      res.push(node.val)
       node = node.next
     }
-    return res
+    return res // 栈顶元素在数组索引 0
   }
 }
 const stack = new LinkedListStack()
