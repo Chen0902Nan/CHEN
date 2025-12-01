@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 暂时解决了代码重复的问题
+      // 封装了实例化的过程
+      function Cat(name, color) {
+        // this 由运行的时候决定的
+        console.log(this);
+        //构造的初始化
+        this.name = name;
+        this.color = color;
+      }
+      // 普通函数调用的时候，this指向 window
+      Cat("黑猫警长", "黑色");
+      // new Object() 完全是个空对象 {}
+      new Cat("加菲猫", "orange"); // this指向实例化对象 空对象
+      const cat1 = new Cat("肥波", "grey");
+      // 实例判断
+      console.log(cat1, cat1 instanceof Cat);
+    </script>
+  </body>
+</html>
