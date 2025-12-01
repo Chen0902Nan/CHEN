@@ -31,7 +31,7 @@
  * @return {number[]}
  */
 var intersection = function (nums1, nums2) {
-  const set = new Set(num1)
+  const set = new Set(nums1)
   const ans = []
   const set2 = new Set(nums2)
   for (const x of set2) {
