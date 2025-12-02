@@ -34,4 +34,3 @@ Object Orient Programming
 extends
 通过构造函数绑定 this -> apply()
 将父对象的构造函数（Animal）绑定在子对象(Cat 实例)
-CSS inherit

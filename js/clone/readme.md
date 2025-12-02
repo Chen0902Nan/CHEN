@@ -18,6 +18,6 @@
 - JSON.parse(JSON.stringify())
 - structuredClone()
 - Lodash 库
-  np.
+  npm install lodash
   const _ = require('lodash');
   const obj2 = _.cloneDeep(obj1);
