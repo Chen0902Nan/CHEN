@@ -29,6 +29,8 @@ EditInPlace.prototype = {
     //   Object.prototype.toString.apply(this.containerElement)
     // );
     this.containerElement.id = this.id
+    // 将新创建的 div 挂载到 #app-div中
+    this.parentElement.appendChild(this.containerElement)
 
     // 值
     this.staticElement = document.createElement('span')
@@ -38,10 +40,9 @@ EditInPlace.prototype = {
     // 输入框
     this.fieldElement = document.createElement('input')
     this.fieldElement.type = 'text'
-    this.fieldElement.value = this.value
     this.containerElement.appendChild(this.fieldElement)
-    this.parentElement.appendChild(this.containerElement)
 
+    // 按钮
     this.saveButton = document.createElement('input')
     this.saveButton.type = 'button'
     this.saveButton.value = '保存'
