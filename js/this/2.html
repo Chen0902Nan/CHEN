@@ -7,10 +7,10 @@
   </head>
   <body>
     <script>
-      function foo() {
-        console.log(this);
-      }
-      foo(); // 普通函数运行时，指向window window.foo()
+      // function foo() {
+      //   console.log(this);
+      // }
+      // foo(); // 普通函数运行时，指向window window.foo()
       // foo 是声明在全局作用域的变量环境，挂载在window对象上，污染了window
 
       let bar = {
@@ -24,14 +24,15 @@
       // foo.call(bar); //this 被指定为bar
       foo.apply(bar);
       console.log(bar);
+      console.log(bar.myName);
 
-      var myObj = {
-        name: "极客时间",
-        showThis: function () {
-          console.log(this);
-        },
-      };
-      myObj.showThis();
+      // var myObj = {
+      //   name: "极客时间",
+      //   showThis: function () {
+      //     console.log(this);
+      //   },
+      // };
+      // myObj.showThis();
     </script>
   </body>
 </html>
