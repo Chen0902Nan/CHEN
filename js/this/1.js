@@ -1,0 +1,27 @@
+// bar 是一个对象，定义在全局作用域
+// 堆内存 在变量环境的栈内存中只是对象在堆内存中的地址
+
+var bar = {
+  myName: 'time.geekbang.com',
+  // 在全局作用域中对象里面的函数，也是在全局定义的
+  printName: function () {
+    // 变量查找的规则 先找自己，再沿着作用域链查找 变量的查找路径就叫做作用域链
+    // outer 词法作用域链 由声明的位置决定
+    // 自由变量 在函数内部使用，但既不是函数的参数，也不是局部变量，而是来自外层作用域的变量
+    // console.log(myName)
+    // console.log(bar.myName)
+    //
+    console.log(this.myName)
+  }
+}
+function foo () {
+  let myName = '极客时间'
+  return bar.printName
+}
+// 全局块级作用域里的词法环境里的变量
+// 指向printName的函数引用
+var myName = '极客邦'
+let _printName = foo()
+// _printName.call(bar)
+_printName()
+bar.printName()

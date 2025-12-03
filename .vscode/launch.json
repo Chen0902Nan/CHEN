@@ -9,8 +9,8 @@
       "request": "launch",
       "name": "启动程序",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${file}",
-      "runtimeExecutable": "D:\\Users10945\\Desktop\\Chrome\\Chrome\\Application\\chrome.exe"
+      "program": "${file}"
+      // "runtimeExecutable": "D:\\Users10945\\Desktop\\Chrome\\Chrome\\Application\\chrome.exe"
     }
   ]
 }
