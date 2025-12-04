@@ -22,3 +22,5 @@
   - 父类的实例作为子类的原型
   - 子类的原型的 constructor 再指回子类
 - 利用空对象作为中介
+
+- Object Function
