@@ -1,19 +1,7 @@
 <script setup>
-// es6 解构
-// vue太复杂， 目前只需要ref
 import { ref } from 'vue'
-// 模版需要消费的数据
-// 响应式数据
-// 在数据**改变**的时候，模版（响应了）会自动更新
-// count 是value 为111的响应式对象
-// let count = ref(111);
-// console.log(count);
-// setTimeout(() => {
-//   count.value = 222;
-// }, 2000)
-// v-model 指令 响应式绑定表单的数据
-// v-model 双向数据绑定指令
-const question = ref('讲一个喜洋洋和灰太狼的故事,2000字')
+
+const question = ref('')
 const stream = ref(true)
 const content = ref('') // 单向绑定  主要的
 
@@ -21,7 +9,7 @@ const content = ref('') // 单向绑定  主要的
 const askLLM = async () => {
   // question 可以省.value  getter
   if (!question.value) {
-    console.log('question 不能为空')
+    alert('question 不能为空')
     return
   }
   // 用户体验
@@ -40,6 +28,7 @@ const askLLM = async () => {
     body: JSON.stringify({
       model: 'deepseek-chat',
       stream: stream.value,
+      temperature: 2,
       messages: [
         {
           role: 'user',
@@ -54,6 +43,8 @@ const askLLM = async () => {
     // html5 流式输出
     // 响应体的读对象
     const reader = response.body?.getReader()
+    // console.log(reader)
+
     // 流出来的是二进制流 buffer
     const decoder = new TextDecoder()
     let done = false //流是否结束 没有
@@ -62,12 +53,12 @@ const askLLM = async () => {
       //只有没有完成，就一直拼接buffer
       // 解构的同时 重命名
       const { value, done: doneReading } = await reader?.read()
-      console.log(value, doneReading)
+      // console.log(value, doneReading)
       done = doneReading
       // chunk 内容块 包含多行data; 有多少行不知道
       // data：{} 能不能传完也不知道
       const chunkValue = buffer + decoder.decode(value) //文本字符串
-      console.log(chunkValue)
+      // console.log(chunkValue)
       buffer = ''
       const lines = chunkValue
         .split('\n')
