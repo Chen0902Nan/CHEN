@@ -24,7 +24,7 @@
 //   return -1
 // }
 
-// console.log(strStr('sadbutsad', 'sad'))
+// // console.log(strStr('sadbutsad', 'sad'))
 // /**
 //  * @param {string} haystack
 //  * @param {string} needle
@@ -45,7 +45,7 @@
 //   return -1
 // }
 
-/**
+/** KMP 算法
  * @param {string} haystack
  * @param {string} needle
  * @return {number}
