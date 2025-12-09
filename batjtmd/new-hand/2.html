@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 模拟new 的功能
+      function objectFactory() {
+        var obj = new Object(); //从空对象开始
+        // console.log(arguments, arguments[0]);
+        // console.log(Object.prototype.toString.call(arguments));
+        // console.log(Object.prototype.toString.call([1, 2, 3]));
+        // console.log(arguments);
+
+        var Constructor = [].shift.call(arguments); // 通过call 让arguments借用数组对象上的shift方法
+        // console.log(Constructor, arguments);
+        Constructor.apply(obj, [...arguments]);
+        Constructor.apply(obj, Array.from(arguments));
+        Constructor.apply(obj, arguments); // apply 接收一次性传参，数组，类数组都可以，内部会帮我们解决
+        obj.__proto__ = Constructor.prototype;
+
+        return obj;
+      }
+      function Person(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      Person.prototype.species = "人类";
+      Person.prototype.sayHi = function () {
+        console.log(`你好，我是${this.name}`);
+      };
+      let p = new Person("柯基", 18);
+      let zzp = objectFactory(Person, "华高俊", 20);
+      console.log(zzp.age, zzp.species);
+    </script>
+  </body>
+</html>
