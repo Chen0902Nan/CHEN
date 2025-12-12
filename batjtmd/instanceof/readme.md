@@ -31,6 +31,11 @@
     引用篡改：所有子类实例共用同一个原型对象，修改一个实例的引用类型属性，其他实例全受影响。
     无法传参：实例化子类时，没法给父类传参。
 
+- 直接继承 Prototype
+
+  - Son.prototype=Parent.prototype
+  - Son.prototype.constructor=Son //对象是引用数据类型 同时也修改了 Parent.prototype 的 constructor 属性
+
 - 利用空对象作为中介
 
   - 编写继承函数  
@@ -48,11 +53,6 @@
 
   - 优点：它完美解决了“既要继承原型方法，又不要父类实例属性干扰”的难题，同时没有引入多余的内存开销。
 
-- 直接继承 Prototype
-
-  - Son.prototype=Parent.prototype
-  - Son.prototype.constructor=Son //对象是引用数据类型 同时也修改了 Parent.prototype 的 constructor 属性
-
 - 寄生组合式继承（ES5 终极方案）
 
   - 属性用 apply/call 绑定
@@ -63,3 +63,4 @@
     它避免了 new Pnimal() 的调用，因此不会在 Son.prototype 上产生多余的、无用的父类属性，只保留了纯净的原型链关系。
 
 - ES6 class
+  super()
