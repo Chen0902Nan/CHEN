@@ -73,11 +73,11 @@ function generateUserHTML (users) {
 // res 响应对象
 // http 是基于请求响应的简单协议
 const server = http.createServer((req, res) => {
-  const parsedUrl = url.parse(req.url, true)
+  const parsedUrl = url.parse(req.url, true) //解析请求的url
   // console.log(parsedUrl)
   if (parsedUrl.pathname === '/' || parsedUrl.pathname === '/users') {
-    res.statusCode == 200 // 响应头 状态码
-    res.setHeader('Content-Type', 'text/html;chatset=utf-8')
+    res.statusCode = 200 // 响应头 状态码
+    res.setHeader('Content-Type', 'text/html; charset=utf-8')
     const html = generateUserHTML(users)
     res.end(html)
   }

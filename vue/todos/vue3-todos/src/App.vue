@@ -1,89 +1,109 @@
-<!-- setup  vue3 composition 组合式 API -->
-<!-- vue2 options 选项式 API -->
+<!-- App.vue -->
 <script setup>
-// 业务是页面上要动态展示标题，且支持编辑标题
-// vue -> focus 标题数据业务，修改数据 余下的DOM更新 vue 替我们做
 import { ref, computed } from 'vue'
-// 响应式数据
-const title = ref("Todos任务清单")
+
+// 1. 响应式数据：所有 UI 都靠它们驱动
+const title = ref('')                     // 输入框内容
 const todos = ref([
-  {
-    id: 1,
-    title: '睡觉',
-    done: true
-  }, {
-    id: 2,
-    title: '吃饭',
-    done: true
-  }
+  { id: 1, title: '睡觉', done: true },
+  { id: 2, title: '吃饭', done: true }
 ])
 
-
+// 添加任务
 function addTodo() {
-  // focus 数据业务
-  if (!title.value) return
+  if (!title.value.trim()) return
   todos.value.push({
     id: Math.random(),
-    title: title.value,
+    title: title.value.trim(),
     done: false
   })
-  title.value = ''
+  title.value = ''                         // 清空输入框
 }
-//  依赖于todos 响应式数据的 计算属性
-//  形式上是函数(过程)  结果(计算属性)返回
-//  同样是响应式的
-// computed 缓存 性能优化 只有和他相关的值变化了才会更新
+
+// 2. 计算属性：派生数据，自动更新
+// 统计未完成的数量
 const active = computed(() => {
-  return todos.value.filter(todo => !todo.done).length
+  return todos.value.filter(t => !t.done).length
 })
-// computed 高级技巧
+
+// 全选/全不选的高级玩法
 const allDone = computed({
   get() {
-    return todos.value.every(todo => todo.done)
+    return todos.value.length > 0 && todos.value.every(t => t.done)
   },
   set(val) {
-    todos.value.forEach(todo => todo.done = val)
+    todos.value.forEach(t => t.done = val)
   }
-
 })
 </script>
+
 <template>
+  <div class="container">
+    <h2>我的 Todos 任务清单</h2>
 
-  <div>
+    <!-- 双向绑定 + 回车添加 -->
+    <input type="text" placeholder="今天还要干啥？回车添加" v-model="title" @keydown.enter="addTodo" />
 
-    <!-- 数据绑定 -->
-    <h2>{{ title }}</h2>
-    <!-- 双向数据绑定 -->
-    <!-- @ -> 缩写 不用addEventlistener -->
-    <!-- @event-name:enter 监听键盘输入，当按下enter时 触发addTodo -->
-    <input type="test" v-model="title" @keydown.enter="addTodo">
+    <!-- 任务列表 -->
     <ul v-if="todos.length">
       <li v-for="todo in todos" :key="todo.id">
         <input type="checkbox" v-model="todo.done">
-        <!-- : -> v-bind 缩写 js表达式 
-         vue 有一定的学习 api 对用户非常友好 好上手  
-        -->
         <span :class="{ done: todo.done }">{{ todo.title }}</span>
       </li>
-
-
     </ul>
-    <div v-else>
-      暂无计划
-    </div>
-    <div>
-      <!-- {{ 数据绑定 表达式结果绑定 }} -->
-      <!-- {{todos.filter(todo => !todo.done).length}}/
-      {{ todos.length }} -->
-      全选<input type="checkbox" v-model="allDone" />
-      {{ active }}/{{ todos.length }}
+    <div v-else class="empty">暂无计划，摸鱼去吧～</div>
+
+    <!-- 统计 + 全选 -->
+    <div class="footer">
+      <label>
+        <input type="checkbox" v-model="allDone" />
+        全选
+      </label>
+      <span>未完成 {{ active }} / 共 {{ todos.length }} 条</span>
     </div>
   </div>
 </template>
 
 <style scoped>
+.container {
+  max-width: 400px;
+  margin: 40px auto;
+  font-family: sans-serif;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+}
+
+ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+li {
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .done {
-  color: gray;
+  color: #999;
   text-decoration: line-through;
+}
+
+.empty {
+  color: #999;
+  text-align: center;
+  padding: 20px;
+}
+
+.footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
