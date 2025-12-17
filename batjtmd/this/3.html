@@ -1,0 +1,23 @@
+<script>
+  var a = {
+    name: "Cherry",
+    func1: function () {
+      console.log(this.name);
+    },
+    func2: function () {
+      // this
+      console.log(this);
+
+      // 箭头函数没有this 指向父级
+      // 不会创建自己的上下文
+      setTimeout(() => {
+        // 不一样
+        console.log(this);
+        this.func1();
+        return function () {
+          console.log("haha");
+        };
+      }, 3000);
+    },
+  };
+</script>
