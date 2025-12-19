@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // function listToTree(list) {
+      //   const map = {};
+      //   const result = [];
+
+      //   list.forEach((item) => {
+      //     map[item.id] = {
+      //       ...item,
+      //       children: [],
+      //     };
+      //   });
+
+      //   list.forEach((item) => {
+      //     if (item.parentId === 0) {
+      //       result.push(item);
+      //     } else {
+      //       map[item.parentId]?.children.push(item);
+      //     }
+      //   });
+
+      //   return result;
+      // }
+
+      function listToTree(list) {
+        const nodeMap = new Map(); // es6 Map 新的数据结构
+        const tree = [];
+        list.forEach((item) => {
+          nodeMap.set(item.id, {
+            ...item,
+            children: [],
+          });
+        });
+        list.forEach((item) => {
+          if (item.parentId === 0) {
+            tree.push(item);
+          } else {
+            const parentNode = nodeMap.get(item.parentId);
+            if (parentNode) parentNode.children.push(node);
+          }
+        });
+        return tree;
+      }
+    </script>
+  </body>
+</html>
