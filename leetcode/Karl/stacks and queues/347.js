@@ -4,6 +4,7 @@
  * @return {number[]}
  */
 var topKFrequent = function (nums, k) {
+  // 保存每个元素出现的次数
   const map = new Map();
   const res = [];
   for (const x of nums) {
@@ -13,17 +14,15 @@ var topKFrequent = function (nums, k) {
       map.set(x, map.get(x) + 1);
     }
   }
-  let len = 0;
-  for (const key of map.keys()) {
-    key;
-    len++;
+  // 把相同次数的值放在一起
+  const Maxmap = Math.max(...map.values());
+  const buckets = Array.from({ length: Maxmap + 1 }, () => []);
+  for (const [x, c] of map.entries()) {
+    buckets[c].push(x);
   }
-
-  for (const [key, value] of map.entries()) {
-    let max;
-    for (const [key, value] of map.entries()) {
-      max = Math.max();
-    }
+  // 倒序遍历buckets，排序输出
+  for (let i = Maxmap; i >= 0 && res.length < k; i--) {
+    res.push(...buckets[i]);
   }
+  return res;
 };
-// topKFrequent([1, 1, 1, 2, 2, 3]);
