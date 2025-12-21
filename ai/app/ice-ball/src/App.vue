@@ -70,6 +70,11 @@ import { ref, onMounted } from 'vue'
 // 直接在script setup 中定义函数
 // 用于标记一个DOM 对象， 如果要做就用ref
 // 未挂载前null, uploadImage tempalte 中的ref 绑定的对象
+const patToken = import.meta.env.VITE_PAT_TOKEN
+const uploadUrl = 'https://api.coze.cn/v1/files/upload'
+const workflowUrl = 'https://api.coze.cn/v1/workflow/run'
+const workflow_id = '7584046163344097334'
+console.log(patToken);
 const uniform_number = ref(10);
 const uniform_color = ref('红');
 const position = ref(0);
@@ -80,7 +85,68 @@ const status = ref('')// 空 -> 上传中 -> 生成中 -> 生成成功
 const imgUrl = ref('')// 生成的图片url
 // 生成图片模块
 const generate = async () => {
+  status.value = ''
   status.value = '图片上传中...'
+  const file_id = await uploadFile()
+  if (!file_id) return
+  status.value = '图片上传成功，正在生成...'
+  const parameters = {
+    picture: JSON.stringify({
+      file_id // 安全问题
+    }),
+    style: style.value,
+    uniform_color: uniform_color.value,
+    uniform_number: uniform_number.value,
+    position: position.value,
+    shooting_hand: shooting_hand.value
+  }
+  const res = await fetch(workflowUrl, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${patToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      workflow_id,
+      parameters
+    })
+
+  })
+  const ret = await res.json()
+  if (ret.code !== 0) {
+    status.value = ret.msg
+    return
+  }
+  const data = JSON.parse(ret.data)
+  console.log(data);
+  status.value = ''
+  imgUrl.value = data.data
+
+}
+
+// 先上传到coze 服务器
+const uploadFile = async () => {
+  // post 请求体 http 协议
+  const formData = new FormData() // 请求体的表单提交对象 收集表单提交数据
+  const input = uploadImage.value
+  if (!input.files || input.files.length <= 0) return
+  formData.append('file', input.files[0]) // 请求体里加上了文件
+  // 向coze发送http请求 上传图片
+  const res = await fetch(uploadUrl, {
+    method: 'POST',
+    headers: {
+      // 请求头 令牌
+      'Authorization': `Bearer ${patToken}`  // 授权字段
+    },
+    body: formData
+  })
+  const ret = await res.json()
+  console.log(ret);
+  if (ret.code !== 0) { // 如果出错了 code=0表示0问题
+    status.value = ret.msg // msg 错误消息
+    return
+  }
+  return ret.data.id // 在云端通过id找到上传的图片
 }
 // 图片预览模块
 const uploadImage = ref(null);
@@ -90,6 +156,8 @@ const imgPreview = ref(''); // 申明了响应式对象
 onMounted(() => {
   console.log(uploadImage.value);
 })
+
+
 const updateImageData = () => {
   // html5 文件对象
   // console.log(uploadImage.value.files);
