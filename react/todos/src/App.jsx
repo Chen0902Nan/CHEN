@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./styles/app.styl";
 import TodoList from "./components/TodoList";
 import TodoInput from "./components/TodoInput";
@@ -6,7 +6,11 @@ import TodoStats from "./components/TodoStats";
 
 function App() {
   // 子组件共享的数据状态
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(() => {
+    // 高级用法
+    const saved = localStorage.getItem("todos");
+    return saved ? JSON.parse(saved) : [];
+  });
   // 子组件修改数据的方法
   const addTodo = (text) => {
     setTodos([
@@ -37,19 +41,25 @@ function App() {
 
   const activeCount = todos.filter((todo) => !todo.completed).length;
   const completedCount = todos.filter((todo) => todo.completed).length;
-  const onClearCompleted=()=>{
-    setTodos(todos.filter(todo=>!todo.completed))
-  }
+  const onClearCompleted = () => {
+    setTodos(todos.filter((todo) => !todo.completed));
+  };
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
   return (
     <div className="todo-app">
       <h1>My Todo List</h1>
       {/* 自定义事件 */}
       <TodoInput onAdd={addTodo} />
-      <TodoList todos={todos} onDelete={deleteTodo} onToggle={toggleTodo}/>
+      <TodoList todos={todos} onDelete={deleteTodo} onToggle={toggleTodo} />
       <TodoStats
         total={todos.length}
         active={activeCount}
         completed={completedCount}
+        onClearCompleted={onClearCompleted}
       />
     </div>
   );

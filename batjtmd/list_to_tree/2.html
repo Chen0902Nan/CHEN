@@ -7,27 +7,34 @@
   </head>
   <body>
     <script>
-      // function listToTree(list) {
-      //   const map = {};
-      //   const result = [];
+      const list = [
+        { id: 1, parentId: 0, name: "A" },
+        { id: 2, parentId: 1, name: "B" },
+        { id: 3, parentId: 1, name: "C" },
+        { id: 4, parentId: 2, name: "D" },
+        { id: 5, parentId: 0, name: "E" },
+      ];
+      function listToTree(list) {
+        const map = {};
+        const result = [];
 
-      //   list.forEach((item) => {
-      //     map[item.id] = {
-      //       ...item,
-      //       children: [],
-      //     };
-      //   });
+        list.forEach((item) => {
+          map[item.id] = {
+            ...item,
+            children: [],
+          };
+        });
 
-      //   list.forEach((item) => {
-      //     if (item.parentId === 0) {
-      //       result.push(item);
-      //     } else {
-      //       map[item.parentId]?.children.push(item);
-      //     }
-      //   });
+        list.forEach((item) => {
+          if (item.parentId === 0) {
+            result.push(item);
+          } else {
+            map[item.parentId]?.children.push(item);
+          }
+        });
 
-      //   return result;
-      // }
+        return result;
+      }
 
       function listToTree(list) {
         const nodeMap = new Map(); // es6 Map 新的数据结构

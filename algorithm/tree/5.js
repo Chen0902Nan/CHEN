@@ -20,7 +20,7 @@ function levelOrder(root) {
       queue.push(node.left);
     }
     if (node.right) {
-      queue.push(node.rights);
+      queue.push(node.right);
     }
   }
   return result;

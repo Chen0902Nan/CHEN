@@ -70,11 +70,12 @@ import { ref, onMounted } from 'vue'
 // 直接在script setup 中定义函数
 // 用于标记一个DOM 对象， 如果要做就用ref
 // 未挂载前null, uploadImage tempalte 中的ref 绑定的对象
+
+
 const patToken = import.meta.env.VITE_PAT_TOKEN
 const uploadUrl = 'https://api.coze.cn/v1/files/upload'
 const workflowUrl = 'https://api.coze.cn/v1/workflow/run'
 const workflow_id = '7584046163344097334'
-console.log(patToken);
 const uniform_number = ref(10);
 const uniform_color = ref('红');
 const position = ref(0);
@@ -156,6 +157,7 @@ const imgPreview = ref(''); // 申明了响应式对象
 onMounted(() => {
   console.log(uploadImage.value);
 })
+console.log(uploadImage);
 
 
 const updateImageData = () => {
@@ -166,7 +168,6 @@ const updateImageData = () => {
     return;
   }
   const file = input.files[0]; // 文件对象 html5 新特性
-  console.log(file);
   // FileReader 文件阅读对象
   const reader = new FileReader();
   reader.readAsDataURL(file); // url 异步的 

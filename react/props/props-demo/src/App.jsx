@@ -1,4 +1,4 @@
-// import Greeting from "../components/Greeting";
+import Greeting from "../components/Greeting";
 // import Modal from "../components/Modal";
 import Card from "../components/Card";
 
@@ -8,9 +8,9 @@ const MyHeader = () => {
 const MyFooter = () => {
   return (
     <div style={{ textAlign: "right" }}>
-      <bbutton onClick={() => alert("关闭")} style={{ padding: "0.5rem 1rem" }}>
+      <button onClick={() => alert("关闭")} style={{ padding: "0.5rem 1rem" }}>
         关闭
-      </bbutton>
+      </button>
     </div>
   );
 };
@@ -18,9 +18,9 @@ function App() {
   return (
     <div>
       {/* 自定义组件  props 属性*/}
-      {/* <Greeting name="柯基" message="欢迎加入腾讯"></Greeting>
-      <Greeting name="keji"></Greeting>
-      <Greeting name="keji" message="欢迎来到腾讯"></Greeting> */}
+      {/* {/* <Greeting name="柯基" message="欢迎加入腾讯"></Greeting> */}
+      <Greeting ></Greeting>
+      <Greeting name="keji" message="欢迎来到腾讯"></Greeting> 
       {/* <Modal HeaderComponent={MyHeader} FooterComponent={MyFooter}>
         <p>这是一个弹窗</p>
         <p>你可以在这里显示任何JSX</p>
