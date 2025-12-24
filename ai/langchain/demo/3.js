@@ -24,15 +24,20 @@ const summaryPrompt = PromptTemplate.fromTemplate(
 const explainChain = explainPrompt.pipe(model);
 // console.log(explainChain);
 const summaryChain = summaryPrompt.pipe(model);
-const fullChian = RunnableSequence.from([
-  (input) =>
-    explainChain.invoke({ topic: input.topic }).then((res) => res.text),
-  (explanation) =>
-    summaryChain
-      .invoke({ explanation })
-      .then((res) => `知识点：${explanation} 总结：${res.text}`),
+const fullChain = RunnableSequence.from([
+  async ({ topic }) => {
+    const result = await explainChain.invoke({ topic });
+    return result.content; // 注意是 .content
+  },
+  async (explanation) => {
+    const result = await summaryChain.invoke({ explanation });
+    return `知识点：${explanation}\n\n总结：${result.content}`;
+  },
 ]);
-const response = await fullChian.invoke({
+
+// 调用
+const response = await fullChain.invoke({
   topic: "闭包",
 });
+
 console.log(response);
