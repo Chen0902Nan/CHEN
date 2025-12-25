@@ -34,7 +34,7 @@ const prompt = PromptTemplate.fromTemplate(`
 `);
 // chain 提示词编译->模型->json解析器验证
 const chain = prompt.pipe(model).pipe(jsonParser);
-console.log(jsonParser.getFormatInstructions(), "zod");
+// console.log(jsonParser.getFormatInstructions(), "zod");
 const response = await chain.invoke({
   topic: "Promise",
   format_instructions: jsonParser.getFormatInstructions(),
