@@ -16,7 +16,7 @@
     </nav>
   </header>
   <main>
-    <!-- 多个页面的占位符 -->
+    
     <router-view></router-view>
   </main>
   <footer></footer>
