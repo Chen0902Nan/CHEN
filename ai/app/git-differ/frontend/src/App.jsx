@@ -1,35 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect } from "react";
+import { chat } from "./api/index";
+import { useGitDiff } from "./hooks/useGit";
+export default function App() {
+  // 3. hooks函数写法
+  const { loading, content } = useGitDiff("hello");
 
-function App() {
-  const [count, setCount] = useState(0)
+  // useEffect(() => {
+  //1.新手
+  //   // fetch("http://localhost:3000/chat", {
+  //   //   method: "POST",
+  //   //   headers: {
+  //   //     "Content-Type": "application/json",
+  //   //   },
+  //   //   body: JSON.stringify({
+  //   //     message: "你好",
+  //   //   }),
+  //   // })
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  // 2. 一般写法
+  //   const run = async () => {
+  //     try {
+  //       const result = await chat("你好啊");
+  //       console.log(result); // 直接就是 { reply: "..." }
+  //     } catch (err) {
+  //       console.error("出错了:", err);
+  //     }
+  //   };
+  //   run();
+  // }, []);
+
+  return <div className="flex">{loading ? "loading....." : content}</div>;
 }
-
-export default App

@@ -13,6 +13,8 @@
   "dependencies": {
     "@langchain/core": "^1.1.12",
     "@langchain/ollama": "^1.1.0",
+    "cors": "^2.8.5",
+    "cros": "^1.1.0",
     "express": "^5.2.1",
     "langchain": "^1.2.7"
   }
