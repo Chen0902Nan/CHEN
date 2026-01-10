@@ -197,11 +197,15 @@ onMounted(() => {
   <div class="app-container">
     <header class="app-header">
       <div class="header-content">
-        <h1 class="app-title">📚 极简图书管理系统</h1>
+        <h1 class="app-title">📚 智能图书管理系统</h1>
         <div class="header-actions">
-          <span class="user-info">欢迎，{{ currentUser?.username || '用户' }}</span>
+          <span class="user-info"
+            >欢迎，{{ currentUser?.username || '用户' }}</span
+          >
           <button class="btn btn-secondary" @click="handleLogout">登出</button>
-          <router-link to="/ai" class="btn btn-primary btn-ai">🤖 AI分析</router-link>
+          <router-link to="/ai" class="btn btn-primary btn-ai"
+            >🤖 AI分析</router-link
+          >
           <button class="btn btn-primary" @click="handleAdd">+ 新增图书</button>
         </div>
       </div>

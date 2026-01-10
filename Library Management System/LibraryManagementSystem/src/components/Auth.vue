@@ -22,7 +22,7 @@ const registerForm = ref({
 })
 
 // 切换登录/注册模式
-function toggleMode() {
+function toggleMode () {
   isLogin.value = !isLogin.value
   errors.value = {}
   loginForm.value = { username: '', password: '' }
@@ -35,7 +35,7 @@ function toggleMode() {
 }
 
 // 验证登录表单
-function validateLogin() {
+function validateLogin () {
   errors.value = {}
   let isValid = true
 
@@ -53,7 +53,7 @@ function validateLogin() {
 }
 
 // 验证注册表单
-function validateRegister() {
+function validateRegister () {
   errors.value = {}
   let isValid = true
 
@@ -155,7 +155,9 @@ async function handleRegister () {
     const contentType = response.headers.get('content-type')
     if (!contentType || !contentType.includes('application/json')) {
       const text = await response.text()
-      throw new Error(`服务器返回了非JSON响应。请确保后端服务器正在运行在 http://localhost:3000`)
+      throw new Error(
+        `服务器返回了非JSON响应。请确保后端服务器正在运行在 http://localhost:3000`
+      )
     }
 
     const result = await response.json()
@@ -170,8 +172,12 @@ async function handleRegister () {
     }
   } catch (error) {
     console.error('注册错误:', error)
-    if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-      errors.value.submit = '无法连接到服务器。请确保后端服务器正在运行在 http://localhost:3000'
+    if (
+      error.message.includes('Failed to fetch') ||
+      error.message.includes('NetworkError')
+    ) {
+      errors.value.submit =
+        '无法连接到服务器。请确保后端服务器正在运行在 http://localhost:3000'
     } else {
       errors.value.submit = '网络错误：' + error.message
     }
@@ -185,7 +191,7 @@ async function handleRegister () {
   <div class="auth-container">
     <div class="auth-card">
       <div class="auth-header">
-        <h1 class="auth-title">📚 极简图书管理系统</h1>
+        <h1 class="auth-title">📚 智能图书管理系统</h1>
         <p class="auth-subtitle">
           {{ isLogin ? '欢迎回来' : '创建新账户' }}
         </p>
@@ -204,7 +210,9 @@ async function handleRegister () {
             placeholder="请输入用户名"
             autocomplete="username"
           />
-          <span v-if="errors.username" class="error-text">{{ errors.username }}</span>
+          <span v-if="errors.username" class="error-text">{{
+            errors.username
+          }}</span>
         </div>
 
         <div class="form-group">
@@ -218,14 +226,20 @@ async function handleRegister () {
             placeholder="请输入密码"
             autocomplete="current-password"
           />
-          <span v-if="errors.password" class="error-text">{{ errors.password }}</span>
+          <span v-if="errors.password" class="error-text">{{
+            errors.password
+          }}</span>
         </div>
 
         <div v-if="errors.submit" class="error-message">
           {{ errors.submit }}
         </div>
 
-        <button type="submit" class="btn btn-primary btn-block" :disabled="loading">
+        <button
+          type="submit"
+          class="btn btn-primary btn-block"
+          :disabled="loading"
+        >
           {{ loading ? '登录中...' : '登录' }}
         </button>
 
@@ -250,7 +264,9 @@ async function handleRegister () {
             placeholder="请输入用户名（至少3个字符）"
             autocomplete="username"
           />
-          <span v-if="errors.username" class="error-text">{{ errors.username }}</span>
+          <span v-if="errors.username" class="error-text">{{
+            errors.username
+          }}</span>
         </div>
 
         <div class="form-group">
@@ -278,7 +294,9 @@ async function handleRegister () {
             placeholder="请输入密码（至少6位）"
             autocomplete="new-password"
           />
-          <span v-if="errors.password" class="error-text">{{ errors.password }}</span>
+          <span v-if="errors.password" class="error-text">{{
+            errors.password
+          }}</span>
         </div>
 
         <div class="form-group">
@@ -292,14 +310,20 @@ async function handleRegister () {
             placeholder="请再次输入密码"
             autocomplete="new-password"
           />
-          <span v-if="errors.confirmPassword" class="error-text">{{ errors.confirmPassword }}</span>
+          <span v-if="errors.confirmPassword" class="error-text">{{
+            errors.confirmPassword
+          }}</span>
         </div>
 
         <div v-if="errors.submit" class="error-message">
           {{ errors.submit }}
         </div>
 
-        <button type="submit" class="btn btn-primary btn-block" :disabled="loading">
+        <button
+          type="submit"
+          class="btn btn-primary btn-block"
+          :disabled="loading"
+        >
           {{ loading ? '注册中...' : '注册' }}
         </button>
 
@@ -443,4 +467,3 @@ async function handleRegister () {
   }
 }
 </style>
-
