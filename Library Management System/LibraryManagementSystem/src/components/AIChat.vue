@@ -1,416 +1,191 @@
-<script setup>
-import { ref, onMounted, computed } from 'vue'
-
-const props = defineProps({
-  books: {
-    type: Array,
-    default: () => []
-  }
-})
-
-// 获取token
-const token = computed(() => {
-  return localStorage.getItem('token') || ''
-})
-
-const messages = ref([
-  {
-    id: 1,
-    text: '你好！我是图书分析助手，有什么可以帮助您的吗？',
-    isAI: true,
-    timestamp: new Date().toLocaleTimeString()
-  }
-])
-
-const inputMessage = ref('')
-const loading = ref(false)
-
-// 发送消息
-async function sendMessage () {
-  if (!inputMessage.value.trim() || loading.value) return
-
-  const userMessage = {
-    id: messages.value.length + 1,
-    text: inputMessage.value.trim(),
-    isAI: false,
-    timestamp: new Date().toLocaleTimeString()
-  }
-
-  messages.value.push(userMessage)
-  const message = inputMessage.value.trim()
-  inputMessage.value = ''
-
-  // 滚动到底部
-  scrollToBottom()
-
-  loading.value = true
-
-  try {
-    const response = await fetch('/api/ai/analyze', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token.value}`
-      },
-      body: JSON.stringify({
-        message
-      })
-    })
-
-    const result = await response.json()
-
-    if (result.success) {
-      const aiMessage = {
-        id: messages.value.length + 1,
-        text: result.data,
-        isAI: true,
-        timestamp: new Date().toLocaleTimeString()
-      }
-      messages.value.push(aiMessage)
-    } else {
-      throw new Error(result.message || 'AI回复失败')
-    }
-  } catch (error) {
-    const errorMessage = {
-      id: messages.value.length + 1,
-      text: `抱歉，出现错误：${error.message}`,
-      isAI: true,
-      timestamp: new Date().toLocaleTimeString()
-    }
-    messages.value.push(errorMessage)
-  } finally {
-    loading.value = false
-    scrollToBottom()
-  }
-}
-
-// 处理回车键发送
-function handleKeyDown (event) {
-  if (event.key === 'Enter' && !event.shiftKey) {
-    event.preventDefault()
-    sendMessage()
-  }
-}
-
-// 滚动到底部
-function scrollToBottom () {
-  setTimeout(() => {
-    const chatContainer = document.querySelector('.chat-messages')
-    if (chatContainer) {
-      chatContainer.scrollTop = chatContainer.scrollHeight
-    }
-  }, 100)
-}
-
-// 预设问题
-const presetQuestions = [
-  '帮我统计图书馆的图书总数',
-  '分析图书的借阅状态分布',
-  '找出出版年份最新的5本书',
-  '按作者分组统计图书数量'
-]
-
-// 使用预设问题
-function usePresetQuestion (question) {
-  inputMessage.value = question
-  sendMessage()
-}
-
-onMounted(() => {
-  scrollToBottom()
-})
-</script>
-
 <template>
   <div class="ai-chat-container">
     <div class="chat-header">
-      <h3 class="chat-title">🤖 图书分析助手</h3>
+      <h2>AI 图书管理助手</h2>
     </div>
-
-    <div class="chat-messages">
-      <div
-        v-for="message in messages"
-        :key="message.id"
-        :class="['message', message.isAI ? 'ai-message' : 'user-message']"
-      >
+    <div class="chat-messages" ref="chatMessages">
+      <div v-for="(message, index) in messages" :key="index" class="message" :class="message.sender === 'user' ? 'user-message' : 'ai-message'">
         <div class="message-content">
-          <p class="message-text">{{ message.text }}</p>
-          <span class="message-time">{{ message.timestamp }}</span>
+          {{ message.content }}
         </div>
       </div>
-
-      <div v-if="loading" class="loading-message">
-        <div class="loading-spinner"></div>
-        <span>AI正在思考...</span>
-      </div>
     </div>
-
-    <div class="chat-input-container">
-      <div class="preset-questions">
-        <button
-          v-for="(question, index) in presetQuestions"
-          :key="index"
-          class="preset-btn"
-          @click="usePresetQuestion(question)"
-        >
-          {{ question }}
-        </button>
-      </div>
-
-      <div class="input-wrapper">
-        <textarea
-          v-model="inputMessage"
-          class="chat-input"
-          placeholder="输入您的问题..."
-          rows="3"
-          @keydown="handleKeyDown"
-        ></textarea>
-        <button
-          class="send-btn"
-          :disabled="loading || !inputMessage.trim()"
-          @click="sendMessage"
-        >
-          发送
-        </button>
-      </div>
+    <div class="chat-input">
+      <input 
+        type="text" 
+        v-model="inputMessage" 
+        placeholder="请输入您的问题（例如：图书总数是多少？谁借了《西游记》？）" 
+        @keyup.enter="sendMessage"
+      />
+      <button @click="sendMessage" :disabled="isLoading">
+        {{ isLoading ? '发送中...' : '发送' }}
+      </button>
     </div>
   </div>
 </template>
 
+<script setup>
+import { ref, onMounted, watch } from 'vue';
+import axios from 'axios';
+
+const messages = ref([]);
+const inputMessage = ref('');
+const isLoading = ref(false);
+const chatMessages = ref(null);
+
+// 初始化消息
+onMounted(() => {
+  messages.value = [
+    {
+      sender: 'ai',
+      content: '您好！我是图书管理系统的AI助手，请问有什么可以帮助您的？'
+    }
+  ];
+});
+
+// 发送消息
+const sendMessage = async () => {
+  if (!inputMessage.value.trim() || isLoading.value) return;
+
+  const userMessage = inputMessage.value.trim();
+  messages.value.push({
+    sender: 'user',
+    content: userMessage
+  });
+  inputMessage.value = '';
+  scrollToBottom();
+
+  isLoading.value = true;
+  try {
+    const response = await axios.post('/api/ai/chat', {
+      question: userMessage
+    });
+    
+    messages.value.push({
+      sender: 'ai',
+      content: response.data.answer
+    });
+  } catch (error) {
+    messages.value.push({
+      sender: 'ai',
+      content: '抱歉，我暂时无法回答您的问题，请稍后再试。'
+    });
+    console.error('AI聊天错误:', error);
+  } finally {
+    isLoading.value = false;
+    scrollToBottom();
+  }
+};
+
+// 滚动到底部
+const scrollToBottom = () => {
+  setTimeout(() => {
+    if (chatMessages.value) {
+      chatMessages.value.scrollTop = chatMessages.value.scrollHeight;
+    }
+  }, 100);
+};
+
+// 监听消息变化，自动滚动
+watch(messages, () => {
+  scrollToBottom();
+}, { deep: true });
+</script>
+
 <style scoped>
 .ai-chat-container {
-  background-color: var(--bg-primary);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
-  height: 600px;
+  height: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f5f5f5;
+  border-radius: 8px;
   overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .chat-header {
-  padding: 20px;
-  background-color: var(--bg-secondary);
-  border-bottom: 1px solid var(--border-color);
+  background-color: #4285f4;
+  color: white;
+  padding: 1rem;
+  text-align: center;
 }
 
-.chat-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
+.chat-header h2 {
   margin: 0;
+  font-size: 1.5rem;
 }
 
 .chat-messages {
   flex: 1;
-  padding: 20px;
+  padding: 1rem;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
 }
 
 .message {
-  max-width: 80%;
-  display: flex;
-}
-
-.ai-message {
-  align-self: flex-start;
+  max-width: 70%;
+  padding: 0.75rem 1rem;
+  border-radius: 18px;
+  line-height: 1.4;
 }
 
 .user-message {
   align-self: flex-end;
-}
-
-.message-content {
-  padding: 12px 16px;
-  border-radius: var(--radius-lg);
-  position: relative;
-}
-
-.ai-message .message-content {
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-top-left-radius: 0;
-}
-
-.user-message .message-content {
-  background: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--primary-color-dark)
-  );
+  background-color: #4285f4;
   color: white;
-  border-bottom-right-radius: 0;
+  border-bottom-right-radius: 4px;
 }
 
-.message-text {
-  margin: 0;
-  line-height: 1.5;
-  font-size: 14px;
-}
-
-.user-message .message-text {
-  color: white;
-}
-
-.message-time {
-  font-size: 11px;
-  opacity: 0.7;
-  margin-top: 4px;
-  display: block;
-  text-align: right;
-}
-
-.loading-message {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.ai-message {
   align-self: flex-start;
-  color: var(--text-secondary);
-  font-size: 14px;
-}
-
-.loading-spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--border-color);
-  border-top: 2px solid var(--primary-color);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.chat-input-container {
-  padding: 20px;
-  border-top: 1px solid var(--border-color);
-  background-color: var(--bg-secondary);
-}
-
-.preset-questions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.preset-btn {
-  padding: 8px 12px;
-  background-color: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  font-size: 12px;
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.preset-btn:hover {
-  background-color: var(--primary-color);
-  color: white;
-  border-color: var(--primary-color);
-}
-
-.input-wrapper {
-  display: flex;
-  gap: 12px;
-  align-items: flex-end;
+  background-color: white;
+  color: #333;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .chat-input {
+  display: flex;
+  padding: 1rem;
+  background-color: white;
+  border-top: 1px solid #e0e0e0;
+  gap: 0.5rem;
+}
+
+.chat-input input {
   flex: 1;
-  padding: 12px;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  resize: none;
-  font-size: 14px;
-  color: var(--text-primary);
-  background-color: var(--bg-primary);
-  transition: border-color 0.2s ease;
-}
-
-.chat-input:focus {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  font-size: 1rem;
   outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-.send-btn {
-  padding: 12px 24px;
-  background: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--primary-color-dark)
-  );
+.chat-input input:focus {
+  border-color: #4285f4;
+}
+
+.chat-input button {
+  padding: 0.75rem 1.5rem;
+  background-color: #4285f4;
   color: white;
   border: none;
-  border-radius: var(--radius-lg);
-  font-size: 14px;
-  font-weight: 500;
+  border-radius: 20px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: all 0.2s ease;
-  height: fit-content;
+  transition: background-color 0.2s;
 }
 
-.send-btn:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+.chat-input button:hover:not(:disabled) {
+  background-color: #3367d6;
 }
 
-.send-btn:disabled {
-  opacity: 0.6;
+.chat-input button:disabled {
+  background-color: #a0c4f1;
   cursor: not-allowed;
-}
-
-/* 滚动条样式 */
-.chat-messages::-webkit-scrollbar {
-  width: 6px;
-}
-
-.chat-messages::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
-  border-radius: 3px;
-}
-
-.chat-messages::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 3px;
-}
-
-.chat-messages::-webkit-scrollbar-thumb:hover {
-  background: var(--text-secondary);
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .ai-chat-container {
-    height: 500px;
-  }
-
-  .message {
-    max-width: 90%;
-  }
-
-  .chat-input-container {
-    padding: 16px;
-  }
-
-  .preset-questions {
-    gap: 6px;
-  }
-
-  .preset-btn {
-    padding: 6px 10px;
-    font-size: 11px;
-  }
 }
 </style>

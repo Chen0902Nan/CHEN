@@ -12,16 +12,17 @@
     "seed": "node server/seed.js"
   },
   "dependencies": {
-    "vue": "^3.5.24",
-    "express": "^4.18.2",
+    "axios": "^1.13.2",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "sqlite3": "^5.1.6",
+    "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
-    "bcryptjs": "^2.4.3"
+    "sqlite3": "^5.1.6",
+    "vue": "^3.5.24"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.1",
-    "vite": "^7.2.4",
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "vite": "^7.2.4"
   }
 }
