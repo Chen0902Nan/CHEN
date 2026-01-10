@@ -339,28 +339,94 @@ async function handleRegister () {
 </template>
 
 <style scoped>
+/* 背景和容器样式 */
 .auth-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
   padding: 20px;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* 背景装饰元素 */
+.auth-container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 70%
+  );
+  animation: float 20s ease-in-out infinite;
+}
+
+/* 添加更多背景装饰 */
+.auth-container::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateX(30px) translateY(-30px) rotate(90deg);
+  }
+  50% {
+    transform: translateX(0) translateY(-50px) rotate(180deg);
+  }
+  75% {
+    transform: translateX(-30px) translateY(-30px) rotate(270deg);
+  }
+}
+
+/* 主卡片样式 */
 .auth-card {
-  background-color: var(--bg-primary);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
   width: 100%;
-  max-width: 420px;
-  padding: 40px;
-  animation: slideUp 0.3s ease;
+  max-width: 440px;
+  padding: 56px 48px;
+  animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+}
+
+/* 卡片悬停效果 */
+.auth-card:hover {
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px);
 }
 
 @keyframes slideUp {
   from {
-    transform: translateY(20px);
+    transform: translateY(40px);
     opacity: 0;
   }
   to {
@@ -369,101 +435,280 @@ async function handleRegister () {
   }
 }
 
+/* 头部样式 */
 .auth-header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 48px;
 }
 
 .auth-title {
-  font-size: 28px;
-  font-weight: 600;
+  font-size: 36px;
+  font-weight: 800;
   color: var(--text-primary);
-  margin-bottom: 8px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  display: inline-block;
+  letter-spacing: -0.5px;
+}
+
+/* 标题装饰 */
+.auth-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+  border-radius: 2px;
+  opacity: 0.7;
 }
 
 .auth-subtitle {
-  font-size: 14px;
+  font-size: 17px;
   color: var(--text-secondary);
+  font-weight: 400;
+  line-height: 1.6;
+  opacity: 0.8;
 }
 
+/* 表单样式 */
 .auth-form {
   width: 100%;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 32px;
+  position: relative;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  opacity: 0.9;
 }
 
+/* 自定义输入框样式 */
+.input {
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px solid #e5e7eb;
+  border-radius: 16px;
+  font-size: 16px;
+  color: var(--text-primary);
+  background-color: rgba(255, 255, 255, 0.95);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 400;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* 输入框焦点效果 */
+.input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background-color: rgba(255, 255, 255, 1);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.18);
+}
+
+/* 输入框占位符样式 */
+.input::placeholder {
+  color: #9ca3af;
+  font-weight: 300;
+  opacity: 0.8;
+}
+
+/* 输入框错误状态 */
 .input-error {
   border-color: var(--status-borrowed);
+  background-color: rgba(239, 68, 68, 0.08);
 }
 
 .input-error:focus {
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  box-shadow: 0 12px 32px rgba(239, 68, 68, 0.18);
+  background-color: rgba(255, 255, 255, 1);
 }
 
+/* 错误文本样式 */
 .error-text {
   display: block;
-  margin-top: 6px;
-  font-size: 12px;
+  margin-top: 10px;
+  font-size: 13px;
   color: var(--status-borrowed);
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  opacity: 0.9;
 }
 
+/* 错误消息样式 */
 .error-message {
-  padding: 12px;
-  background-color: rgba(239, 68, 68, 0.1);
-  border: 1px solid var(--status-borrowed);
-  border-radius: var(--radius-md);
+  padding: 18px 24px;
+  background-color: rgba(239, 68, 68, 0.12);
+  border: 2px solid var(--status-borrowed);
+  border-radius: 16px;
   color: var(--status-borrowed);
   font-size: 14px;
-  margin-bottom: 16px;
+  margin-bottom: 28px;
   text-align: center;
+  font-weight: 500;
+  line-height: 1.6;
+  opacity: 0.9;
 }
 
+/* 按钮样式 */
 .btn-block {
   width: 100%;
   margin-top: 8px;
+  padding: 16px 0;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+  color: white;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
 }
 
+/* 按钮悬停效果 */
+.btn-block:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px rgba(59, 130, 246, 0.4);
+  background: linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%);
+}
+
+/* 按钮点击效果 */
+.btn-block:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+}
+
+/* 按钮禁用状态 */
+.btn-block:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+/* 登录/注册切换样式 */
 .auth-switch {
   text-align: center;
-  margin-top: 24px;
-  font-size: 14px;
+  margin-top: 32px;
+  font-size: 15px;
   color: var(--text-secondary);
+  opacity: 0.9;
 }
 
 .link-btn {
   background: none;
   border: none;
-  color: var(--primary-color);
+  color: #3b82f6;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
   padding: 0;
-  margin-left: 4px;
-  text-decoration: underline;
-  transition: color 0.2s ease;
+  margin-left: 6px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  opacity: 0.9;
 }
 
+/* 链接按钮悬停效果 */
 .link-btn:hover {
-  color: var(--primary-hover);
+  color: #2563eb;
+  opacity: 1;
 }
 
+/* 链接下划线动画 */
+.link-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+  transition: width 0.3s ease;
+}
+
+.link-btn:hover::after {
+  width: 100%;
+}
+
+/* 响应式设计 */
 @media (max-width: 480px) {
   .auth-card {
-    padding: 24px;
+    padding: 40px 32px;
+    border-radius: 20px;
   }
 
   .auth-title {
-    font-size: 24px;
+    font-size: 28px;
+  }
+
+  .auth-title::after {
+    width: 50px;
+    height: 3px;
+  }
+
+  .form-group {
+    margin-bottom: 28px;
+  }
+
+  .input {
+    padding: 14px 18px;
+    font-size: 15px;
+  }
+
+  .btn-block {
+    padding: 14px 0;
+    font-size: 15px;
+  }
+}
+
+/* 动画延迟效果 */
+.form-group {
+  animation: fadeInUp 0.5s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.form-group:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.form-group:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.form-group:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.form-group:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.form-group:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
