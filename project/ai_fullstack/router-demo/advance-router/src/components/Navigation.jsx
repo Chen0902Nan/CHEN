@@ -7,7 +7,7 @@ export default function Navigation() {
       // 精准匹配
       end: true,
     });
-    console.log(to, match, "////////");
+    // console.log(to, match, "////////");
 
     return match ? "active" : "";
   };
