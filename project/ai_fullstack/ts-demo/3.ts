@@ -4,3 +4,11 @@ function getArea(width: number, height: number): number {
 }
 const area: number = getArea(20, 5);
 console.log(area);
+enum Status {
+  pending,
+  success,
+  falied,
+}
+
+const res: Status = Status.pending;
+console.log(res);

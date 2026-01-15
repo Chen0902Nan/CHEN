@@ -86,6 +86,15 @@ JavaScript 超集 强类型 静态语言
 
 ### ts 实战 todos 项目
 
+### zustand 状态管理
+
+如果国家需要有中央银行，那么我们的前端项目就需要中央状态管理系统 -> zustand / redux
+
+- 组件 = UI + State
+- store 将状态存到 store 仓库之中管理
+  全局共享
+- 基于 hooks 思想实现的
+
 ## git 操作
 
 - 全新的实战项目
