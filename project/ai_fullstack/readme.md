@@ -273,3 +273,41 @@ INSERT INTO "posts" ("title", "content", "userId") VALUES
 ('登楼', '花近高楼伤客心，万方多难此登临', 4),
 ('大明湖的荷花', '大明湖里没青蛙，大明湖里有荷花', 1),
 ('关山月', '明月出天山，苍茫云海间', 3);
+
+## nestjs
+
+### express 极简框架
+
+nestjs 是企业级开发当红框架 基于 typescript，采用模块化架构和依赖注入
+旨在构建高效、可扩展且易于维护的企业级后端应用
+
+- npm i -g @nestjs/cli
+- 根目录下创建 .env -> PORT=1234
+- pnpm i dotenv
+  main.tsx -> config()
+- 启动
+  pnpm run start:dev
+  localhost:1234
+
+### nestjs 理解
+
+- 工厂模式
+- main.ts 入口文件
+- Module
+  app.module.ts
+
+- 理解装饰器模式
+
+## http 请求动作
+
+语义化 restful 一切皆资源
+Method + url 定义方式
+
+- GET/POST
+
+- DELETE
+  删除用户
+- PUT 上传
+  （更新）头像
+- PATCH 补丁 局部更新
+  nickname password...
