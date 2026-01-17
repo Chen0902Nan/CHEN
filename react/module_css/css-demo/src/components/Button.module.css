@@ -1,0 +1,16 @@
+/* .container .button {
+  background-color: blue;
+  color: white;
+  padding: 10px 20px;
+} */
+.button {
+  background-color: blue;
+  color: white;
+  padding: 10px 20px;
+}
+
+.txt {
+  color: red;
+  background-color: orange;
+  font-size: 30px;
+}
