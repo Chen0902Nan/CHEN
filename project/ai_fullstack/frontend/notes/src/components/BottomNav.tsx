@@ -1,6 +1,16 @@
-import { Home, User } from "lucide-react"; // 图标字体库
+import { Home, User, ListOrdered, MessageCircle } from "lucide-react"; // 图标字体库
+import { useNavigate, useLocation } from "react-router-dom";
+import { cn } from "@/lib/utils"; // 组合类名
+import { useUserStore } from "@/store/useUserStore";
+import { needsLoginPath } from "@/App";
 
 export default function BottomNav() {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const { isLogin } = useUserStore((state) => state);
+
+  // console.log(pathname, "/////");
+
   const tabs = [
     {
       label: "首页",
@@ -12,9 +22,26 @@ export default function BottomNav() {
       path: "/mine",
       icon: User,
     },
+    {
+      label: "聊天",
+      path: "/chat",
+      icon: MessageCircle,
+    },
+    {
+      label: "订单",
+      path: "/order",
+      icon: ListOrdered,
+    },
   ];
 
-  const handleNav = (path: string) => {};
+  const handleNav = (path: string) => {
+    if (path == pathname) return;
+
+    if (needsLoginPath.includes(path) && !isLogin) {
+      navigate("/login");
+      return;
+    }
+  };
 
   return (
     <div
@@ -22,16 +49,34 @@ export default function BottomNav() {
     border-t bg-background flex items-center justify-around
     z-50 safe-area-bottom"
     >
-      {tabs.map((tab) => (
-        <button
-          key={tab.path}
-          onClick={() => handleNav(tab.path)}
-          className="flex flex-col items-center justify-center 
+      {tabs.map((tab) => {
+        const Icon = tab.icon;
+        const isActive = pathname === tab.path;
+        return (
+          <button
+            key={tab.path}
+            onClick={() => handleNav(tab.path)}
+            className="flex flex-col items-center justify-center 
           w-full h-full space-y-1"
-        >
-          {tab.label}
-        </button>
-      ))}
+          >
+            <Icon
+              size={24}
+              className={cn(
+                "transition-colors",
+                isActive ? "text-primary" : "text-muted-foreground",
+              )}
+            />
+            <span
+              className={cn(
+                "text-xs transition-colors",
+                isActive ? "text-primary font-medium" : "text-muted-foreground",
+              )}
+            >
+              {tab.label}
+            </span>
+          </button>
+        );
+      })}
     </div>
   );
 }
