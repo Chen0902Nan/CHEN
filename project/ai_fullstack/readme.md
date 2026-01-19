@@ -311,3 +311,63 @@ Method + url 定义方式
   （更新）头像
 - PATCH 补丁 局部更新
   nickname password...
+
+## notes AI 全栈项目
+
+- 登录功能
+- 文章系统
+- AIGC 功能
+- nestjs 后端
+
+### shadcn
+
+- 页面由组件构成 选用第三方组件库
+  pnpm i shadcn@latest
+  npx shadcn@latest init
+- 严格按需加载
+- 组件下载到本地 可以随意的修改
+- 基于tailWindCss
+  要先导入taildWindCss
+- 还要配置alias 设置路径 更短,好用
+  pnpm install -D @types/node
+  resolve: {
+  alias: {
+  // **dirname ndoe 的超级变量 项目根目录
+  "@": path.resolve(**dirname, "src"),
+  },
+  },
+
+### vite 的配置
+
+- vite.config.ts 配置对象
+
+- plugins 插件
+  react | vue
+  tailwindcss
+- resolve
+  alias
+  @ -> \_\_dirname/src
+  npm i -D @types/node node来到ts 开发的时候
+  单独安装了node 的类型声明文件
+
+- ts 的配置文件
+  根目录下的 tsconfig.app.json 中的 "compilerOptions"
+  "compilerOptions" 配置项 (目录输出建议) 末尾添加
+  "baseUrl": ".",
+  "paths": {
+  "@/_": ["src/_"]
+  },
+  - tsconfig.json 同样要配置
+- npx shadcn@latest init
+  npx 是 Node.js 自带的工具，用于临时安装并**执行** npm 包中的命令，无需全局或本地预先安装。
+  不用预先安装， 试用，测试那边 用完会删除
+
+- shadcn 提供命令行
+  - button
+    npx shadcn@latest add button
+
+### 路由
+
+- 路由懒加载(性能优化的关键)
+- suspense + lazy 实现路由的懒加载
+- 自定义loading 组件
