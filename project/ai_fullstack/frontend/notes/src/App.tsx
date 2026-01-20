@@ -13,6 +13,8 @@ export default function App() {
       navigate("/login");
     }
   }, [isLogin, navigate, pathname]);
+
+  
   return (
     <>
       <BackToTop></BackToTop>
