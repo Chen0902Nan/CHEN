@@ -371,3 +371,136 @@ Method + url 定义方式
 - 路由懒加载(性能优化的关键)
 - suspense + lazy 实现路由的懒加载
 - 自定义loading 组件
+
+- 路由守卫
+  - user store isLogin
+
+### 底部导航栏组件
+
+### 头部Header组件
+
+### BackToTop组件
+
+- 通用组件
+- 自有状态 isVisible
+  随着监听 onScroll 判断一个阀值去更改 isVisible
+- Scroll是一个频繁触发的事件 性能需要优化
+  节流 utils 目录下，是一个工具函数
+- 组件卸载时 要记得移除事件监听 防止内存泄漏
+
+### 幻灯片组件 slides
+
+- shadcn 提供了Carousel、CarouselContent、CarouselItem、的一组组件，层次结构
+- 自动播放功能 作为插件引入 shadcn 简单性能好，定制性更好
+  useRef 持久化，可变的对象
+  plugins=[]
+- api 向外暴露Carousel 的各种功能
+  selectedIndex 私有状态
+  api onSelect 方法 改变之
+- 指示点
+  循环输出
+  动态类名
+- css
+  - transition-all
+  - gradient 线性渐变 一般用来取代图片(渐变色)做背景
+    性能优化 图片做背景 http下载的开销，减少http的并发数
+
+### store
+
+- user 全局共享
+- 每个页面级别组件都有自己独立的store
+  组件UI和数据状态分离
+
+### Post List
+
+- 数据怎么提供？
+  - 真实数据在后端
+  - axios 请求 后端api
+  - 前端要等待后端接口吗？ 不能等，前后端分离的基础上，
+    前端可以自行解决数据需求? mock一下 伪造请求
+    api接口文档
+    GET /api/posts?page=1&limit=10 返回内容
+    {
+    status:200,
+    list:Post[]
+    }
+    只要切换到后端真正的地址，无缝对接
+
+### mockjs
+
+- 前端接口伪造，开发时候用，上线前切换成后端接口，
+- pnpm i vite-plugin-mock -D
+  vite.config.ts配置
+- vite 启动 mock
+  前后端确立接口开发文档
+
+### posts mock
+
+- 阅读接口文档
+- mockjs 语法 mockPath posts.js export default { { url:, method:, response:(req, res) => {} } }
+  - mockjs 随机功能 @
+  - 分页机制
+    - page, limit parseInt
+    - start, end, total, totalPage
+    - slice
+    - pagination
+
+### JWT 登录
+
+- http 无状态的
+  Cookie Authorization token 身份令牌
+- 颁发令牌 token
+- jwt
+  pnpm i jsonwebtoken
+  json 用户身份对象
+  web 形式
+  token 令牌
+  用户名 + 密码 {id:1,name:'admin'} json 加密成一个token
+  请求时，再传递回来，在服务器端decode 得到用户对象
+  - sign 方法 服务器 用户对象，secret,过期时间 给前端颁发token
+  - decode 方法 解析请求头 authorization 服务器拿到用户对象
+
+### api 后端接口项目
+
+- nest new posts
+  高度模块化，依赖注入特性的企业级开发框架
+- 数据库
+
+### prisma ORM
+
+将数据库映射成对象
+Table -> 类
+row -> 实例
+props -> props
+psql/mysql sql 太专业了，prisma 翻译官
+后端 -> prisma -> sql
+User(service class) === User(table)
+create === Insert
+findMany === Select
+
+### ORM ObjectRelationMapping 对象关系映射
+
+### Prisma 的初始化流程
+
+- 建数据库
+- prisma 命令行 + @prisma/client(ORM)
+- npx prisma init 
+
+
+- 节流函数
+  移除事件监听
+  scrollTop DOM api 平滑滚动
+- SlideShow 组件
+  pnpm i embla-carousel-autoplay
+  npx @shadcn@latest add carousel
+  Carousel 编写
+  Home.tsx 中引入
+  指示点
+- banners 数据分离 -> useHomeStore
+
+- mockjs
+  pnpm i vite-plugin-mock -D
+  vite.config.ts配置
+  前端模拟后端接口
+- 分页设置
+  persist

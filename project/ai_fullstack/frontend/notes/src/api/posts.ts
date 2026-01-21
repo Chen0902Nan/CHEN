@@ -10,7 +10,7 @@ export const fetchPosts = async (page: number = 1, limit: number = 10) => {
       },
     });
     console.log(response);
-    return response.data;
+    return response;
   } catch (err) {
     console.log(err);
   }
