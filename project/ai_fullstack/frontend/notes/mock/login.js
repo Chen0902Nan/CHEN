@@ -63,7 +63,7 @@ export default [
       const token = req.headers["authorization"].split(" ")[1];
       // console.log(token);
       try {
-        const decode = jwt.decode(token, secret);
+        const decode = jwt.verify(token, secret);
         console.log(decode);
         return {
           code: 200,

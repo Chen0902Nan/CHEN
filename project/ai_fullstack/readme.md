@@ -484,8 +484,40 @@ findMany === Select
 
 - 建数据库
 - prisma 命令行 + @prisma/client(ORM)
-- npx prisma init 
+- npx prisma init
 
+### schema 文件
+
+数据库是最重要的,schema 就是设计稿(蓝图) 把设计的思想像文件一样保留下来
+用moddel 模型类的概念 来描述数据表
+@id primary key
+@default(@increment())
+@db.Varchar(255)
+@unique
+
+### migrate 数据表的迁移
+
+- 方便
+- 留下日志
+
+### seeds
+
+### DTO Data Transfer Object
+
+从前端->后端->控制器->service transfer 过程
+
+- dto/post-query.dto.ts
+- dto/post-new.dto.ts
+- class-validator 验证器
+  将参数的校验 流程化，规范化
+- 全局配置一下
+
+### @prisma/client
+
+- 怎么给service 提供 client 代替db
+- 
+
+#### 笔记
 
 - 节流函数
   移除事件监听
@@ -504,3 +536,10 @@ findMany === Select
   前端模拟后端接口
 - 分页设置
   persist
+
+- ORM schema.prisma
+- 跨域
+  pnpm i @nestjs/platform-express
+
+- Nestjs
+  Post
