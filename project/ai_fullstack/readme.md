@@ -515,7 +515,33 @@ findMany === Select
 ### @prisma/client
 
 - 怎么给service 提供 client 代替db
-- 
+- 文章列表
+  - 背后有多条sql
+    count posts 用于分页 total
+  - 文章列表详情
+    title content......
+    - 拿到每篇文章的id tags
+    - likes
+
+- dto
+  - 用户提交(query?,body) 打理的标准
+  - main.ts 启用中间件
+    约定多传的不要
+    少传的报错
+    transform 转换类型
+    class-validator 属性类型及约束的装饰类
+    class-transformer 类型转换
+    约束 query | body
+
+### prisma 流程
+
+- prisma
+- npx prisma generate 生成client 需要的内容
+
+- prisma module
+  - 和nest 融合了
+  - prisma module provider prisma service
+    @Global
 
 #### 笔记
 

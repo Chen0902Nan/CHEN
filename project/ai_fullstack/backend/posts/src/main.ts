@@ -6,11 +6,12 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
+  // 底座是基于express
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    cors: true,
+    cors: true, // 跨域
   });
   app.setGlobalPrefix('api'); // 全局路由前缀/api
-  // 启用全局验证管道
+  // 启用全局验证管道  基于express 
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, // 自动过滤dot 未定义的属性
