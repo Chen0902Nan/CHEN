@@ -535,7 +535,12 @@ findMany === Select
 
 ### prisma 流程
 
-- prisma
+- prisma 命令行、@prisma/client 两个@6
+- npm prisma init
+   prisma 文件夹 schema文件
+   .env 描述psql 连接的字符串
+- schema 编写 Model(属性，类型，key，关系)
+- npx prisma dev migrate --init-user
 - npx prisma generate 生成client 需要的内容
 
 - prisma module
@@ -568,4 +573,3 @@ findMany === Select
   pnpm i @nestjs/platform-express
 
 - Nestjs
-
