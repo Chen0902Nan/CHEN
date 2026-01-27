@@ -3,8 +3,10 @@ import SlideShow, { type SlideData } from "@/components/SlideShow";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useHomeStore } from "@/store/useHomeStore";
 import { useEffect } from "react";
+import InfiniteScroll from "@/components/InfiniteScroll";
+import PostItem from "@/components/PostItem";
 export default function Home() {
-  const { banners, loadMore } = useHomeStore();
+  const { banners, posts, loadMore, hasMore, loading } = useHomeStore();
 
   useEffect(() => {
     loadMore();
@@ -37,6 +39,17 @@ export default function Home() {
               Item {i}
             </div>
           ))}
+        </div>
+        <div className="container mx-auto py-8">
+          <h1 className="text-2xl font-bold mb-6">文章列表</h1>
+          {/* 通用的滚动到底部加载更多功能 */}
+          <InfiniteScroll hasMore={hasMore} onLoadMore={loadMore}>
+            <ul>
+              {posts.map((post) => (
+                <PostItem key={post.id} post={post} />
+              ))}
+            </ul>
+          </InfiniteScroll>
         </div>
       </div>
     </>

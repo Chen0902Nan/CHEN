@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PostQueryDto } from './dto/post-query.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { title } from 'process';
 
 @Injectable()
 export class PostsService {
@@ -33,7 +34,7 @@ export class PostsService {
           },
           tags: {
             select: {
-              Tag: {
+              tag: {
                 select: {
                   name: true,
                 },
@@ -46,14 +47,39 @@ export class PostsService {
               comments: true,
             },
           },
+          files: {
+            where: {
+              mimetype: { startsWith: 'image/' },
+            },
+            select: { filename: true },
+          },
         },
       }),
     ]);
+    // 查询出来的数据 整备一下
+    const data = posts.map((post) => ({
+      id: post.id,
+      title: post.title,
+      // content 截取
+      brief: post.content ? post.content.substring(0, 100) : '',
+      // publishedAt: post.createAt || null,
+      user: {
+        id: post.user?.id,
+        name: post.user?.name,
+        avatar: `http://localhost:3000/uploads/avatar/resized/${post.user?.avatars[0].filename}-small.jpg`,
+      },
+      tags: post.tags.map((tag) => tag.tag.name),
+      totalLikes: post._count.likes,
+      totalComments: post._count.comments,
+      thumbnail:
+        `http://localhost:3000/uploads/resized/${post.files[0]?.filename}-thumbnail.jpg` ||
+        '',
+    }));
     // const total = await this.prisma.post.count();
     // console.log(total, "---------")
     return {
-      items: posts,
-      totoal: total,
+      items: data,
+      total: total,
     };
   }
 }

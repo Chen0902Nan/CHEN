@@ -537,8 +537,8 @@ findMany === Select
 
 - prisma 命令行、@prisma/client 两个@6
 - npm prisma init
-   prisma 文件夹 schema文件
-   .env 描述psql 连接的字符串
+  prisma 文件夹 schema文件
+  .env 描述psql 连接的字符串
 - schema 编写 Model(属性，类型，key，关系)
 - npx prisma dev migrate --init-user
 - npx prisma generate 生成client 需要的内容
@@ -547,6 +547,45 @@ findMany === Select
   - 和nest 融合了
   - prisma module provider prisma service
     @Global
+
+### 图片懒加载
+
+- img src http 请求 并发
+  - 需要加载的图片 首页首屏
+    图片用占位图片(小)，优先加载html,css，首屏的显示速度优先。
+  - 视图窗口(viewport)之外的 不需要加载
+    onscroll 事件 节流 滚动到哪里懒加载进入视窗的图片
+  - 首先实例化IntersectionObserver
+    Observer 观察者(设计模式)模式
+    Intersection 与 viewport 的交叉
+    entries 所有被观察的元素
+    isIntersecting
+    dataset-src 交给图片
+    observer.unobserve 取消观察
+    给所有的 .lazy 加观察 observer.observe()
+
+### 静态服务器
+
+- service,提供数据，动态
+- 静态 html/css/js/img
+- 根目录下的uploads/
+- main.ts 启用静态资源服务器
+  区别于动态资源，不需要controller 提供路由
+  只需要去配置一下
+- app.useStaticAssets 启用静态资源服务器
+- path join
+  process.cwd() uploads 拼接路径
+
+### 接口数据格式的调整 
+- 依据前后端文档格式的一个要求
+- prisma-client 查出数据之后，通过map 格式化输出
+- 后端对接口文档的尊重
+
+
+### 图片懒加载
+- 列表一定要做图片的懒加载
+- react-lazy-load 提供了组件 背后IntersectionObserver
+- 包着原来要显示的图片 loading="lazy"
 
 #### 笔记
 

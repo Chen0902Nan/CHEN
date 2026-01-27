@@ -1,4 +1,4 @@
-import { IsOptional, IsInt, Min, IsIn } from 'class-validator';
+import { IsOptional, IsInt, Min, } from 'class-validator';
 import { Type } from 'class-transformer';
 // 为 transfer object 保驾护航
 export class PostQueryDto {
