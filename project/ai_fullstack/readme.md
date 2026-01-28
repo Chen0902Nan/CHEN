@@ -611,11 +611,16 @@ findMany === Select
   首页的不断卸载挂载 重复渲染 不违和了
 
 ### KeppAlive AliveScope
+
 - home 不能卸载 -> keepalive
 - react-activation
   cache 缓存 home, 界面和数据都保持
   display:none 离开文档流
- KeppAlive + AliveScope
+  KeppAlive + AliveScope
+
+### 登录功能
+
+- 注册
 
 #### 笔记
 

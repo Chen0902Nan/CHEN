@@ -58,7 +58,7 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
         </div>
       </div>
       {post.thumbnail && (
-        <div className="w-24 h-24 flex-shrink-0 relative overflow-hidden">
+        <div className="w-24 h-24 flex shrink-0 relative overflow-hidden">
           {/* <LazyLoad className="w-full h-full"> */}
           <img
             loading="lazy"

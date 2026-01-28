@@ -60,6 +60,7 @@ export default function Login() {
               placeholder="请输入用户名"
               value={formData.name}
               onChange={handleChange}
+              autoComplete="username"
             />
           </div>
           <div className="space-y-2">
@@ -71,6 +72,7 @@ export default function Login() {
               type="password"
               value={formData.password}
               onChange={handleChange}
+              autoComplete="current-password"
             />
           </div>
           <Button>

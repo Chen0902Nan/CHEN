@@ -3,10 +3,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PostsModule } from './posts/posts.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { UserModule } from './users/users.module';
 
 @Module({
   // PrismaModule prisma 命令行的方式 client 代表数据库
-  imports: [PostsModule, PrismaModule],
+  imports: [PostsModule, PrismaModule, UserModule],
   controllers: [AppController],
   providers: [AppService],
 })
