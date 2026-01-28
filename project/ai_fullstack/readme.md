@@ -621,6 +621,30 @@ findMany === Select
 ### 登录功能
 
 - 注册
+  - password 单向加密
+    不能解密 防程序员 黑客 可以确保密码安全
+    bcrypt 单向哈希
+- 登录
+  cookie 之前的登录解决方案 http 自动带上cookie
+  cookie 比 localStorage 更小的本地存储 ，存储我们的身份信息
+  JWT Authorization 字段 axios 请求拦截
+  轻量级，跨域 JSON(用户对象信息 不安全) Web Token(hash 令牌)
+  双向加密 sign/decode secret  
+  身份验证
+- Auth 鉴权模块
+
+### 错误异常模块
+
+- 后端，错误处理是核心模块。
+  4xx 400 BadRequest 401 UnAuthorized
+  5xx 服务器错误
+- try{} catch(){...}
+  catch 错误可以被善待
+- BadRequestException
+  nestjs 准备了各种异常
+  各种异常处理类 解决各种问题
+  - return
+    -400|401|403... statusCode message
 
 #### 笔记
 
