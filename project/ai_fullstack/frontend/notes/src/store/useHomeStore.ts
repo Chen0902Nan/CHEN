@@ -41,7 +41,7 @@ export const useHomeStore = create<HomeState>((set, get) => ({
   loadMore: async () => {
     // loading 开关状态
     if (get().loading) return; // 避免之前的loadMore还没执行完，又触发
-    console.log(await fetchPosts());
+    // console.log(await fetchPosts());
     // 加载中... 更新状态时，set只需要传我们想更新的
     set({ loading: true });
     try {

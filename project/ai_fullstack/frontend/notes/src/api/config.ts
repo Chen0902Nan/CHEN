@@ -18,7 +18,7 @@ axios.interceptors.request.use((config) => {
 // axios api 请求大管家 关于请求的一切都会给我们
 // data 只是其中一项
 axios.interceptors.response.use((res) => {
-  console.log("/////////");
+  // console.log("/////////");
   if (res.status != 200) {
     console.log("出错了");
     return;

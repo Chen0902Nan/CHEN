@@ -326,9 +326,9 @@ Method + url 定义方式
   npx shadcn@latest init
 - 严格按需加载
 - 组件下载到本地 可以随意的修改
-- 基于tailWindCss
-  要先导入taildWindCss
-- 还要配置alias 设置路径 更短,好用
+- 基于 tailWindCss
+  要先导入 taildWindCss
+- 还要配置 alias 设置路径 更短,好用
   pnpm install -D @types/node
   resolve: {
   alias: {
@@ -347,8 +347,8 @@ Method + url 定义方式
 - resolve
   alias
   @ -> \_\_dirname/src
-  npm i -D @types/node node来到ts 开发的时候
-  单独安装了node 的类型声明文件
+  npm i -D @types/node node 来到 ts 开发的时候
+  单独安装了 node 的类型声明文件
 
 - ts 的配置文件
   根目录下的 tsconfig.app.json 中的 "compilerOptions"
@@ -370,31 +370,31 @@ Method + url 定义方式
 
 - 路由懒加载(性能优化的关键)
 - suspense + lazy 实现路由的懒加载
-- 自定义loading 组件
+- 自定义 loading 组件
 
 - 路由守卫
   - user store isLogin
 
 ### 底部导航栏组件
 
-### 头部Header组件
+### 头部 Header 组件
 
-### BackToTop组件
+### BackToTop 组件
 
 - 通用组件
 - 自有状态 isVisible
   随着监听 onScroll 判断一个阀值去更改 isVisible
-- Scroll是一个频繁触发的事件 性能需要优化
+- Scroll 是一个频繁触发的事件 性能需要优化
   节流 utils 目录下，是一个工具函数
 - 组件卸载时 要记得移除事件监听 防止内存泄漏
 
 ### 幻灯片组件 slides
 
-- shadcn 提供了Carousel、CarouselContent、CarouselItem、的一组组件，层次结构
+- shadcn 提供了 Carousel、CarouselContent、CarouselItem、的一组组件，层次结构
 - 自动播放功能 作为插件引入 shadcn 简单性能好，定制性更好
   useRef 持久化，可变的对象
   plugins=[]
-- api 向外暴露Carousel 的各种功能
+- api 向外暴露 Carousel 的各种功能
   selectedIndex 私有状态
   api onSelect 方法 改变之
 - 指示点
@@ -403,22 +403,22 @@ Method + url 定义方式
 - css
   - transition-all
   - gradient 线性渐变 一般用来取代图片(渐变色)做背景
-    性能优化 图片做背景 http下载的开销，减少http的并发数
+    性能优化 图片做背景 http 下载的开销，减少 http 的并发数
 
 ### store
 
 - user 全局共享
-- 每个页面级别组件都有自己独立的store
-  组件UI和数据状态分离
+- 每个页面级别组件都有自己独立的 store
+  组件 UI 和数据状态分离
 
 ### Post List
 
 - 数据怎么提供？
   - 真实数据在后端
-  - axios 请求 后端api
+  - axios 请求 后端 api
   - 前端要等待后端接口吗？ 不能等，前后端分离的基础上，
-    前端可以自行解决数据需求? mock一下 伪造请求
-    api接口文档
+    前端可以自行解决数据需求? mock 一下 伪造请求
+    api 接口文档
     GET /api/posts?page=1&limit=10 返回内容
     {
     status:200,
@@ -430,7 +430,7 @@ Method + url 定义方式
 
 - 前端接口伪造，开发时候用，上线前切换成后端接口，
 - pnpm i vite-plugin-mock -D
-  vite.config.ts配置
+  vite.config.ts 配置
 - vite 启动 mock
   前后端确立接口开发文档
 
@@ -455,9 +455,9 @@ Method + url 定义方式
   json 用户身份对象
   web 形式
   token 令牌
-  用户名 + 密码 {id:1,name:'admin'} json 加密成一个token
-  请求时，再传递回来，在服务器端decode 得到用户对象
-  - sign 方法 服务器 用户对象，secret,过期时间 给前端颁发token
+  用户名 + 密码 {id:1,name:'admin'} json 加密成一个 token
+  请求时，再传递回来，在服务器端 decode 得到用户对象
+  - sign 方法 服务器 用户对象，secret,过期时间 给前端颁发 token
   - decode 方法 解析请求头 authorization 服务器拿到用户对象
 
 ### api 后端接口项目
@@ -489,7 +489,7 @@ findMany === Select
 ### schema 文件
 
 数据库是最重要的,schema 就是设计稿(蓝图) 把设计的思想像文件一样保留下来
-用moddel 模型类的概念 来描述数据表
+用 moddel 模型类的概念 来描述数据表
 @id primary key
 @default(@increment())
 @db.Varchar(255)
@@ -514,13 +514,13 @@ findMany === Select
 
 ### @prisma/client
 
-- 怎么给service 提供 client 代替db
+- 怎么给 service 提供 client 代替 db
 - 文章列表
-  - 背后有多条sql
+  - 背后有多条 sql
     count posts 用于分页 total
   - 文章列表详情
     title content......
-    - 拿到每篇文章的id tags
+    - 拿到每篇文章的 id tags
     - likes
 
 - dto
@@ -537,14 +537,14 @@ findMany === Select
 
 - prisma 命令行、@prisma/client 两个@6
 - npm prisma init
-  prisma 文件夹 schema文件
-  .env 描述psql 连接的字符串
+  prisma 文件夹 schema 文件
+  .env 描述 psql 连接的字符串
 - schema 编写 Model(属性，类型，key，关系)
 - npx prisma dev migrate --init-user
-- npx prisma generate 生成client 需要的内容
+- npx prisma generate 生成 client 需要的内容
 
 - prisma module
-  - 和nest 融合了
+  - 和 nest 融合了
   - prisma module provider prisma service
     @Global
 
@@ -552,10 +552,10 @@ findMany === Select
 
 - img src http 请求 并发
   - 需要加载的图片 首页首屏
-    图片用占位图片(小)，优先加载html,css，首屏的显示速度优先。
+    图片用占位图片(小)，优先加载 html,css，首屏的显示速度优先。
   - 视图窗口(viewport)之外的 不需要加载
     onscroll 事件 节流 滚动到哪里懒加载进入视窗的图片
-  - 首先实例化IntersectionObserver
+  - 首先实例化 IntersectionObserver
     Observer 观察者(设计模式)模式
     Intersection 与 viewport 的交叉
     entries 所有被观察的元素
@@ -568,24 +568,54 @@ findMany === Select
 
 - service,提供数据，动态
 - 静态 html/css/js/img
-- 根目录下的uploads/
+- 根目录下的 uploads/
 - main.ts 启用静态资源服务器
-  区别于动态资源，不需要controller 提供路由
+  区别于动态资源，不需要 controller 提供路由
   只需要去配置一下
 - app.useStaticAssets 启用静态资源服务器
 - path join
   process.cwd() uploads 拼接路径
 
-### 接口数据格式的调整 
+### 接口数据格式的调整
+
 - 依据前后端文档格式的一个要求
-- prisma-client 查出数据之后，通过map 格式化输出
+- prisma-client 查出数据之后，通过 map 格式化输出
 - 后端对接口文档的尊重
 
-
 ### 图片懒加载
+
 - 列表一定要做图片的懒加载
-- react-lazy-load 提供了组件 背后IntersectionObserver
-- 包着原来要显示的图片 loading="lazy"
+- react-lazy-load 提供了组件 背后 IntersectionObserver
+
+### InfiniteScroll 组件
+
+- 通用组件
+  为列表带来分页无限加载能力
+- 抽象封装能力
+  可定制的列表作为 children
+  再 children 下添加一个哨兵元素
+- 使用 IntersectionObserver threshold：0.0
+- loadMore loading hasMore store
+- 联动启动
+
+### 首页优化
+
+- 反复切换首页 其他页面 详情页面 重复加载
+- 路由的切换，单页面应用 SPA Single Page Application
+  React + React-Router
+  快 不需要白屏
+  / /detail/:id
+  服务器 后端路由 http请求 返回完整的html -> 白屏
+  前端负责路由 js 中拿出来组件(前端)，进行切换
+- 首页太重要了 用户频繁的在首页和其他页面切换（美团，天猫）
+  首页的不断卸载挂载 重复渲染 不违和了
+
+### KeppAlive AliveScope
+- home 不能卸载 -> keepalive
+- react-activation
+  cache 缓存 home, 界面和数据都保持
+  display:none 离开文档流
+ KeppAlive + AliveScope
 
 #### 笔记
 
@@ -602,7 +632,7 @@ findMany === Select
 
 - mockjs
   pnpm i vite-plugin-mock -D
-  vite.config.ts配置
+  vite.config.ts 配置
   前端模拟后端接口
 - 分页设置
   persist

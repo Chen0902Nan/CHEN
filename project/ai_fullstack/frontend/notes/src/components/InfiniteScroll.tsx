@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 // load more 通用组件
 interface InfiniteScrollProps {
   hasMore: boolean; // 是否所有数据都加载了 分页
@@ -11,7 +13,49 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
   isLoading = false,
   children,
 }) => {
-  return <>{children}</>;
+  // react 中不建议直接访问dom 使用 useRef
+  // HTMLDivElement React 前端全局提供
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  // 只有组件挂载之后 sentinelRef.current
+  useEffect(() => {
+    if (!hasMore || isLoading) return;
+    // 浏览器内部 没有性能问题
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // 进入视窗 viewport
+        if (entries[0].isIntersecting) {
+          onLoadMore();
+        }
+      },
+      {
+        // 目标像素有多少(百分比)进入视窗，就触发回调
+        threshold: 0,
+      },
+    );
+    if (sentinelRef.current) {
+      observer.observe(sentinelRef.current);
+    }
+    // 卸载(路由切换)
+    // 更新时
+    return () => {
+      if (sentinelRef.current) {
+        observer.unobserve(sentinelRef.current);
+      }
+    };
+  }, [onLoadMore, hasMore, isLoading]);
+
+  return (
+    <>
+      {children}
+      {/* Intersection Observer 哨兵元素 */}
+      <div ref={sentinelRef} className="h-4" />
+      {isLoading && (
+        <div className="text-center py-4 text-sm text-muted-foreground">
+          加载中...
+        </div>
+      )}
+    </>
+  );
 };
 
 export default InfiniteScroll;
