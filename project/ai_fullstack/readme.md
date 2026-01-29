@@ -632,6 +632,26 @@ findMany === Select
   双向加密 sign/decode secret  
   身份验证
 - Auth 鉴权模块
+  - @nestjs/jwt 需要安装的，但是是nestjs 本身提供的jwt 身份验证模块
+    jwt协议
+  - JWTService sign decode
+  - JwtModule Auth.Module模块中import 它，方便注入依赖
+
+### JWT 双token机制
+
+- mockjs 使用了jsonwebtoken 单token sign/decoded
+- 单token 容易被中间人截获 不安全
+- 双token机制
+  access_token 短 分钟为单位
+  refresh_token 长 天为单位
+  一样的具有token 验证的能力 (JWTService.signAsync)
+  axios 请求拦截中 access_token 会比较快的过期
+  会拿出refresh_token 后端可以识别用户身份 再次生成一对token
+- 新的token对 会覆盖旧的access_token 不用重复登录
+- 直到refresh_token 7d,需要重新登录
+- Promise.all 面试官问
+  举个例子 nestjs posts 列表查询,count 和 list Promise.all 并发查询
+  还有 nestjs 双token 的并发生成 token 生成是需要开销性能和时间
 
 ### 错误异常模块
 
@@ -645,6 +665,35 @@ findMany === Select
   各种异常处理类 解决各种问题
   - return
     -400|401|403... statusCode message
+
+## 鉴权处理
+
+- 新增文章 点赞等 需要权限的操作，需要先登录
+- access_token,refresh_token
+  api请求由axios 自动带上access_token, Authorization
+- backend posts.controller createPost方法
+  createPost 方法需要受到鉴权的保护 nestjs 提供了 guard
+  req Authorizaiton access_token ?
+  拿到user? nestjs/jwt verify
+
+### nestjs UseGuards
+
+UseGuards 是一个装饰器，用于在控制器或路由处理方法上应用守卫(Guard)
+会在路由方法处理前，先执行Guard函数, 进行鉴权
+如果鉴权失败，抛出401,直接退出
+如果成功，用jwt verify出来的对象，帮我们添加到req对象上
+路由处理方法里面就可以使用user信息
+
+- AuthGuard('jwt') 由@nestjs/passport 直接提供
+- Unknown authentication strategy "jwt"
+  jwt 鉴权策略在哪？
+  会去查找 strategy
+- jwt 双token 流程
+  - 双token 生成 @nestjs/jwt
+  - 鉴权 @nestjs/guard useGuard
+  - 刷新 ? refresh
+    post /posts 新增 access_token
+    useGuard 返回 401 ?
 
 #### 笔记
 

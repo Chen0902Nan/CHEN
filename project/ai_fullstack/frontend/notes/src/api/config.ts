@@ -6,7 +6,7 @@ import { useUserStore } from "@/store/useUserStore";
 axios.defaults.baseURL = "http://localhost:3000/api";
 axios.interceptors.request.use((config) => {
   // console.log("||||||||||", config);
-  const token = useUserStore.getState().token;
+  const token = useUserStore.getState().accessToken;
   // console.log(token);
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;

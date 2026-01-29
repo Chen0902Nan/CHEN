@@ -6,7 +6,8 @@ import type { User } from "@/types/index";
 import type { Credentail } from "@/types";
 
 interface UserState {
-  token: string;
+  accessToken: string | null;
+  refreshToken: string | null;
   user: User | null;
   isLogin: boolean;
   login: (credentials: { name: string; password: string }) => Promise<void>;
@@ -17,16 +18,21 @@ export const useUserStore = create<UserState>()(
   persist(
     (set) => ({
       // state 对象
-      token: "",
+      accessToken: null,
+      refreshToken: null,
       user: null,
       isLogin: false,
       login: async ({ name, password }) => {
         const res = await doLogin({ name, password });
         console.log(res, "///////");
-        // const { token, user } = res.user
+
+        const { user, access_token, refresh_token } = res;
+        console.log(user, access_token, refresh_token);
+
         set({
-          user: res.user,
-          token: res.token,
+          user,
+          accessToken: access_token,
+          refreshToken: refresh_token,
           isLogin: true,
         });
       },
@@ -34,7 +40,8 @@ export const useUserStore = create<UserState>()(
     {
       name: "user-store",
       partialize: (state) => ({
-        token: state.token,
+        accessToken: state.accessToken,
+        refreshToken: state.refreshToken,
         user: state.user,
         isLogin: state.isLogin,
       }),
