@@ -3,7 +3,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { doLogin } from "@/api/user";
 import type { User } from "@/types/index";
-import type { Credentail } from "@/types";
+// import type { Credentail } from "@/types";
 
 interface UserState {
   accessToken: string | null;
@@ -11,6 +11,7 @@ interface UserState {
   user: User | null;
   isLogin: boolean;
   login: (credentials: { name: string; password: string }) => Promise<void>;
+  logout: () => void;
 }
 
 // 高阶函数
@@ -34,6 +35,15 @@ export const useUserStore = create<UserState>()(
           accessToken: access_token,
           refreshToken: refresh_token,
           isLogin: true,
+        });
+      },
+
+      logout: () => {
+        set({
+          user: null,
+          isLogin: false,
+          accessToken: null,
+          refreshToken: null,
         });
       },
     }),

@@ -23,6 +23,7 @@ export default function RouterConfig({
         <Suspense fallback={<Loading />}>
           <Routes>
             <Route path="/login" element={<Login />} />
+            <Route path="chat" element={<Chat />} />
             {/* Post 模块 */}
             <Route path="/post" element={<PostLayout />}>
               <Route path=":id" element={<PostDetail />} />
@@ -33,7 +34,6 @@ export default function RouterConfig({
               <Route path="" element={<Home />} />
               <Route path="mine" element={<Mine />} />
               <Route path="order" element={<Order />} />
-              <Route path="chat" element={<Chat />} />
             </Route>
           </Routes>
         </Suspense>
