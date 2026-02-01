@@ -30,7 +30,9 @@ var reverseKGroup = function (head, k) {
       pre = cur;
       cur = temp;
     }
+    // 将 dummy或上一组的尾部指向翻转完成后的头部
     p0.next = pre;
+    // 连接剩余节点
     start.next = cur;
     p0 = start;
     n -= k;
