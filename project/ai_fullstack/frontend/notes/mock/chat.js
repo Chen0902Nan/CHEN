@@ -52,27 +52,39 @@ export default [
           );
           if (!response.body) throw new Error("No response body");
           // SSE 二进制流 reader 对象 接根管子一样
+          // LLM 输出和解析之间连上一根管子
           const reader = response.body.getReader();
           const decoder = new TextDecoder();
           while (true) {
+            // llm 的这一次生成被读到了
+            // 事件，有新的token生成了
+            // 用reader 对象 不断读取llm 输出的token流
             const { done, value } = await reader.read();
             console.log(done, value, "---------------");
             if (done) break;
+            // 解析出 token => 字符串 LLM 内部 数学向量
             const chunk = decoder.decode(value);
             // console.log(chunk, "///////////");
             const lines = chunk.split("\n");
+            // 不需要用到下标 好理解 计数循环比较机械
             for (let line of lines) {
+              // es6 新api 可读性强
               if (line.startsWith("data: ") && line !== "data: [DONE]") {
                 try {
                   const data = JSON.parse(line.slice(6));
+                  // 可选链运算符 增强代码的健壮性
                   const content = data.choices[0]?.delta?.content || "";
                   if (content) {
+                    // 发送给前端 SSE 核心
+                    // 向输出流不断地写入
+                    // ai-sdk 要求的格式
                     res.write(`0:${JSON.stringify(content)}\n`);
                   }
                 } catch (err) {}
               }
             }
           }
+          // 结束响应
           res.end();
         } catch (err) {}
       });

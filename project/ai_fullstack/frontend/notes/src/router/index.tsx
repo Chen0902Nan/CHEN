@@ -11,6 +11,7 @@ const Order = lazy(() => import("@/pages/Order"));
 const Chat = lazy(() => import("@/pages/Chat"));
 const PostLayout = lazy(() => import("@/layouts/PostLayout"));
 const PostDetail = lazy(() => import("@/pages/post"));
+const Search = lazy(() => import("@/pages/Search"));
 export default function RouterConfig({
   children,
 }: {
@@ -24,6 +25,7 @@ export default function RouterConfig({
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="chat" element={<Chat />} />
+            <Route path="search" element={<Search />} />
             {/* Post 模块 */}
             <Route path="/post" element={<PostLayout />}>
               <Route path=":id" element={<PostDetail />} />

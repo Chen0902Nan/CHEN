@@ -16,7 +16,7 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, // 自动过滤dto 未定义的属性
-      forbidNonWhitelisted: true, // 遇到未定义的属性直接报错
+      // forbidNonWhitelisted: true, // 遇到未定义的属性直接报错
       transform: true, // “1” transform  1
     }),
   );
