@@ -36,7 +36,7 @@ export default function BottomNav() {
       navigate("/login");
       return;
     }
-    
+
     // 修复：添加页面跳转
     navigate(path);
   };

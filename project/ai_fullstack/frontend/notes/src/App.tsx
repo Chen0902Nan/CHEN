@@ -14,7 +14,6 @@ export default function App() {
     }
   }, [isLogin, navigate, pathname]);
 
-  
   return (
     <>
       <BackToTop></BackToTop>
