@@ -41,6 +41,7 @@ export class AIController {
 
   @Post('rag')
   async rag(@Body() { question }: { question: string }) {
-    return this.aiService.rag(question);
+    const answer = await this.aiService.rag(question);
+    return { code: 0, answer };
   }
 }

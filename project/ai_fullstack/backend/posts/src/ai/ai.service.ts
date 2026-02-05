@@ -9,6 +9,9 @@ import {
 import { OpenAIEmbeddings, DallEAPIWrapper } from '@langchain/openai';
 import * as fs from 'fs/promises'; //promisify
 import path from 'path';
+// 向量数据库 ai应用 功能的一个核心之一
+import { MemoryVectorStore } from '@langchain/classic/vectorstores/memory';
+import { Document } from '@langchain/core/documents';
 
 interface Post {
   title: string;
@@ -138,6 +141,40 @@ export class AIService {
   }
 
   async rag(question: string) {
-    
+    //知识库 embedding
+    // 向量数据库
+    // 向量 -> 向量存储 原文件(Document) embeddings(llm) 结果存储下来
+    const vectorStore = await MemoryVectorStore.fromDocuments(
+      [
+        new Document({
+          pageContent: 'React是一个用于构建用户界面的JavaScript库',
+        }),
+        new Document({
+          pageContent:
+            'NestJS 是一个用于构建服务器应用的node.js框架,擅长企业级开发',
+        }),
+        new Document({
+          pageContent: 'RAG 通过检索外部知识增强大模型的回答能力',
+        }),
+      ],
+      this.embeddings,
+    );
+    // 相似度
+    const docs = await vectorStore.similaritySearch(question, 1);
+    console.log(docs);
+    // llm chat 的上下文 增强Agumented
+    const context = docs.map((d) => d.pageContent).join('\n');
+    // 增强 Agumented
+    const prompt = `
+    你是一个专业的JS工程师,请基于下面资料回答问题。
+    资料:${context}
+
+    问题:${question}
+    `;
+
+    const res = await this.chatModel.invoke(prompt);
+    console.log(res);
+
+    return res.content;
   }
 }

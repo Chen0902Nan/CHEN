@@ -16,9 +16,9 @@ export const useRagStore = create<RagState>((set, get) => ({
   setAnswer: (answer: string) => set({ answer }),
   retrieve: async () => {
     const { question } = get();
-    const res = await ask(question);
-    console.log(res, "//////////");
+    const answer = await ask(question);
+    console.log(answer, "//////////");
 
-    set({ answer: res.answer });
+    set({ answer: answer });
   },
 }));
