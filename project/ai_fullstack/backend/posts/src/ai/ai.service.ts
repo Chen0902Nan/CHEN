@@ -12,7 +12,8 @@ import path from 'path';
 // 向量数据库 ai应用 功能的一个核心之一
 import { MemoryVectorStore } from '@langchain/classic/vectorstores/memory';
 import { Document } from '@langchain/core/documents';
-
+import { ChatPromptTemplate } from '@langchain/core/prompts';
+import { StringOutputParser } from '@langchain/core/output_parsers';
 interface Post {
   title: string;
   category: string;
@@ -176,5 +177,41 @@ export class AIService {
     console.log(res);
 
     return res.content;
+  }
+
+  async git(diff: string) {
+    const prompt = ChatPromptTemplate.fromMessages([
+      [
+        'system',
+        `你是资深代码审核专家，请根据用户提供的 git diff 内容，生成一段符合 Conventional Commits 规范的提交日志。
+        要求:
+        1. 格式为 <type>(scope): <subject>
+        2. 保持简洁
+        3. 不要输出 markdown 格式，只输出文本
+        4. 类型 (type) 必须是以下之一:
+          feat: 新增功能
+          fix: 修复 bug
+          docs: 文档更新（如 README）
+          style: 代码格式调整（不影响逻辑，如空格、分号）
+          refactor: 重构代码（既不是新增功能，也不是修复 bug）
+          perf: 性能优化
+          test: 添加或修改测试用例
+          build: 影响构建系统或外部依赖的改动（如 npm、Webpack）
+          ci: 持续集成配置文件和脚本改动（如 GitHub Actions、Docker）
+          chore: 其他杂项维护工作（如代码格式化、依赖升级）
+          revert: 回滚之前的 commit
+          release: 版本发布相关提交
+      `,
+      ],
+      ['user', '{diff_content}'],
+    ]);
+    const chain = prompt.pipe(this.chatModel).pipe(new StringOutputParser());
+    const result = await chain.invoke({
+      diff_content: diff,
+    });
+    console.log(result, '//////////////');
+    return {
+      result,
+    };
   }
 }

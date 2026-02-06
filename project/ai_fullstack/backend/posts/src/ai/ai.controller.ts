@@ -44,4 +44,9 @@ export class AIController {
     const answer = await this.aiService.rag(question);
     return { code: 0, answer };
   }
+
+  @Post('git')
+  async git(@Body() { diff }: { diff: string }) {
+    return this.aiService.git(diff);
+  }
 }
