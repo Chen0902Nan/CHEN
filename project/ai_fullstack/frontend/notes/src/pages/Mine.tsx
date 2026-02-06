@@ -109,6 +109,13 @@ export default function Mine() {
             <span className="text-gray-400 text-sm">&gt;</span>
           </div>
           <div
+            onClick={() => navigate("/git")}
+            className="flex justify-between items-center py-2 border-b last:border-b-0"
+          >
+            <span>AI git 工具</span>
+            <span className="text-gray-400 text-sm">&gt;</span>
+          </div>
+          <div
             onClick={() => navigate("/rag")}
             className="flex justify-between items-center py-2 border-b last:border-b-0"
           >

@@ -780,6 +780,18 @@ Retriever(检索) Agument Generation(生成)
 
 - rag 界面 类似chatbot,上传文件
 
+### Git AI 工具
+
+- 提效
+  AI editor
+- 专业
+  新手和专家一样工作
+  git commit -m '' 用和本轮提交相关，能够表达功能的描述
+  css BEM 国际命名规范
+  大厂规范， Conventional Commits
+  有描述性
+  功能性
+  可读性
 #### 笔记
 
 - 节流函数
