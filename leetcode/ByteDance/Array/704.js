@@ -17,6 +17,6 @@ var search = function (nums, target) {
       return mid;
     }
   }
-  return -1;
+  return -1
   
-};
+}
