@@ -16,5 +16,5 @@ var jump = function (nums) {
       ans++;
     }
   }
-  return ans;
+  return ans
 };
