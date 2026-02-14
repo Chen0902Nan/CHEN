@@ -14,7 +14,7 @@ var subarraySum = function (nums, k) {
   let ans = 0;
   for (const x of s) {
     ans = ans + (cnt.get(x - k) ?? 0);
-    cnt.set(x, (cnt.get(x - k) ?? 0) + 1);
+    cnt.set(x, (cnt.get(x ) ?? 0) + 1);
   }
   return ans;
 };
