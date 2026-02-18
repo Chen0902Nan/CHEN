@@ -21,6 +21,6 @@ var rightSideView = function (root) {
     getDeepth(node.right, deep + 1);
     getDeepth(node.left, deep + 1);
   };
-  getDeepth(root, 0);
+  getDeepth(root, 0)
   return ans
 };
