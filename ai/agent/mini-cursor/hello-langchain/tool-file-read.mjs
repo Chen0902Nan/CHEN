@@ -106,4 +106,4 @@ while (response.tool_calls && response.tool_calls.length > 0) {
 // console.log(response, response.content);
 
 // user   agent     llm
-// console.log(process.env.OPENAI_API_KEY, '////')
+
