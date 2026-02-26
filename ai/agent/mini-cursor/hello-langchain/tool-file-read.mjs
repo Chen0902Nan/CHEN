@@ -88,7 +88,7 @@ while (response.tool_calls && response.tool_calls.length > 0) {
       }
     }),
   );
-  // console.log(toolResults);
+  // console.log(toolResults)
   response.tool_calls.forEach((toolCall, index) => {
     messages.push(
       new ToolMessage({
@@ -100,7 +100,7 @@ while (response.tool_calls && response.tool_calls.length > 0) {
   console.log(messages);
   response = await modelWithTools.invoke(messages);
   // 不再有tool_calls 说明对话结束了
-  console.log(response);
+  console.log(response)
 }
 
 // console.log(response, response.content);
