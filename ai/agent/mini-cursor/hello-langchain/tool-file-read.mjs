@@ -97,7 +97,7 @@ while (response.tool_calls && response.tool_calls.length > 0) {
       }),
     );
   });
-  console.log(messages);
+  console.log(messages)
   response = await modelWithTools.invoke(messages);
   // 不再有tool_calls 说明对话结束了
   console.log(response)
