@@ -10,8 +10,8 @@ import {
 import fs from "node:fs/promises";
 // 数据校验 zod tool parameter 校验
 import { z } from "zod";
-import { read } from "node:fs";
 
+// 配置模型
 const model = new ChatOpenAI({
   modelName: process.env.MODEL_NAME,
   apiKey: process.env.OPENAI_API_KEY,
@@ -20,8 +20,11 @@ const model = new ChatOpenAI({
   },
   temperature: 0,
 });
+
 // 原生写法 麻烦
 // 新建一个tool
+
+// 定义工具
 const readFileTool = tool(
   // tool 处理函数的函数体
   // 分析xx 代码文件有没有bug
@@ -75,7 +78,7 @@ while (response.tool_calls && response.tool_calls.length > 0) {
     response.tool_calls.map(async (toolCall) => {
       const tool = tools.find((t) => t.name === toolCall.name);
       if (!tool) {
-        reutrn`错误：找不到工具 ${toolCall.name}`;
+        return`错误：找不到工具 ${toolCall.name}`;
       }
       console.log(
         ` [执行工具] ${toolCall.name}(${JSON.stringify(toolCall.args)})`,
@@ -97,13 +100,12 @@ while (response.tool_calls && response.tool_calls.length > 0) {
       }),
     );
   });
-  console.log(messages)
+  console.log(messages);
   response = await modelWithTools.invoke(messages);
   // 不再有tool_calls 说明对话结束了
-  console.log(response)
+  console.log(response);
 }
 
 // console.log(response, response.content);
 
 // user   agent     llm
-
