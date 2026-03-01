@@ -21,7 +21,7 @@ const readFileTool = tool(
   },
   {
     name: 'read_file',
-    description: '读取指定路径的文件内容',
+    description: '读取制定路径的文件内容',
     schema: z.object({
       filePath: z.string().describe('文件路径')
     })
@@ -33,7 +33,6 @@ const writeFileTool = tool(
   async ({ filePath, content }) => {
     try {
       // /a/b/c.txt /a/b/ 目录
-
       const dir = path.dirname(filePath)
       // make directory 创建目录， recursive: true 递归创建
       await fs.mkdir(dir, { recursive: true })
@@ -58,7 +57,6 @@ const writeFileTool = tool(
 )
 
 // 执行命令工具
-
 const executeCommanTool = tool(
   async ({ command, workingDirectory }) => {
     const cwd = workingDirectory || process.cwd() // 默认当前工作目录
@@ -79,7 +77,7 @@ const executeCommanTool = tool(
       child.on('close', code => {
         if (code === 0) {
           // 成功退出
-          console.log('[工具调用] execute_command("${command}") 命令执行成功')
+          console.log(`[工具调用] execute_command("${command}") 命令执行成功`)
           const cwdInfo = workingDirectory
             ? `
                     \n\n重要提示：命令在目录"${workingDirectory}"中执行成功。
@@ -106,6 +104,32 @@ const executeCommanTool = tool(
         .string()
         .optional()
         .describe('指定工作目录，默认当前工作目录')
+    })
+  }
+)
+
+// 列出目录工具
+const listDirectoryTool = tool(
+  async ({ directoryPath }) => {
+    try {
+      // 读取目录内容
+      const files = await fs.readdir(directoryPath)
+      console.log(
+        `[工具调用] list_directory("${directoryPath}") 成功列出 ${files.length} 个文件`
+      )
+      return `目录内容：\n ${files.map(f => `- ${f}`).join('\n')}`
+    } catch (error) {
+      console.log(
+        `[工具调用] list_directory("${directoryPath}") 失败: ${error.message}`
+      )
+      return `列出目录失败：${error.message}`
+    }
+  },
+  {
+    name: 'list_directory',
+    description: '列出指定目录下的所有文件和文件夹',
+    schema: z.object({
+      directoryPath: z.string().describe('目录路径')
     })
   }
 )
