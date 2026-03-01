@@ -61,3 +61,35 @@ Model Context Protocol -> Anthropic公司
   - registerTool
     describe
   - connect transport
+
+
+## mcp 三者关系
+
+- mcp hosts 
+  cursor/vite Agent host
+- mcp clients
+  mcp 规范的tools
+- mcp server
+   mcp tool 运行的服务器容器
+
+- 工作流程
+   - mcp hosts 配置文件 SDD
+   - initialize 发送一起请求
+     得到mcp server 提供的tools 列表和详情
+   - host prompt 任务
+   - 检索 mcp 配置文件
+   - client tool 通信方式
+   - mcp server 执行并返回结果
+   - llm ToolMessage
+
+## MCP 开发流程
+- new McpServer 创建了mcp server 实例
+- server.register Tool/Resource/Prompt 名字 描述 函数
+- 通信方式 StdioServerTransport HttpServerTransport
+- server.connect(transport)
+- host mcp 配置
+
+## mcp 直接入住Agent 程序
+
+- 怎么把mcp tools 集成到程序里面
+  mcp 是可拔插的
