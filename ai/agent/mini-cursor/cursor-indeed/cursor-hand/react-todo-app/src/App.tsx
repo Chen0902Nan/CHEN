@@ -1,20 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Todo {
   id: string;
   text: string;
   completed: boolean;
-  editing?: boolean;
+  createdAt: Date;
 }
 
-const App: React.FC = () => {
+function App() {
   const [todos, setTodos] = useState<Todo[]>(() => {
     const saved = localStorage.getItem('todos');
     return saved ? JSON.parse(saved) : [];
   });
-  const [newTodo, setNewTodo] = useState<string>('');
+  const [newTodo, setNewTodo] = useState('');
   const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editText, setEditText] = useState('');
 
+  // Save to localStorage whenever todos change
   useEffect(() => {
     localStorage.setItem('todos', JSON.stringify(todos));
   }, [todos]);
@@ -25,8 +28,9 @@ const App: React.FC = () => {
       id: Date.now().toString(),
       text: newTodo.trim(),
       completed: false,
+      createdAt: new Date(),
     };
-    setTodos([...todos, newTodoItem]);
+    setTodos([newTodoItem, ...todos]);
     setNewTodo('');
   };
 
@@ -42,29 +46,25 @@ const App: React.FC = () => {
     );
   };
 
-  const startEditing = (id: string) => {
-    setTodos(
-      todos.map(todo =>
-        todo.id === id ? { ...todo, editing: true } : todo
-      )
-    );
+  const startEditing = (todo: Todo) => {
+    setEditingId(todo.id);
+    setEditText(todo.text);
   };
 
-  const saveEdit = (id: string, newText: string) => {
-    if (newText.trim() === '') return;
+  const saveEdit = () => {
+    if (editText.trim() === '') return;
     setTodos(
       todos.map(todo =>
-        todo.id === id ? { ...todo, text: newText.trim(), editing: false } : todo
+        todo.id === editingId ? { ...todo, text: editText.trim() } : todo
       )
     );
+    setEditingId(null);
+    setEditText('');
   };
 
-  const cancelEdit = (id: string) => {
-    setTodos(
-      todos.map(todo =>
-        todo.id === id ? { ...todo, editing: false } : todo
-      )
-    );
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditText('');
   };
 
   const filteredTodos = todos.filter(todo => {
@@ -76,151 +76,157 @@ const App: React.FC = () => {
   const activeCount = todos.filter(todo => !todo.completed).length;
   const completedCount = todos.length - activeCount;
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      if (editingId) {
+        saveEdit();
+      } else {
+        addTodo();
+      }
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-400 via-purple-500 to-indigo-600 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 p-4 md:p-8">
       <div className="max-w-2xl mx-auto">
-        <header className="text-center mb-10">
-          <h1 className="text-4xl font-bold text-white mb-2 drop-shadow-lg">✨ TodoList Pro</h1>
-          <p className="text-blue-100 italic">Organize your life with style & power</p>
+        <header className="text-center mb-10 mt-6">
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">✨ Todo List</h1>
+          <p className="text-gray-600">Organize your tasks with style</p>
         </header>
 
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-xl p-6 mb-8 border border-white/20">
-          <div className="flex gap-2 mb-6">
+        {/* Add Todo Form */}
+        <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 transition-all duration-300 hover:shadow-2xl">
+          <div className="flex gap-2">
             <input
               type="text"
               value={newTodo}
               onChange={(e) => setNewTodo(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && addTodo()}
+              onKeyDown={handleKeyDown}
               placeholder="What needs to be done?"
-              className="flex-1 px-4 py-3 rounded-xl bg-white/20 text-white placeholder-blue-100 focus:outline-none focus:ring-2 focus:ring-white/40 transition-all"
+              className="flex-1 px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             />
             <button
               onClick={addTodo}
-              className="px-5 py-3 bg-white text-indigo-600 font-semibold rounded-xl hover:bg-blue-100 active:scale-95 transition-all duration-200 shadow-md hover:shadow-lg"
+              className="px-5 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium rounded-lg hover:from-blue-600 hover:to-purple-700 transform hover:-translate-y-0.5 transition-all duration-200 shadow-md hover:shadow-lg"
             >
-              ➕ Add
+              Add
             </button>
           </div>
+        </div>
 
-          <div className="mb-6 flex justify-between items-center text-white/90">
-            <div className="text-sm">
-              <span className="font-medium">{activeCount}</span> active •{' '}
-              <span className="font-medium">{completedCount}</span> completed
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setFilter('all')}
-                className={`px-3 py-1 rounded-lg text-sm transition-colors ${filter === 'all' ? 'bg-white text-indigo-600' : 'hover:bg-white/20'}`}
-              >
-                All
-              </button>
-              <button
-                onClick={() => setFilter('active')}
-                className={`px-3 py-1 rounded-lg text-sm transition-colors ${filter === 'active' ? 'bg-white text-indigo-600' : 'hover:bg-white/20'}`}
-              >
-                Active
-              </button>
-              <button
-                onClick={() => setFilter('completed')}
-                className={`px-3 py-1 rounded-lg text-sm transition-colors ${filter === 'completed' ? 'bg-white text-indigo-600' : 'hover:bg-white/20'}`}
-              >
-                Completed
-              </button>
-            </div>
+        {/* Stats & Filter */}
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+          <div className="text-gray-700">
+            <span className="font-medium">{activeCount}</span> {activeCount === 1 ? 'task' : 'tasks'} left
           </div>
+          <div className="flex gap-2 bg-white rounded-full p-1 shadow-sm">
+            {(['all', 'active', 'completed'] as const).map((f) => (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                className={`px-4 py-1.5 text-sm font-medium rounded-full transition-all ${
+                  filter === f
+                    ? 'bg-blue-500 text-white shadow-md'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                {f.charAt(0).toUpperCase() + f.slice(1)}
+              </button>
+            ))}
+          </div>
+        </div>
 
-          <ul className="space-y-3">
-            {filteredTodos.length === 0 ? (
-              <li className="text-center py-8 text-white/70 italic">
-                {filter === 'all'
-                  ? 'No todos yet — add your first task!'
-                  : filter === 'active'
-                  ? 'All tasks are completed! 🎉'
-                  : 'No completed tasks yet.'}
-              </li>
-            ) : (
-              filteredTodos.map((todo) => (
+        {/* Todo List */}
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-300">
+          {filteredTodos.length === 0 ? (
+            <div className="text-center py-12 text-gray-500">
+              <div className="text-5xl mb-3">📝</div>
+              <p>No tasks {filter === 'all' ? 'yet' : `in ${filter} view`}.</p>
+              {filter !== 'all' && (
+                <p className="mt-1 text-sm">Switch to "All" to add one.</p>
+              )}
+            </div>
+          ) : (
+            <ul className="divide-y divide-gray-100">
+              {filteredTodos.map((todo) => (
                 <li
                   key={todo.id}
-                  className={`group flex items-center p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 transition-all duration-300 hover:bg-white/15 ${todo.completed ? 'opacity-80' : ''}`}
+                  className={`p-4 transition-all duration-300 ${
+                    todo.completed ? 'bg-green-50' : 'hover:bg-gray-50'
+                  }`}
                 >
-                  <input
-                    type="checkbox"
-                    checked={todo.completed}
-                    onChange={() => toggleTodo(todo.id)}
-                    className="w-5 h-5 mr-3 text-indigo-500 rounded focus:ring-indigo-400 cursor-pointer"
-                  />
-                  {todo.editing ? (
-                    <div className="flex-1 flex gap-2">
+                  {editingId === todo.id ? (
+                    <div className="flex gap-2 items-center">
                       <input
                         type="text"
-                        defaultValue={todo.text}
+                        value={editText}
+                        onChange={(e) => setEditText(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && saveEdit()}
                         autoFocus
-                        onBlur={(e) => saveEdit(todo.id, e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') saveEdit(todo.id, e.target.value);
-                          if (e.key === 'Escape') cancelEdit(todo.id);
-                        }}
-                        className="flex-1 px-3 py-1 bg-white/20 text-white rounded-lg focus:outline-none focus:ring-1 focus:ring-white/40"
+                        className="flex-1 px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                       <button
-                        onClick={() => saveEdit(todo.id, (e.target as HTMLInputElement).value)}
-                        className="text-green-300 hover:text-green-100"
+                        onClick={saveEdit}
+                        className="px-3 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
                       >
-                        ✓
+                        Save
                       </button>
                       <button
-                        onClick={() => cancelEdit(todo.id)}
-                        className="text-red-300 hover:text-red-100"
+                        onClick={cancelEdit}
+                        className="px-3 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors"
                       >
-                        ✕
+                        Cancel
                       </button>
                     </div>
                   ) : (
-                    <span
-                      className={`flex-1 text-lg transition-colors ${todo.completed ? 'line-through text-white/60' : 'text-white'}`}
-                      onDoubleClick={() => startEditing(todo.id)}
-                    >
-                      {todo.text}
-                    </span>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3 flex-1">
+                        <input
+                          type="checkbox"
+                          checked={todo.completed}
+                          onChange={() => toggleTodo(todo.id)}
+                          className="w-5 h-5 text-blue-500 rounded focus:ring-blue-500"
+                        />
+                        <span
+                          className={`flex-1 ${
+                            todo.completed ? 'line-through text-gray-500' : 'text-gray-800'
+                          }`}
+                        >
+                          {todo.text}
+                        </span>
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => startEditing(todo)}
+                          className="text-blue-500 hover:text-blue-700 p-1 rounded hover:bg-blue-50 transition-colors"
+                          aria-label="Edit"
+                        >
+                          ✏️
+                        </button>
+                        <button
+                          onClick={() => deleteTodo(todo.id)}
+                          className="text-red-500 hover:text-red-700 p-1 rounded hover:bg-red-50 transition-colors"
+                          aria-label="Delete"
+                        >
+                          🗑️
+                        </button>
+                      </div>
+                    </div>
                   )}
-                  <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button
-                      onClick={() => startEditing(todo.id)}
-                      className="text-blue-200 hover:text-blue-100 w-6 h-6 flex items-center justify-center rounded-full hover:bg-white/20"
-                    >
-                      ✏️
-                    </button>
-                    <button
-                      onClick={() => deleteTodo(todo.id)}
-                      className="text-red-200 hover:text-red-100 w-6 h-6 flex items-center justify-center rounded-full hover:bg-white/20"
-                    >
-                      🗑️
-                    </button>
-                  </div>
                 </li>
-              ))
-            )}
-          </ul>
-
-          {todos.length > 0 && (
-            <div className="mt-6 pt-4 border-t border-white/10 text-center text-white/70 text-sm">
-              <button
-                onClick={() => setTodos(todos.filter((t) => !t.completed))}
-                className="hover:underline"
-              >
-                Clear completed ({completedCount})
-              </button>
-            </div>
+              ))}
+            </ul>
           )}
         </div>
 
-        <footer className="text-center text-white/60 text-sm">
-          <p>Double-click a task to edit • Press Enter to save, Escape to cancel</p>
+        {/* Footer */}
+        <footer className="mt-8 text-center text-gray-500 text-sm">
+          <p>Drag and drop to reorder list</p>
+          <p className="mt-1">Double-click to edit a task</p>
         </footer>
       </div>
     </div>
   );
-};
+}
 
 export default App;
