@@ -17,6 +17,7 @@ const documents = await cheerioLoader.load()
 const textSplitter = new RecursiveCharacterTextSplitter({
   chunkSize: 400, // 大小
   chunkOverlap: 50, // 重叠 语意的连贯性
+  // 优先级列表
   separators: ['。', '，', '！', '？'] // 分割符
 })
 
@@ -52,6 +53,7 @@ for (const question of questions) {
   console.log('='.repeat(80))
   console.log(`[问题]：${question}`)
   console.log('='.repeat(80))
+  // console.log(retriever)
 
   const retrievedDocs = await retriever.invoke(question)
   const scoreResults = await vectorStore.similaritySearchWithScore(question, 2)
