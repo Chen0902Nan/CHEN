@@ -77,3 +77,51 @@
   服务器返回301/302 重定向
   跳转 Location:https://time.geekbang.org/
   https://浏览器强制
+
+- DNS深入
+  - 浏览器DNS缓存
+    chrome://net-internals/#dns
+    ip 数组
+    分布式 **服务器集群**
+    返回的IP地址是 nginx代理服务器IP地址
+    背后反向代理 有成百上千台服务器 媒婆举例
+    负载均衡
+    代理服务器背后轮训 服务器的负载怎么样?
+    地域特性的机房
+    离你最近的地方安排服务器集群 一个域名对应多个IP地址，选择最近最好的IP地址访问
+  - 本地操作系统dns 缓存
+    一台电脑 多个浏览器
+    host 文件
+    有用的系统配置文件
+    本地 域名 和IP指向的配置文件
+    douyin.com
+    douyin 开发者 本地有着douyin 官网的website代码 本地测试带域名是什么效果
+    localhost doutin.com
+    cookie token
+    C://windows/System32/drivers/etc/hosts
+    notepad C:\Windows\System32\drivers\etc\hosts
+    127.0.0.1 www.baidu.com
+    npx http-server -p 80
+    http:/www.baidu.com
+    - localhost 等一些特殊域名 是不需要解析的
+      127.0.0.1 www.baidu.com
+
+- 200 + Content-Type text/html
+  下载内容1
+  - 开始传输 transport
+    - 建立传输通道 三次握手
+
+  - OSI 七层协议
+    http 是一个应用层协议
+    - 物理层 0和1 物理介质
+    - 数据链路层 mac地址(上网设备的唯一ID) + 数据
+    - 网络层 IP地址 + mac地址 + 数据
+    - 传输层 规则
+      UDP 数据暴协议 一般用于视频 游戏 音频 保证**快速**
+      有效的传输
+      - 数据包 大小上限的
+      - 一个文件会被分成好多个数据包 分批次 分通道并发传输
+      - 数据包会丢失 重发TCP/IP
+      - 排序
+        TCP(序号...) + IP地址 + mac地址 + 数据
+    - 三次握手
