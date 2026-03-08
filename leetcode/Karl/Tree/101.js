@@ -10,16 +10,16 @@
  * @param {TreeNode} root
  * @return {boolean}
  */
-var isSymmetric = function (root) {
-  function isSameTree(p, q) {
-    if (p == null || q == null) {
-      return p === q;
-    }
-    return (
-      q.val === p.val &&
-      isSameTree(p.left, q.right) &&
-      isSameTree(p.right, q.left)
-    );
-  }
-  return isSameTree(root.left, root.right);
+var isSymmetric = function(root) {
+    if(!root) return true
+   return  sameTree(root.left,root.right)
+
 };
+
+const sameTree=function(node1,node2){
+  if(node1==null&&node2==null) return true
+  if(node1==null||node2==null) return false
+  if(node1.val!==node2.val) return false
+  
+  return sameTree(node1.left,node2.right)&&sameTree(node1.right,node2.left)
+}

@@ -11,39 +11,18 @@
  * @return {number[][]}
  */
 var levelOrder = function (root) {
-  if (root === null) {
-    return [];
-  }
   const res = [];
-  let cur = [root];
-  while (cur.length) {
-    const tn = [];
-    const ne = [];
-    for (const x of cur) {
-      tn.push(x.val);
-      x.left && ne.push(x.left);
-      x.right && ne.push(x.right);
-    }
-    cur = ne;
-    res.push(tn);
-  }
-  return res;
-};
-
-var levelOrder = function (root) {
-  if (!root) return [];
-  const res = [];
-  const queue = [root];
+  const queue = [];
+  if (root) queue.push(root);
   while (queue.length) {
-    const vals = [];
-    let n = queue.length;
-    while (n--) {
-      const cur = queue.shift();
-      vals.push(cur.val);
-      if (cur.left) queue.push(cur.left); // 确保只push有效的left节点
-      if (cur.right) queue.push(cur.right); // 确保只push有效的right节点
+    const arr = [];
+    let size = queue.length;
+    while (size--) {
+      queue[0].left && queue.push(queue[0].left);
+      queue[0].right && queue.push(queue[0].right);
+      arr.push(queue.shift().val);
     }
-    res.push(vals);
+    res.push(arr);
   }
   return res;
 };
