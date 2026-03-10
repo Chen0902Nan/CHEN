@@ -42,6 +42,8 @@ async function getEmbedding(text) {
     return result;
 }
 
+
+// 对问题进行向量搜索，返回搜索的相关数据
 async function retrieveRelevantContent(question, k=3) {
     try {
         const queryVector = await getEmbedding(question);
@@ -66,7 +68,7 @@ async function answerEbookQuestion(question, k=3) {
 
         const retrievedContent = await retrieveRelevantContent(question, k);
         console.log(`检索到的内容:`, retrievedContent);
-        if(retrieveRelevantContent.length===0){
+        if(retrievedContent.length===0){
           console.log('抱歉，没有找到相关内容');
           return '抱歉，没有找到相关内容'
         }

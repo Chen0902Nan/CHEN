@@ -42,11 +42,14 @@ const client = new MilvusClient({
     token: TOKEN,
 })
 
+
+// 复用 embeddings
 async function getEmbedding(text) {
     const result = await embeddings.embedQuery(text);
     return result;
 }
 
+// 判断集合是否存在 不存在就创建集合，否则直接加载集合
 async function ensureBookCollection(bookId) {
     try {
         const hasCollection = await client.hasCollection({
@@ -94,6 +97,43 @@ async function ensureBookCollection(bookId) {
     }
 }
 
+
+// 将切割好的数据插入milvus数据库
+async function insertChunksBatch(chunks, bookId, chapterNum) {
+    try {
+        if (chunks.length === 0) {
+            return 0;
+        }
+        // 性能优化 embeding 并发 
+        // 返回结果是符合 schema 的数组
+        const insertData = await Promise.all(
+            chunks.map(async (chunk, chunkIndex) => {
+                // 将切割好的内容向量化
+                const vector = await getEmbedding(chunk);
+                return {
+                    id: `${bookId}_${chapterNum}_${chunkIndex}`,
+                    book_id: bookId,
+                    book_name: BOOK_NAME,
+                    chapter_num: chapterNum,
+                    index: chunkIndex,
+                    content: chunk,
+                    vector
+                }
+            })
+        )
+        // 插入milvus
+        const insertResult = await client.insert({
+            collection_name: COLLECTION_NAME,
+            data: insertData,
+        })
+        return Number(insertResult.insert_cnt) || 0;
+    } catch(err) {
+        console.error('插入片段失败:', err.message);
+        throw err;
+    }
+}
+
+// 先按章节 load文件,再一章节一章节的逐步切割，嵌入milvus数据库
 async function loadAndProcessEPubStreaming(bookId) {
     try {
         console.log('开始加载EPUB 文件');
@@ -108,7 +148,7 @@ async function loadAndProcessEPubStreaming(bookId) {
         const textSplitter = new RecursiveCharacterTextSplitter({
             chunkSize: CHUNK_SIZE,
             chunkOverlap: CHUNK_OVERLAP,
-            // 默认  \n\n 段落的换行 \n 换行符 。 ， 
+            // 默认  \n\n 段落的换行 \n 换行符 ''
         });
         let totalInserted = 0;
         for (let chapterIndex = 0; chapterIndex < documents.length; chapterIndex++) {
@@ -121,6 +161,8 @@ async function loadAndProcessEPubStreaming(bookId) {
                 console.log(`跳过空章节\n`);
                 continue;
             }
+
+            // 切完一章 插入一章
             console.log('生成向量并插入中...');
             const insertedCount = await insertChunksBatch(chunks, bookId, chapterIndex + 1);
             totalInserted += insertedCount;
@@ -134,37 +176,7 @@ async function loadAndProcessEPubStreaming(bookId) {
     }
 }
 
-async function insertChunksBatch(chunks, bookId, chapterNum) {
-    try {
-        if (chunks.length === 0) {
-            return 0;
-        }
-        // 性能优化 embeding 并发 
-        // 返回结果是符合 schema 的数组
-        const insertData = await Promise.all(
-            chunks.map(async (chunk, chunkIndex) => {
-                const vector = await getEmbedding(chunk);
-                return {
-                    id: `${bookId}_${chapterNum}_${chunkIndex}`,
-                    book_id: bookId,
-                    book_name: BOOK_NAME,
-                    chapter_num: chapterNum,
-                    index: chunkIndex,
-                    content: chunk,
-                    vector
-                }
-            })
-        )
-        const insertResult = await client.insert({
-            collection_name: COLLECTION_NAME,
-            data: insertData,
-        })
-        return Number(insertResult.insert_cnt) || 0;
-    } catch(err) {
-        console.error('插入片段失败:', err.message);
-        throw err;
-    }
-}
+
 
 async function main() {
     try{

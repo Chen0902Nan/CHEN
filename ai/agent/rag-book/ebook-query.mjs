@@ -44,15 +44,18 @@ async function main() {
             });
             console.log('集合加载成功');
         } catch(err) {
-            console.log('集合已处于加载状态')
+            console.log('集合加载失败')
         }
         const query='段誉会什么武功?'
         const queryVector=await getEmbedding(query);
+
+        // 查询
         const searchResult=await client.search({
             collection_name:COLLECTION_NAME,
             vector:queryVector,
             limit:3,
             metric_type:MetricType.COSINE,
+            // 返回的字段
             output_fields:['id','content','book_id','chapter_num','index','book_name']
         });
         console.log(searchResult,'---------');

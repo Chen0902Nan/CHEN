@@ -23,6 +23,15 @@
   - 创建索引
   - 加载集合 loadCollection
 
+- 选取向量数据库
+- 创建COLLECTION
+- 数据清洗与提取
+- 切割
+- 向量化存储
+- 加载数据库
+- 对question向量化，进行数据库COSIN搜索，选取K条相近数据
+- 通过llm对question和语义化得到的k条数据，通过Prompt进行回答
+
 ## MVP
 
 - Vibe Coding
