@@ -1,0 +1,20 @@
+{
+  "name": "memory-demo",
+  "version": "1.0.0",
+  "description": "- Rag 太重要了\r   - 最低的成本(embedding)丰富llm的精准(cosine)上下文\r   - 大模型的微调(finetue)也可以提升llm的能力 但是花费巨大 巨复杂\r     成本比较高，",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@langchain/community": "^1.1.23",
+    "@langchain/core": "^1.1.32",
+    "@langchain/openai": "^1.2.13",
+    "dotenv": "^17.3.1",
+    "langchain": "^1.2.31"
+  }
+}
