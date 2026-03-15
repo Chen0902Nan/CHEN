@@ -1,0 +1,72 @@
+<!-- 仿今日头条首页 -->
+<view class="container">
+  <view class="header">
+    <view class="hero-card">
+      <view class="hero-badge">今日热榜</view>
+      <view class="hero-copy">
+        <text class="hero-title">实时热点，一屏掌握</text>
+        <text class="hero-subtitle">聚合新鲜资讯、精选推荐和你关心的话题</text>
+      </view>
+    </view>
+
+    <scroll-view scroll-x="true" class="nav-scroll" show-scrollbar="false">
+      <view class="nav-list">
+        <block wx:for="{{categories}}" wx:for-item="category" wx:key="id">
+          <view
+            class="nav-item {{activeCategory === category.id ? 'active' : ''}}"
+            bindtap="onCategoryTap"
+            data-category="{{category.id}}"
+          >
+            {{category.name}}
+          </view>
+        </block>
+      </view>
+    </scroll-view>
+  </view>
+
+  <scroll-view
+    scroll-y="true"
+    class="news-list"
+    bindscrolltolower="onScrollToLower"
+    show-scrollbar="false"
+  >
+    <view class="news-list-inner">
+      <view wx:if="{{!loading && newsList.length === 0}}" class="empty-card">
+        <image class="empty-illustration" src="/images/empty_state.png" mode="aspectFit"></image>
+        <text class="empty-title">暂时还没有内容</text>
+        <text class="empty-desc">稍后回来看看，或切换频道浏览其他资讯。</text>
+      </view>
+
+      <block wx:for="{{newsList}}" wx:for-item="news" wx:key="_id">
+        <view class="news-item" bindtap="onNewsTap" data-id="{{news._id}}">
+          <view class="news-content">
+            <view class="news-topline">
+              <text class="news-tag">头条精选</text>
+              <text class="news-time">{{news.publishTime}}</text>
+            </view>
+            <view class="news-title">{{news.title}}</view>
+            <view class="news-info">
+              <text class="news-views">{{news.view_count || 0}} 阅读</text>
+              <text wx:if="{{news.image}}" class="news-dot">·</text>
+              <text wx:if="{{news.image}}" class="news-type">图文资讯</text>
+            </view>
+          </view>
+          <image
+            wx:if="{{news.image}}"
+            class="news-image"
+            src="{{news.image}}"
+            mode="aspectFill"
+          ></image>
+        </view>
+      </block>
+
+      <view wx:if="{{loading}}" class="status-card">
+        <text>正在加载更多内容...</text>
+      </view>
+
+      <view wx:if="{{noMoreData && newsList.length > 0}}" class="status-card muted">
+        <text>已经到底啦，去看看其他频道吧</text>
+      </view>
+    </view>
+  </scroll-view>
+</view>

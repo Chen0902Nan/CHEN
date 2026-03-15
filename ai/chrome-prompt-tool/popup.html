@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompt Manager</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Prompt 管理器</h1>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-button active" data-tab="prompts">Prompts</button>
+      <button class="tab-button" data-tab="categories">分类管理</button>
+    </div>
+
+    <!-- Prompts 标签页 -->
+    <div id="prompts-tab" class="tab-content active">
+      <div class="toolbar">
+        <select id="category-filter">
+          <option value="">所有分类</option>
+        </select>
+        <button id="add-prompt-btn">+ 新建 Prompt</button>
+      </div>
+
+      <div id="prompts-container"></div>
+
+      <!-- 新建/编辑 Prompt 表单 -->
+      <div id="prompt-form" class="modal" style="display: none;">
+        <div class="modal-content">
+          <h2 id="form-title">新建 Prompt</h2>
+          <form id="prompt-edit-form">
+            <input type="hidden" id="prompt-id">
+            <div class="form-group">
+              <label>标题</label>
+              <input type="text" id="prompt-title" required>
+            </div>
+            <div class="form-group">
+              <label>分类</label>
+              <select id="prompt-category" required></select>
+            </div>
+            <div class="form-group">
+              <label>内容</label>
+              <textarea id="prompt-content" rows="8" required></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="button" id="cancel-btn">取消</button>
+              <button type="submit">保存</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- 分类管理标签页 -->
+    <div id="categories-tab" class="tab-content">
+      <div class="toolbar">
+        <button id="add-category-btn">+ 新建分类</button>
+        <button id="show-ball-btn" style="background: #10b981; margin-left: 8px;">显示悬浮球</button>
+      </div>
+
+      <div id="categories-container"></div>
+
+      <!-- 新建分类表单 -->
+      <div id="category-form" class="modal" style="display: none;">
+        <div class="modal-content">
+          <h2>新建分类</h2>
+          <form id="category-edit-form">
+            <div class="form-group">
+              <label>分类名称</label>
+              <input type="text" id="category-name" required>
+            </div>
+            <div class="form-actions">
+              <button type="button" id="cancel-category-btn">取消</button>
+              <button type="submit">保存</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

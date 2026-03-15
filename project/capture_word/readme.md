@@ -69,4 +69,18 @@
   帮助使用读屏器的盲人
   input[type="file"] 比较难控制样式
   display:none for id 样式控制
-  
+- Prompt 设计
+  - AIGC产品里 Prompt 设计是比较核心的
+  - 清晰的指令
+    1个单词，A1~A2级别
+  - outputParser 输出格式JSON，业务的持续执行
+  - 产品设计 对齐
+  - 多模态模型的接口标准
+    content 数组 图片 base64格式 字符编码 (html5)
+
+- 文件上传体验
+  - type='file' input + accept
+  - 上传慢慢长夜，即时显示图片
+    - FileReader js 读取本地文件 调用摄像头
+    - readDataAsURL(file)
+    - onload base54

@@ -1,0 +1,44 @@
+{
+  "pages": [
+    "pages/index/index",       
+    "pages/detail/detail",      
+    "pages/publish/publish",    
+    "pages/me/me",
+    "pages/login/login",
+    "pages/profile_edit/profile_edit"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#f6f7fb",
+    "navigationBarBackgroundColor": "#f04142",
+    "navigationBarTitleText": "仿头条资讯",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#8d95a7",
+    "selectedColor": "#f04142",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home_active.png"
+      },
+      {
+        "pagePath": "pages/publish/publish",
+        "text": "发布",
+        "iconPath": "images/add.png",
+        "selectedIconPath": "images/add_active.png"
+      },
+      {
+        "pagePath": "pages/me/me",
+        "text": "我的",
+        "iconPath": "images/me.png",
+        "selectedIconPath": "images/me_active.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

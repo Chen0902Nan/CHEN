@@ -1,0 +1,150 @@
+<!-- pages/login/login.wxml -->
+<view class="container">
+  <view class="header">
+    <view class="hero-badge">头条账号</view>
+    <image class="logo" src="/images/logo.png" mode="aspectFit"></image>
+    <text class="title">仿头条资讯</text>
+    <text class="subtitle">发现更多精彩内容</text>
+  </view>
+
+  <view class="login-card">
+    <view class="auth-switch">
+      <view class="switch-item {{currentTab === 'login' ? 'active' : ''}}" bindtap="switchTab" data-tab="login">
+        登录
+      </view>
+      <view class="switch-item {{currentTab === 'register' ? 'active' : ''}}" bindtap="switchTab" data-tab="register">
+        注册
+      </view>
+    </view>
+
+    <text class="card-tip" wx:if="{{currentTab === 'login'}}">继续即可同步你的点赞、收藏与作品记录</text>
+    <text class="card-tip" wx:elif="{{currentTab === 'register'}}">创建账号后即可发布内容并管理个人主页</text>
+
+    <block wx:if="{{currentTab === 'login'}}">
+      <view class="input-group">
+        <image class="input-icon" src="/images/me.png"></image>
+        <input
+          class="input"
+          type="text"
+          placeholder="请输入用户名/手机号"
+          placeholder-class="placeholder"
+          value="{{loginForm.username}}"
+          data-field="username"
+          bindinput="onInputChange"
+        />
+      </view>
+      <view class="input-group">
+        <image class="input-icon" src="/images/lock.png"></image>
+        <input
+          class="input"
+          type="text"
+          password="{{showLoginPassword ? false : true}}"
+          placeholder="请输入密码"
+          placeholder-class="placeholder"
+          value="{{loginForm.password}}"
+          data-field="password"
+          bindinput="onInputChange"
+          hold-keyboard="{{true}}"
+        />
+        <view class="password-toggle-wrapper" bindtap="togglePasswordVisibility" data-form="login" data-field="password">
+          <image class="password-toggle" src="{{showLoginPassword ? '/images/eye-open.png' : '/images/eye-close.png'}}"></image>
+        </view>
+      </view>
+
+      <button class="submit-btn" hover-class="btn-hover" loading="{{loading}}" bindtap="onLogin" disabled="{{loading}}">
+        {{loading ? '登录中...' : '登录'}}
+      </button>
+
+      <view class="form-links">
+        <text class="link-text" bindtap="switchTab" data-tab="register">注册账号</text>
+      </view>
+
+      <button class="wechat-btn" hover-class="btn-hover" bindtap="handleWechatLogin">
+        <image src="/images/wechat.png" class="wechat-icon"></image>
+        微信一键登录
+      </button>
+    </block>
+
+    <block wx:elif="{{currentTab === 'register'}}">
+      <view class="input-group">
+        <image class="input-icon" src="/images/me.png"></image>
+        <input
+          class="input"
+          type="text"
+          placeholder="请输入用户名"
+          placeholder-class="placeholder"
+          value="{{registerForm.username}}"
+          data-field="username"
+          bindinput="onRegisterInputChange"
+        />
+      </view>
+      <view class="input-group">
+        <image class="input-icon" src="/images/me.png"></image>
+        <input
+          class="input"
+          type="number"
+          placeholder="请输入手机号"
+          placeholder-class="placeholder"
+          value="{{registerForm.phone}}"
+          data-field="phone"
+          bindinput="onRegisterInputChange"
+        />
+      </view>
+      <view class="input-group">
+        <image class="input-icon" src="/images/lock.png"></image>
+        <input
+          class="input"
+          type="text"
+          password="{{showRegisterPassword ? false : true}}"
+          placeholder="请输入密码"
+          placeholder-class="placeholder"
+          value="{{registerForm.password}}"
+          data-field="password"
+          bindinput="onRegisterInputChange"
+        />
+        <view class="password-toggle-wrapper" bindtap="togglePasswordVisibility" data-form="register" data-field="password">
+          <image class="password-toggle" src="{{showRegisterPassword ? '/images/eye-open.png' : '/images/eye-close.png'}}"></image>
+        </view>
+      </view>
+      <view class="input-group">
+        <image class="input-icon" src="/images/lock.png"></image>
+        <input
+          class="input"
+          type="text"
+          password="{{showRegisterConfirmPassword ? false : true}}"
+          placeholder="请确认密码"
+          placeholder-class="placeholder"
+          value="{{registerForm.confirmPassword}}"
+          data-field="confirmPassword"
+          bindinput="onRegisterInputChange"
+        />
+        <view
+          class="password-toggle-wrapper"
+          bindtap="togglePasswordVisibility"
+          data-form="register"
+          data-field="confirmPassword"
+        >
+          <image
+            class="password-toggle"
+            src="{{showRegisterConfirmPassword ? '/images/eye-open.png' : '/images/eye-close.png'}}"
+          ></image>
+        </view>
+      </view>
+
+      <button class="submit-btn" hover-class="btn-hover" loading="{{loading}}" bindtap="onRegister" disabled="{{loading}}">
+        {{loading ? '注册中...' : '注册'}}
+      </button>
+
+      <view class="form-links">
+        <text class="link-text" bindtap="switchTab" data-tab="login">返回登录</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="agreement">
+    <text>登录即表示同意</text>
+    <text class="link" bindtap="showUserAgreement">《用户协议》</text>
+    <text>和</text>
+    <text class="link" bindtap="showPrivacyPolicy">《隐私政策》</text>
+  </view>
+</view>

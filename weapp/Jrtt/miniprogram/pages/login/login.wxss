@@ -1,0 +1,198 @@
+/* pages/login/login.wxss */
+.container {
+  min-height: 100vh;
+  padding: 40rpx 32rpx 48rpx;
+  background: linear-gradient(180deg, #fff2f2 0%, #f6f7fb 280rpx);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx 20rpx 36rpx;
+  margin-bottom: 20rpx;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48rpx;
+  padding: 0 18rpx;
+  border-radius: 24rpx;
+  background: var(--color-brand-soft);
+  color: var(--color-brand);
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.logo {
+  width: 112rpx;
+  height: 112rpx;
+  margin: 22rpx 0 20rpx;
+}
+
+.title {
+  font-size: 42rpx;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 10rpx;
+}
+
+.subtitle {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+}
+
+.login-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 36rpx;
+  box-shadow: var(--shadow-md);
+  padding: 32rpx;
+}
+
+.auth-switch {
+  display: flex;
+  padding: 8rpx;
+  border-radius: 999rpx;
+  background: #f4f6fb;
+}
+
+.switch-item {
+  flex: 1;
+  height: 72rpx;
+  line-height: 72rpx;
+  text-align: center;
+  border-radius: 999rpx;
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+}
+
+.switch-item.active {
+  background: #ffffff;
+  color: var(--color-brand);
+  font-weight: 700;
+  box-shadow: 0 8rpx 18rpx rgba(15, 23, 42, 0.08);
+}
+
+.card-tip {
+  display: block;
+  margin: 24rpx 0 26rpx;
+  font-size: 24rpx;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  height: 96rpx;
+  border: 1rpx solid rgba(15, 23, 42, 0.08);
+  border-radius: 24rpx;
+  padding: 0 24rpx;
+  margin-bottom: 24rpx;
+  background: #fbfcfe;
+}
+
+.input-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 20rpx;
+  opacity: 0.7;
+}
+
+.input-icon.muted {
+  opacity: 0.5;
+}
+
+.input {
+  flex: 1;
+  height: 100%;
+  font-size: 30rpx;
+  color: var(--color-text-primary);
+}
+
+.placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.password-toggle-wrapper {
+  padding: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-toggle {
+  width: 40rpx;
+  height: 40rpx;
+  opacity: 0.5;
+}
+
+.submit-btn {
+  width: 100% !important;
+  height: 92rpx;
+  line-height: 92rpx;
+  background: linear-gradient(135deg, #ff6b6b 0%, #f04142 82%);
+  color: #ffffff;
+  font-size: 32rpx;
+  font-weight: 700;
+  border-radius: 46rpx;
+  margin-top: 10rpx;
+  box-shadow: var(--shadow-brand);
+}
+
+.btn-hover {
+  opacity: 0.9;
+  transform: scale(0.99);
+}
+
+.form-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 28rpx;
+  margin-bottom: 28rpx;
+}
+
+.link-text {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  padding: 10rpx;
+}
+
+.wechat-btn {
+  width: 100% !important;
+  height: 92rpx;
+  line-height: 92rpx;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 32rpx;
+  font-weight: 600;
+  border-radius: 46rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid rgba(15, 23, 42, 0.08);
+}
+
+.wechat-icon {
+  width: 44rpx;
+  height: 44rpx;
+  margin-right: 16rpx;
+}
+
+.agreement {
+  margin-top: 28rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: var(--color-text-tertiary);
+  line-height: 1.8;
+}
+
+.link {
+  color: var(--color-brand);
+}

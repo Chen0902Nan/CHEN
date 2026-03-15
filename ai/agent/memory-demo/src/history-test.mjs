@@ -5,7 +5,7 @@ import { SystemMessage,HumanMessage } from '@langchain/core/messages'
 
 const model=new ChatOpenAI({
   modelName:process.env.MODEL_NAME,
-  aipKey:process.env.OPENAI_API_KEY,
+  apiKey:process.env.OPENAI_API_KEY,
   temperature:0,
   configuration:{
     baseURL:process.env.OPENAI_BASE_URL
@@ -16,17 +16,17 @@ const model=new ChatOpenAI({
 async function inMemoryDemo() {
   const history=new InMemoryChatMessageHistory()
   const systemMessage=new SystemMessage(
-    '你是一个友好、幽默的做菜助手，喜欢分享美食和烹饪技巧'
+    
   )
   console.log('[第一轮对话]');
-  const usertMessage1=new HumanMessage(
+  const userMessage1=new HumanMessage(
     '你今天吃的什么?'
   )
-  await history.addMessage(usertMessage1)
+  await history.addMessage(userMessage1)
   const messages1=[systemMessage,...(await history.getMessages())]
   const response1=await model.invoke(messages1)
   await history.addAIMessage(response1)
-  console.log(`用户:${usertMessage1.content}`);
+  console.log(`用户:${userMessage1.content}`);
   console.log(`助手:${response1.content}`);
   
   

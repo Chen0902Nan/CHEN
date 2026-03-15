@@ -1,0 +1,102 @@
+<!-- {{isEditMode ? '编辑文章' : '新闻发布页'}} -->
+<view class="container">
+  <view class="hero-card">
+    <view class="section-kicker">{{isEditMode ? '编辑模式' : '发布中心'}}</view>
+    <text class="hero-title">{{isEditMode ? '完善文章细节' : '写一条有态度的头条'}}</text>
+    <text class="hero-subtitle">标题、正文和封面会一起展示在推荐流中，建议保持简洁清晰。</text>
+  </view>
+
+  <form bindsubmit="onSubmit">
+    <view class="form-card section-card">
+      <view class="form-group">
+        <text class="label">新闻标题</text>
+        <text class="helper">一句话讲清重点，吸引读者点击</text>
+        <input
+          class="input"
+          name="title"
+          placeholder="请输入新闻标题"
+          value="{{formData.title}}"
+          bindinput="onInputChange"
+          data-field="title"
+          maxlength="100"
+        />
+      </view>
+
+      <view class="form-group no-gap">
+        <text class="label">新闻分类</text>
+        <text class="helper">选择合适频道，帮助内容更精准分发</text>
+        <picker
+          mode="selector"
+          range="{{categories}}"
+          range-key="name"
+          value="{{selectedCategoryIndex}}"
+          bindchange="onCategoryChange"
+        >
+          <view class="picker">
+            <text>{{categories[selectedCategoryIndex].name}}</text>
+            <text class="arrow-text">›</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="form-card section-card">
+      <view class="form-group no-gap">
+        <text class="label">新闻内容</text>
+        <text class="helper">支持图文混排，适合摘要、正文和观点表达</text>
+
+        <view class="editor-wrapper">
+          <view class="toolbar">
+            <view class="toolbar-btn" bindtap="insertImage">
+              <text class="toolbar-icon">🖼️</text>
+            </view>
+            <view class="toolbar-btn" bindtap="undo">
+              <text class="toolbar-icon">↩️</text>
+            </view>
+            <view class="toolbar-btn danger" bindtap="clearEditor">
+              <text class="toolbar-icon">🗑️</text>
+            </view>
+          </view>
+
+          <editor
+            id="editor"
+            class="editor"
+            placeholder="请输入新闻内容（支持图文混排）"
+            bindready="onEditorReady"
+            bindinput="onEditorInput"
+            bindstatuschange="onStatusChange"
+            show-img-size
+            show-img-toolbar
+            show-img-resize
+          ></editor>
+
+          <text class="char-count">{{contentLength}}/5000</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-card section-card">
+      <view class="form-group no-gap">
+        <text class="label">新闻封面</text>
+        <text class="helper">优先上传清晰横图，提升推荐流点击率</text>
+        <view class="image-upload">
+          <view wx:if="{{!imageUrl}}" class="upload-btn" bindtap="onChooseImage">
+            <image class="upload-icon" src="../../images/add.png"></image>
+            <text class="upload-text">点击上传图片</text>
+          </view>
+
+          <view wx:if="{{imageUrl}}" class="image-preview">
+            <image class="preview-image" src="{{imageUrl}}" mode="aspectFill"></image>
+            <view class="remove-image" bindtap="onRemoveImage">
+              <text class="remove-text">×</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <button class="submit-btn" formType="submit" loading="{{submitting}}" disabled="{{submitting}}">
+      {{submitting ? (isEditMode ? '更新中...' : '发布中...') : (isEditMode ? '更新文章' : '发布新闻')}}
+    </button>
+  </form>
+</view>

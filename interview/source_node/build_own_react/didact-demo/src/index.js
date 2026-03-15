@@ -27,13 +27,15 @@ function render(element,container){
   // console.log(element,container);
   const dom=
   element.type==='TEXT_ELEMENT'
-  ? document.createTextNode('')
+  ? document.createTextNode(element.props.nodeValue)
   :document.createElement(element.type)
+  
+  // 判断是否是children
   const isProperty=key=>key!=='children'
+
   Object.keys(element.props)
   .filter(isProperty)
   .forEach(name=>{
-    console.log(name,'/////');
     dom[name] = element.props[name]
   })
   element.props.children.forEach(child=>render(child,dom))
@@ -57,4 +59,6 @@ const element=(
 )
 
 const container=document.getElementById('root')
+
+
 Didact.render(element,container)

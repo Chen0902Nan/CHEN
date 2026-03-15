@@ -1,0 +1,206 @@
+<!-- pages/me/me.wxml -->
+<view class="container">
+  <view class="user-profile">
+    <view class="hero-top">
+      <view class="profile-info">
+        <view class="section-kicker">我的头条</view>
+        <view class="name-row">
+          <text class="username" wx:if="{{userInfo.nickname || userInfo.username}}">
+            {{userInfo.nickname || userInfo.username}}
+          </text>
+          <text class="username" wx:else bindtap="onLoginTap">点击登录 / 注册</text>
+          <view class="edit-chip" bindtap="onAvatarTap">
+            {{userInfo.nickname || userInfo.username ? '编辑资料' : '立即登录'}}
+          </view>
+        </view>
+        <text class="profile-desc" wx:if="{{userInfo.nickname || userInfo.username}}">
+          管理作品、收藏和互动记录，打造你的内容主页。
+        </text>
+        <text class="profile-desc" wx:else>
+          登录后即可同步作品、点赞和收藏内容。
+        </text>
+      </view>
+
+      <view class="profile-avatar" bindtap="onAvatarTap">
+        <image class="avatar-img" src="{{userInfo.avatar || '/images/default_avatar.png'}}" mode="aspectFill"></image>
+      </view>
+    </view>
+
+    <view class="stats-row">
+      <view
+        class="stat-item {{activeStatType === 'following' ? 'active' : ''}}"
+        bindtap="onStatTap"
+        data-type="following"
+      >
+        <text class="stat-num">{{stats.following || 0}}</text>
+        <text class="stat-label">关注</text>
+        <text class="stat-tip">点击查看</text>
+      </view>
+      <view
+        class="stat-item {{activeStatType === 'followers' ? 'active' : ''}}"
+        bindtap="onStatTap"
+        data-type="followers"
+      >
+        <text class="stat-num">{{stats.followers || 0}}</text>
+        <text class="stat-label">粉丝</text>
+        <text class="stat-tip">点击查看</text>
+      </view>
+      <view
+        class="stat-item {{activeStatType === 'likes' ? 'active' : ''}}"
+        bindtap="onStatTap"
+        data-type="likes"
+      >
+        <text class="stat-num">{{stats.likes || 0}}</text>
+        <text class="stat-label">获赞</text>
+        <text class="stat-tip">点击查看</text>
+      </view>
+    </view>
+
+    <view class="quick-actions">
+      <view class="quick-action primary" bindtap="onCreateHeadline">发布头条</view>
+      <view class="quick-action" bindtap="onAvatarTap">
+        {{userInfo.nickname || userInfo.username ? '编辑主页' : '完善信息'}}
+      </view>
+    </view>
+  </view>
+
+  <view class="stat-panel section-card" wx:if="{{activeStatType}}">
+    <view class="stat-panel-header">
+      <view class="stat-panel-copy">
+        <text class="stat-panel-title">{{statDetailTitle}}</text>
+        <text class="stat-panel-subtitle">{{statDetailSubtitle}}</text>
+      </view>
+      <view class="stat-panel-close" bindtap="closeStatDetail">收起</view>
+    </view>
+
+    <view wx:if="{{statDetailLoading}}" class="stat-panel-loading">加载中...</view>
+
+    <block wx:elif="{{activeStatType === 'likes' && statDetailList.length > 0}}">
+      <view
+        class="stat-news-item"
+        wx:for="{{statDetailList}}"
+        wx:key="_id"
+        bindtap="onNewsTap"
+        data-id="{{item._id}}"
+      >
+        <view class="stat-news-main">
+          <text class="stat-news-title">{{item.title}}</text>
+          <view class="stat-news-meta">
+            <text class="stat-news-time">{{item.publishTimeText}}</text>
+            <text class="stat-news-metric">{{item.metricText}}</text>
+          </view>
+        </view>
+        <image
+          wx:if="{{item.image}}"
+          class="stat-news-image"
+          src="{{item.image}}"
+          mode="aspectFill"
+        ></image>
+      </view>
+    </block>
+
+    <block wx:elif="{{statDetailList.length > 0}}">
+      <view class="stat-user-item" wx:for="{{statDetailList}}" wx:key="_id">
+        <image class="stat-user-avatar" src="{{item.avatar || '/images/default_avatar.png'}}" mode="aspectFill"></image>
+        <view class="stat-user-main">
+          <text class="stat-user-name">{{item.displayName}}</text>
+          <text wx:if="{{item.usernameText}}" class="stat-user-account">{{item.usernameText}}</text>
+          <text wx:if="{{item.relationTimeText}}" class="stat-user-time">关联于 {{item.relationTimeText}}</text>
+        </view>
+        <view
+          class="relation-action {{item.isFollowing ? 'active' : ''}} {{pendingRelationUserId === item._id ? 'disabled' : ''}}"
+          catchtap="onToggleRelationFollow"
+          data-userid="{{item._id}}"
+        >
+          {{pendingRelationUserId === item._id ? '处理中...' : item.followActionText}}
+        </view>
+      </view>
+    </block>
+
+    <view wx:else class="empty-state compact">
+      <image class="empty-image compact-image" src="/images/empty_state.png" mode="aspectFit"></image>
+      <text class="empty-tip">{{statDetailEmptyTitle}}</text>
+      <text class="empty-desc">{{statDetailEmptyDesc}}</text>
+    </view>
+  </view>
+
+  <view class="tabs-section">
+    <view class="tabs-header">
+      <view
+        wx:for="{{tabs}}"
+        wx:key="*this"
+        class="tab-item {{currentTab === index ? 'active' : ''}}"
+        bindtap="switchTab"
+        data-index="{{index}}"
+      >
+        {{item}}
+      </view>
+      <view class="tab-line tab-{{currentTab}}"></view>
+    </view>
+
+    <view class="tab-content">
+      <view hidden="{{currentTab !== 0}}">
+        <view class="news-list" wx:if="{{myWorks.length > 0}}">
+          <view class="news-item" wx:for="{{myWorks}}" wx:key="_id" bindtap="onNewsTap" data-id="{{item._id}}">
+            <view class="news-info">
+              <text class="news-title">{{item.title}}</text>
+              <view class="news-meta">
+                <text class="news-time">{{item.publishTime}}</text>
+                <text class="news-views" wx:if="{{item.view_count}}">{{item.view_count}} 阅读</text>
+              </view>
+              <view class="work-actions">
+                <view class="work-action edit" catchtap="onEditMyWork" data-id="{{item._id}}">再编辑</view>
+                <view class="work-action delete" catchtap="onDeleteMyWork" data-id="{{item._id}}">删除</view>
+              </view>
+            </view>
+            <image class="news-thumb" wx:if="{{item.image}}" src="{{item.image}}" mode="aspectFill"></image>
+          </view>
+        </view>
+        <view class="empty-state" wx:else>
+          <image class="empty-image" src="/images/empty_state.png" mode="aspectFit"></image>
+          <text class="empty-tip">还没有发布过内容</text>
+          <text class="empty-desc">试着发表第一条微头条，建立你的内容主页。</text>
+          <button class="action-btn primary" bindtap="onCreateHeadline">发微头条</button>
+        </view>
+      </view>
+
+      <view hidden="{{currentTab !== 1}}">
+        <view class="news-list" wx:if="{{favoritedNews.length > 0}}">
+          <view class="news-item" wx:for="{{favoritedNews}}" wx:key="_id" bindtap="onNewsTap" data-id="{{item._id}}">
+            <view class="news-info">
+              <text class="news-title">{{item.title}}</text>
+              <view class="news-meta">
+                <text class="news-time">收藏于 {{item.actionTime}}</text>
+              </view>
+            </view>
+            <image class="news-thumb" wx:if="{{item.image}}" src="{{item.image}}" mode="aspectFill"></image>
+          </view>
+        </view>
+        <view class="empty-state compact" wx:else>
+          <image class="empty-image compact-image" src="/images/empty_state.png" mode="aspectFit"></image>
+          <text class="empty-tip">暂无收藏内容</text>
+          <text class="empty-desc">看到喜欢的资讯后点一下收藏，就会保存在这里。</text>
+        </view>
+      </view>
+
+      <view hidden="{{currentTab !== 2}}">
+        <view class="news-list" wx:if="{{likedNews.length > 0}}">
+          <view class="news-item" wx:for="{{likedNews}}" wx:key="_id" bindtap="onNewsTap" data-id="{{item._id}}">
+            <view class="news-info">
+              <text class="news-title">{{item.title}}</text>
+              <view class="news-meta">
+                <text class="news-time">点赞于 {{item.actionTime}}</text>
+              </view>
+            </view>
+            <image class="news-thumb" wx:if="{{item.image}}" src="{{item.image}}" mode="aspectFill"></image>
+          </view>
+        </view>
+        <view class="empty-state compact" wx:else>
+          <image class="empty-image compact-image" src="/images/empty_state.png" mode="aspectFit"></image>
+          <text class="empty-tip">暂无点赞内容</text>
+          <text class="empty-desc">互动过的内容会自动同步到这里，方便你继续回看。</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

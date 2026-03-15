@@ -1,0 +1,267 @@
+#prompt-floating-ball {
+  position: fixed !important;
+  top: 80px !important;
+  right: 20px !important;
+  width: 40px !important;
+  height: 40px !important;
+  background: #3b82f6 !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 18px !important;
+  cursor: grab !important;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4) !important;
+  z-index: 2147483647 !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease !important;
+  user-select: none !important;
+  will-change: transform !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#prompt-floating-ball:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+}
+
+#prompt-floating-ball.dragging {
+  transition: none !important;
+  cursor: grabbing !important;
+}
+
+#prompt-panel {
+  position: fixed !important;
+  width: 40px !important;
+  height: 40px !important;
+  max-height: none !important;
+  background: #ffffff !important;
+  border-radius: 50% !important;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4) !important;
+  z-index: 2147483646 !important;
+  display: none !important;
+  flex-direction: column !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  opacity: 0 !important;
+  transform: scale(1) !important;
+  transform-origin: top right !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  pointer-events: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+#prompt-panel.show {
+  opacity: 1 !important;
+  transform: scale(1) !important;
+  pointer-events: auto !important;
+  display: flex !important;
+  width: 360px !important;
+  height: auto !important;
+  max-height: 520px !important;
+  border-radius: 16px !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12) !important;
+}
+
+.prompt-panel-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 20px 20px 16px 20px !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  background: white !important;
+}
+
+.prompt-panel-header h3 {
+  margin: 0 !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+}
+
+.prompt-panel-header-actions {
+  display: flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+}
+
+#close-panel,
+#hide-ball-btn {
+  background: none !important;
+  border: none !important;
+  font-size: 18px !important;
+  cursor: pointer !important;
+  color: #94a3b8 !important;
+  padding: 0 !important;
+  width: 28px !important;
+  height: 28px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 6px !important;
+  transition: all 0.2s !important;
+}
+
+#close-panel:hover,
+#hide-ball-btn:hover {
+  background: #f1f5f9 !important;
+  color: #475569 !important;
+}
+
+#hide-ball-btn {
+  font-size: 16px !important;
+}
+
+.prompt-panel-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 0 16px 12px 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.prompt-panel-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-btn {
+  padding: 6px 14px;
+  border: none;
+  background: #f1f5f9;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #64748b;
+  white-space: nowrap;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.tab-btn:hover {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.tab-btn.active {
+  background: #3b82f6;
+  color: white;
+}
+
+.prompt-panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px;
+  max-height: 360px;
+}
+
+.prompt-panel-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.prompt-panel-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.prompt-panel-content::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.prompt-panel-content::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+#prompts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.prompt-item {
+  padding: 14px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #ffffff;
+  transition: all 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+
+.prompt-item:hover {
+  border-color: #3b82f6;
+  background: #f8fafc;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+
+.prompt-item.copied {
+  border-color: #10b981;
+  background: #f0fdf4;
+}
+
+.prompt-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #0f172a;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.prompt-content {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.6;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.copy-indicator {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.prompt-item.copied .copy-indicator {
+  opacity: 1;
+}
+
+.empty-state {
+  text-align: center;
+  color: #94a3b8;
+  padding: 60px 20px;
+  font-size: 13px;
+}
+
+.prompt-panel-footer {
+  padding: 12px 16px;
+  border-top: 1px solid #f1f5f9;
+}
+
+#open-manager {
+  width: 100%;
+  padding: 10px;
+  background: #f8fafc;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+#open-manager:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}

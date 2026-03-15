@@ -34,7 +34,7 @@
 - 单纯的 Message数组很简单，但是有问题
   - context越来越长，token越来越多,触犯到上下文窗口大小限制
 
-- 解决方案
+- 解决方案 截断 总结 检索(rag长期检索)
   - 截断 slice(-n) 最近最关心的对话还在 滑动窗口 LRU
   - 将要截断的Message 总结一下(summarize) /compact
     当前的多轮对话中 Memory 机制够用
@@ -51,3 +51,17 @@
   - 手动触发
     /compact /clear
     又能vibe coding 又能省token的ai工程师
+
+## FileSystemChatMessageHistory
+
+- cursor 的messages history实现方案
+  - session 会话 一次会话 有一个主题
+    - js 八股
+    - 算法
+    - 手写
+    - AI
+  - 全新主题，新开一个session
+  - 持久化存储 history
+  - 恢复某个session 继续chat
+
+## 截断

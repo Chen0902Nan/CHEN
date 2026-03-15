@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "头条推荐",
+  "navigationBarBackgroundColor": "#f04142",
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "cloud-tip-modal": "/components/cloudTipModal/index"
+  }
+}

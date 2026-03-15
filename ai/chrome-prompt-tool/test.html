@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>测试页面 - Prompt Manager</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+    }
+    .step {
+      background: #f0f7ff;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 8px;
+      border-left: 4px solid #3b82f6;
+    }
+    .step h3 {
+      margin-top: 0;
+      color: #3b82f6;
+    }
+    .status {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .success {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    code {
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧪 Prompt Manager 测试页面</h1>
+
+    <div class="step">
+      <h3>步骤 1: 检查插件是否加载</h3>
+      <p>如果插件正确加载，右下角应该显示一个蓝色悬浮球 💬</p>
+      <div id="ball-status" class="status">检查中...</div>
+    </div>
+
+    <div class="step">
+      <h3>步骤 2: 添加测试数据</h3>
+      <p>点击下面的按钮添加一些测试 Prompt</p>
+      <button onclick="addTestData()" style="padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        添加测试数据
+      </button>
+      <div id="data-status" class="status" style="display: none;"></div>
+    </div>
+
+    <div class="step">
+      <h3>步骤 3: 测试功能</h3>
+      <ol>
+        <li>点击右下角的蓝色悬浮球</li>
+        <li>应该会弹出一个面板显示 Prompt 列表</li>
+        <li>点击任意 Prompt 卡片</li>
+        <li>卡片应该变成绿色，表示复制成功</li>
+        <li>在下面的输入框粘贴（Ctrl+V）验证</li>
+      </ol>
+      <textarea id="paste-area" placeholder="在这里粘贴测试..." style="width: 100%; height: 100px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px;"></textarea>
+    </div>
+
+    <div class="step">
+      <h3>故障排除</h3>
+      <ul>
+        <li>如果看不到悬浮球：
+          <ol>
+            <li>打开 <code>chrome://extensions/</code></li>
+            <li>找到 "Prompt Manager" 插件</li>
+            <li>点击刷新按钮 🔄</li>
+            <li>刷新本页面（F5）</li>
+          </ol>
+        </li>
+        <li>如果点击卡片无法复制：
+          <ol>
+            <li>按 F12 打开开发者工具</li>
+            <li>查看 Console 标签是否有错误</li>
+            <li>检查是否有权限问题</li>
+          </ol>
+        </li>
+      </ul>
+    </div>
+
+    <div class="step">
+      <h3>查看已保存的数据</h3>
+      <button onclick="viewData()" style="padding: 10px 20px; background: #64748b; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        查看存储数据
+      </button>
+      <pre id="data-display" style="background: #f1f5f9; padding: 15px; border-radius: 5px; overflow: auto; display: none; margin-top: 10px;"></pre>
+    </div>
+  </div>
+
+  <script>
+    // 检查悬浮球是否存在
+    setTimeout(() => {
+      const ball = document.getElementById('prompt-floating-ball');
+      const status = document.getElementById('ball-status');
+
+      if (ball) {
+        status.textContent = '✓ 悬浮球已加载！';
+        status.className = 'status success';
+      } else {
+        status.textContent = '✗ 未检测到悬浮球，请检查插件是否正确加载';
+        status.className = 'status error';
+      }
+    }, 1000);
+
+    // 添加测试数据
+    function addTestData() {
+      const testCategories = ['默认分类', '工作', 'AI对话'];
+      const testPrompts = [
+        {
+          id: Date.now().toString(),
+          title: '写周报',
+          category: '工作',
+          content: '请帮我写一份本周工作总结，包括：1. 完成的主要任务 2. 遇到的问题和解决方案 3. 下周计划'
+        },
+        {
+          id: (Date.now() + 1).toString(),
+          title: '代码审查',
+          category: '工作',
+          content: '请审查以下代码，关注：1. 代码规范 2. 潜在bug 3. 性能优化建议 4. 安全问题'
+        },
+        {
+          id: (Date.now() + 2).toString(),
+          title: 'ChatGPT 角色扮演',
+          category: 'AI对话',
+          content: '你是一位资深的软件架构师，拥有20年的开发经验。请用专业但易懂的方式回答我的技术问题。'
+        },
+        {
+          id: (Date.now() + 3).toString(),
+          title: '快速笔记',
+          category: '默认分类',
+          content: '这是一个测试 Prompt，点击我可以复制这段文字！'
+        }
+      ];
+
+      chrome.storage.local.set({
+        categories: testCategories,
+        prompts: testPrompts
+      }, () => {
+        const status = document.getElementById('data-status');
+        status.style.display = 'block';
+        status.textContent = '✓ 测试数据已添加！现在可以点击悬浮球测试了';
+        status.className = 'status success';
+      });
+    }
+
+    // 查看数据
+    function viewData() {
+      chrome.storage.local.get(['categories', 'prompts'], (result) => {
+        const display = document.getElementById('data-display');
+        display.style.display = 'block';
+        display.textContent = JSON.stringify(result, null, 2);
+      });
+    }
+  </script>
+</body>
+</html>

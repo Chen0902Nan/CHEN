@@ -70,7 +70,7 @@ const update = async (imageDate: string) => {
 const submit = (imageData: string) => {
   update(imageData);
 }
-</script>
+</script> 
 
 <template>
   <div class="container">
