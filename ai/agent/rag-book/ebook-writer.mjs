@@ -42,7 +42,6 @@ const client = new MilvusClient({
     token: TOKEN,
 })
 
-
 // 复用 embeddings
 async function getEmbedding(text) {
     const result = await embeddings.embedQuery(text);
@@ -98,40 +97,7 @@ async function ensureBookCollection(bookId) {
 }
 
 
-// 将切割好的数据插入milvus数据库
-async function insertChunksBatch(chunks, bookId, chapterNum) {
-    try {
-        if (chunks.length === 0) {
-            return 0;
-        }
-        // 性能优化 embeding 并发 
-        // 返回结果是符合 schema 的数组
-        const insertData = await Promise.all(
-            chunks.map(async (chunk, chunkIndex) => {
-                // 将切割好的内容向量化
-                const vector = await getEmbedding(chunk);
-                return {
-                    id: `${bookId}_${chapterNum}_${chunkIndex}`,
-                    book_id: bookId,
-                    book_name: BOOK_NAME,
-                    chapter_num: chapterNum,
-                    index: chunkIndex,
-                    content: chunk,
-                    vector
-                }
-            })
-        )
-        // 插入milvus
-        const insertResult = await client.insert({
-            collection_name: COLLECTION_NAME,
-            data: insertData,
-        })
-        return Number(insertResult.insert_cnt) || 0;
-    } catch(err) {
-        console.error('插入片段失败:', err.message);
-        throw err;
-    }
-}
+
 
 // 先按章节 load文件,再一章节一章节的逐步切割，嵌入milvus数据库
 async function loadAndProcessEPubStreaming(bookId) {
@@ -176,6 +142,42 @@ async function loadAndProcessEPubStreaming(bookId) {
     }
 }
 
+
+
+// 将切割好的数据插入milvus数据库
+async function insertChunksBatch(chunks, bookId, chapterNum) {
+    try {
+        if (chunks.length === 0) {
+            return 0;
+        }
+        // 性能优化 embeding 并发 
+        // 返回结果是符合 schema 的数组
+        const insertData = await Promise.all(
+            chunks.map(async (chunk, chunkIndex) => {
+                // 将切割好的内容向量化
+                const vector = await getEmbedding(chunk);
+                return {
+                    id: `${bookId}_${chapterNum}_${chunkIndex}`,
+                    book_id: bookId,
+                    book_name: BOOK_NAME,
+                    chapter_num: chapterNum,
+                    index: chunkIndex,
+                    content: chunk,
+                    vector
+                }
+            })
+        )
+        // 插入milvus
+        const insertResult = await client.insert({
+            collection_name: COLLECTION_NAME,
+            data: insertData,
+        })
+        return Number(insertResult.insert_cnt) || 0;
+    } catch(err) {
+        console.error('插入片段失败:', err.message);
+        throw err;
+    }
+}
 
 
 async function main() {

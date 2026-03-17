@@ -79,7 +79,6 @@ export class AIService {
   // 封装类的实现细节，复杂性
   private async loadPosts() {
     try {
-      console.log(__dirname, '//////?????');
       // nestjs compile ts -> js  dist
       // nest-cli assets data/**/*/  dist/
       const filePath = path.join(

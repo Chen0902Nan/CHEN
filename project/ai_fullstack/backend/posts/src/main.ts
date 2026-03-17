@@ -20,8 +20,6 @@ async function bootstrap() {
       transform: true, // “1” transform  1
     }),
   );
-  console.log(process.cwd(), 'uploads');
-
   app.useStaticAssets(join(process.cwd(), 'uploads'), {
     prefix: '/uploads',
   });
