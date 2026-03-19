@@ -45,8 +45,17 @@
 - 支持状态的合并
   Object.assign()
 - create 比createStore 更好理解,减少学习成本
-  
 - 为什么要学习源码？
   - 提升自己的代码能力，学到高级的写法
   - 了解框架的细节，用好它
     zustand 性能，useXxxStore 制定需要的状态
+
+## 个人理解
+
+- createState:用于创建状态的一个函数，比如在使用zustand时， set(state)=>(count:sate.count+1)
+
+- createStore:是zustand中状态的仓库，内部集成get,set,subscribe,destory方法，并最后暴露给外部使用
+
+- selector：zustand可以通过制定这个参数，减少重渲染，只关注我们想关注的数据，只更新渲染指定数据改变的组件，减少重渲染带来的性能损耗
+
+- useStroe：selector减少重渲染的关键，内部通过useState和useEffect两个hook函数，响应式数据，只关心useState的setState功能，通过newObj!==oldObj，判断前后数据改变引用是都相同，再用useEffect进行重渲染
