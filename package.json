@@ -5,6 +5,8 @@
     "@langchain/openai": "^1.2.11",
     "dotenv": "^17.2.3",
     "openai": "^6.8.1",
+    "rsjs": "^0.1.2",
+    "rxjs": "^7.8.2",
     "vant-weapp": "^0.5.29"
   }
 }

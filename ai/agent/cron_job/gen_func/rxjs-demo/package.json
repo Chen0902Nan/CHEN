@@ -1,0 +1,20 @@
+{
+  "name": "rxjs-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@langchain/core": "^1.1.34",
+    "@langchain/openai": "^1.3.0",
+    "@nestjs/config": "^4.0.3",
+    "@nestjs/mapped-types": "*",
+    "zod": "^4.3.6"
+  }
+}

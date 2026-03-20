@@ -1,21 +1,30 @@
-
-
-
-
-const tree=function(root){
-  if(!root) return 
-  const ans=[]
-  const queue=[root]
-  while(queue.length){
-    let size=queue.length
-    const arr=[]
-    queue[0].left&&queue.push(queue[0].left)
-    queue[0].right&&queue.push(queue[0].right)
-    while(size--){
-      arr.push(queue.shift().val)
-    }
-    ans.push(arr)
-  }
-  return ans
+const fastSort=function(arr){
+if (arr.length <= 1) {
+    return arr;
 }
-console.log(tree([1,2,3,4,5,6,7]));
+
+  let len=arr.length
+  let midIndex=Math.floor(len/2)
+  let midValue=arr[midIndex]
+
+  const left=[]
+  const mid=[]
+  const right=[]
+  
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] < midValue) {
+            left.push(arr[i]);
+        } else if (arr[i] > midValue) { 
+            right.push(arr[i]);
+        } else {
+            mid.push(arr[i]);
+        }
+    }
+
+  return ([...fastSort(left),...mid,...fastSort(right)])
+}
+
+const arr1=[1,23,53,45,23,7678,123,93]
+console.log(arr1);
+console.log(fastSort(arr1));
+

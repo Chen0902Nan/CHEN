@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="一个带有明确视觉立场的前端设计示例页，展示 frontend-design skill 的效果。"
+    />
+    <title>Signal Atelier | Frontend Design Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=Noto+Serif+SC:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="texture texture-grid" aria-hidden="true"></div>
+      <div class="texture texture-noise" aria-hidden="true"></div>
+      <div class="cursor-glow" aria-hidden="true"></div>
+
+      <header class="topbar" data-reveal style="--delay: 40ms">
+        <a class="brand" href="#top">
+          <span class="brand-mark">SA</span>
+          <span class="brand-text">
+            <strong>Signal Atelier</strong>
+            <small>Frontend Design Demo</small>
+          </span>
+        </a>
+
+        <nav class="top-nav" aria-label="页面导航">
+          <a href="#manifesto">宣言</a>
+          <a href="#gallery">视觉系统</a>
+          <a href="#program">节目单</a>
+        </nav>
+
+        <div class="live-panel" aria-live="polite">
+          <span>Live Edit</span>
+          <strong id="liveClock">--:--</strong>
+        </div>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div class="hero-copy" data-reveal style="--delay: 80ms">
+            <p class="eyebrow">EDITORIAL FUTURE / HANGZHOU ISSUE / 2026</p>
+            <h1 class="hero-title">
+              HUMAN
+              <span>SIGNAL</span>
+            </h1>
+            <p class="hero-text">
+              这是一个专门为了展示 <code>frontend-design</code> skill 而做的示例页。
+              它故意不走“默认 SaaS 模板”路线，而是用杂志感排版、未来感图形和克制但醒目的动效，去证明前端页面也可以有鲜明立场。
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#program">查看节目单</a>
+              <a class="button button-ghost" href="#gallery">看视觉系统</a>
+            </div>
+          </div>
+
+          <aside class="hero-stack">
+            <article class="hero-card issue-card" data-reveal style="--delay: 140ms">
+              <p class="card-label">Issue 01</p>
+              <h2>不是“做一个页”</h2>
+              <p class="card-copy">
+                而是做一个别人看完还能记住的页面。记住它的字体、光感、气氛，甚至记住它的脾气。
+              </p>
+              <div class="card-meta">
+                <span>Scene: Editorial Landing</span>
+                <span>Style: Future Print</span>
+              </div>
+            </article>
+
+            <article class="hero-card note-card" data-reveal style="--delay: 220ms">
+              <p class="card-label">Memory Hook</p>
+              <p class="note-quote">
+                “网页不是表格化的信息堆叠，网页也可以像封面、舞台和宣言。”
+              </p>
+              <div class="mini-stats">
+                <div>
+                  <strong data-count="18">0</strong>
+                  <span>visual layers</span>
+                </div>
+                <div>
+                  <strong data-count="6">0</strong>
+                  <span>motion beats</span>
+                </div>
+              </div>
+            </article>
+          </aside>
+
+          <div class="orbital orbital-one" aria-hidden="true"></div>
+          <div class="orbital orbital-two" aria-hidden="true"></div>
+        </section>
+
+        <section class="ticker" aria-label="视觉关键词滚动">
+          <div class="ticker-track">
+            <span>EDITORIAL LAYOUT</span>
+            <span>TYPE AS POSTER</span>
+            <span>ASYMMETRIC GRID</span>
+            <span>MOTION WITH RESTRAINT</span>
+            <span>EDITORIAL LAYOUT</span>
+            <span>TYPE AS POSTER</span>
+            <span>ASYMMETRIC GRID</span>
+            <span>MOTION WITH RESTRAINT</span>
+          </div>
+        </section>
+
+        <section class="manifesto" id="manifesto">
+          <div class="section-head" data-reveal style="--delay: 60ms">
+            <p class="section-kicker">Manifesto</p>
+            <h2>一个页面先要有态度，再谈组件。</h2>
+          </div>
+
+          <div class="manifesto-grid">
+            <article class="manifesto-quote" data-reveal style="--delay: 120ms">
+              <p class="quote-mark">01</p>
+              <p class="quote-text">
+                好看的前端，不是把卡片堆得更整齐，而是让信息、排版、颜色和动势指向同一个情绪。
+              </p>
+            </article>
+
+            <article class="manifesto-points" data-reveal style="--delay: 180ms">
+              <div class="point">
+                <span>Typography</span>
+                <p>大标题像封面，小字像旁注，层级关系一眼就能读懂。</p>
+              </div>
+              <div class="point">
+                <span>Color Direction</span>
+                <p>温暖纸张色打底，酸性黄和数码蓝做锋利的记忆点。</p>
+              </div>
+              <div class="point">
+                <span>Motion</span>
+                <p>只在该出现的地方动，让页面像一次排练过的开场，而不是随机闪烁。</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="gallery" id="gallery">
+          <div class="section-head" data-reveal style="--delay: 60ms">
+            <p class="section-kicker">Visual System</p>
+            <h2>它更像一本正在发光的数字刊物。</h2>
+          </div>
+
+          <div class="gallery-grid">
+            <article class="poster poster-large" data-reveal style="--delay: 100ms">
+              <p class="poster-index">A / 01</p>
+              <h3>Poster Frame</h3>
+              <p>
+                斜切边角、重叠面板、柔和纸张背景和亮色脉冲，共同构成“编辑部未来感”。
+              </p>
+            </article>
+
+            <article class="poster poster-accent" data-reveal style="--delay: 160ms">
+              <p class="poster-index">B / 02</p>
+              <h3>Palette Pulse</h3>
+              <div class="swatches" aria-label="调色板">
+                <span class="swatch swatch-acid">Acid</span>
+                <span class="swatch swatch-coral">Coral</span>
+                <span class="swatch swatch-cyan">Cyan</span>
+              </div>
+              <p>颜色不是平均分配，而是主次分明，亮点只出现在关键段落。</p>
+            </article>
+
+            <article class="poster poster-dark" data-reveal style="--delay: 220ms">
+              <p class="poster-index">C / 03</p>
+              <h3>Contrast Panel</h3>
+              <p>
+                用深色反转区打断阅读节奏，让页面形成一次明显的呼吸，而不是从头到尾一个表情。
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="program" id="program">
+          <div class="section-head" data-reveal style="--delay: 60ms">
+            <p class="section-kicker">Program</p>
+            <h2>这三段内容，分别对应一个完整 demo 应有的骨架。</h2>
+          </div>
+
+          <div class="program-grid">
+            <article class="program-card" data-reveal style="--delay: 100ms">
+              <p class="program-index">01</p>
+              <h3>Hero With Tension</h3>
+              <p>大标题先抢占记忆，再用说明文字把用户拉回内容。</p>
+            </article>
+
+            <article class="program-card" data-reveal style="--delay: 160ms">
+              <p class="program-index">02</p>
+              <h3>System, Not Decoration</h3>
+              <p>视觉不只是漂亮，它要能解释结构、强化优先级、服务叙事。</p>
+            </article>
+
+            <article class="program-card" data-reveal style="--delay: 220ms">
+              <p class="program-index">03</p>
+              <h3>CTA With Momentum</h3>
+              <p>结尾不是一个普通按钮，而是给出下一步的明确方向和情绪延续。</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="schedule">
+          <div class="schedule-side" data-reveal style="--delay: 80ms">
+            <p class="section-kicker">Night Session</p>
+            <h2>DESIGN<br />RUN OF SHOW</h2>
+            <p>
+              下面这组时间线没有真实业务含义，它的作用是展示“信息型区块”如何在强风格页面里依然保持清晰。
+            </p>
+          </div>
+
+          <div class="timeline">
+            <article class="timeline-item" data-reveal style="--delay: 120ms">
+              <p class="timeline-time">19:00</p>
+              <div>
+                <h3>Open With Shape</h3>
+                <p>先建立视觉秩序，让用户知道这个页面是有设计语言的。</p>
+              </div>
+            </article>
+
+            <article class="timeline-item" data-reveal style="--delay: 180ms">
+              <p class="timeline-time">19:25</p>
+              <div>
+                <h3>Build Information Rhythm</h3>
+                <p>通过大小、间距、留白和反差，把信息排成节奏，而不是排成列表。</p>
+              </div>
+            </article>
+
+            <article class="timeline-item" data-reveal style="--delay: 240ms">
+              <p class="timeline-time">19:50</p>
+              <div>
+                <h3>Finish With Motion</h3>
+                <p>用少量但准确的动效，让页面从静态设计稿变成会呼吸的作品。</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="cta" data-reveal style="--delay: 80ms">
+          <p class="section-kicker">Next Step</p>
+          <h2>如果你愿意，我下一步可以把这个 demo 改成 Vue、React，或者直接套进你现有项目。</h2>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#top">回到顶部</a>
+            <a class="button button-ghost" href="#manifesto">重新浏览结构</a>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./main.js"></script>
+  </body>
+</html>

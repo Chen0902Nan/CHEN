@@ -23,6 +23,12 @@ importers:
       openai:
         specifier: ^6.8.1
         version: 6.8.1(zod@4.3.6)
+      rsjs:
+        specifier: ^0.1.2
+        version: 0.1.2
+      rxjs:
+        specifier: ^7.8.2
+        version: 7.8.2
       vant-weapp:
         specifier: ^0.5.29
         version: 0.5.29
@@ -492,6 +498,12 @@ packages:
     resolution: {integrity: sha512-nLTrUKm2UyiL7rlhapu/Zl45FwNgkZGaCpZbIHajDYgwlJCOzLSk+cIPAnsEqV955GjILJnKbdQC1nVPz+gAYQ==}
     engines: {node: '>= 18'}
 
+  rsjs@0.1.2:
+    resolution: {integrity: sha512-KX7cIPJ/0lFFu6CCMAhJgQXAqd3MoYN2Y/NtzDxffOZVQbGTkJXng0gSn0plcYTgGQC0K3nUP2ygBA+1VXeM/w==}
+
+  rxjs@7.8.2:
+    resolution: {integrity: sha512-dhKf903U/PQZY6boNNtAGdWbG85WAbjT/1xYoZIC7FAY0yWapOBQVsVrDl58W86//e1VpMNBtRV4MaXfdMySFA==}
+
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
@@ -545,6 +557,9 @@ packages:
   toidentifier@1.0.1:
     resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
     engines: {node: '>=0.6'}
+
+  tslib@2.8.1:
+    resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
   type-is@2.0.1:
     resolution: {integrity: sha512-OZs6gsjF4vMp32qrCbiVSkrFmXtG/AZhY3t0iAMrMBiAZyV9oALtXO8hsrHbMXF9x6L3grlFuwW2oAz7cav+Gw==}
@@ -1043,6 +1058,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  rsjs@0.1.2: {}
+
+  rxjs@7.8.2:
+    dependencies:
+      tslib: 2.8.1
+
   safer-buffer@2.1.2: {}
 
   semver@7.7.4: {}
@@ -1113,6 +1134,8 @@ snapshots:
   statuses@2.0.2: {}
 
   toidentifier@1.0.1: {}
+
+  tslib@2.8.1: {}
 
   type-is@2.0.1:
     dependencies:
