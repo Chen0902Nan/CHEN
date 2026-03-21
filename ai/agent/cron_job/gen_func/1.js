@@ -1,7 +1,9 @@
 // 生成器函数
 function *fruitGenerator(){
   console.log('开始生产水果');
+  // 让函数执行暂停一下
   yield '苹果',
+  
   console.log('生产了苹果，继续生产');
   yield('香蕉')
   console.log('生产了香蕉，继续生产');
