@@ -1,24 +1,25 @@
-type ThrottleFunction = (...args: any[]) => void;
+type ThrottleFunction<TArgs extends unknown[]> = (...args: TArgs) => void;
 
-export function throttle(
-  fun: ThrottleFunction,
+export function throttle<TArgs extends unknown[]>(
+  fn: ThrottleFunction<TArgs>,
   delay: number,
-): ThrottleFunction {
-  let last: number | undefined;
-  let deferTimer: NodeJS.Timeout | undefined;
+): ThrottleFunction<TArgs> {
+  let lastExecution = 0;
+  let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
-  return function (...args: any[]) {
-    const now = +new Date();
+  return (...args: TArgs) => {
+    const now = Date.now();
 
-    if (last && now < last + delay) {
-      clearTimeout(deferTimer);
-      deferTimer = setTimeout(function () {
-        last = now;
-        fun(args);
+    if (now < lastExecution + delay) {
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        lastExecution = Date.now();
+        fn(...args);
       }, delay);
-    } else {
-      last = now;
-      fun(args);
+      return;
     }
+
+    lastExecution = now;
+    fn(...args);
   };
 }

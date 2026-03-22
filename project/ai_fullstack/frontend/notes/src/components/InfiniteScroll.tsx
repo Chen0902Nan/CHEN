@@ -32,15 +32,12 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
         threshold: 0,
       },
     );
-    if (sentinelRef.current) {
-      observer.observe(sentinelRef.current);
-    }
+    const sentinelEl = sentinelRef.current;
+    if (sentinelEl) observer.observe(sentinelEl);
     // 卸载(路由切换)
     // 更新时
     return () => {
-      if (sentinelRef.current) {
-        observer.unobserve(sentinelRef.current);
-      }
+      if (sentinelEl) observer.unobserve(sentinelEl);
     };
   }, [onLoadMore, hasMore, isLoading]);
 

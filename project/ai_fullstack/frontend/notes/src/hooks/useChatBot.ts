@@ -4,12 +4,14 @@
 // chat 业务
 import { useChat } from "@ai-sdk/react";
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL?.trim() || "http://localhost:3000/api";
+
 export const useChatbot = () => {
   return useChat({
-    // api: "/api/ai/chat",
-    api: "http://localhost:3000/api/ai/chat",
+    api: `${API_BASE_URL}/ai/chat`,
     onError: (err) => {
-      console.log("Chat Error:", err);
+      console.error("Chat Error:", err);
     },
   });
 };

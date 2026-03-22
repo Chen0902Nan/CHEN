@@ -14,25 +14,20 @@ const Header: React.FC<HeaderProps> = ({
   onBackClick = () => window.history.back(),
 }) => {
   return (
-    <header
-      className="flex items-center justify-center h-16 
-    px-4 border-b bg-white dark:bg-gray-950 sticky top-0
-    z-40"
-    >
-      <div className="absolute left-4">
-        {showBackBtn && (
-          <Button variant="ghost" size="icon" onClick={onBackClick}>
-            <ArrowLeft size={20} />
-          </Button>
-        )}
+    <header className="sticky top-0 z-40 border-b border-white/60 bg-white/85 backdrop-blur-md">
+      <div className="mx-auto flex h-16 w-full max-w-3xl items-center justify-center px-4">
+        <div className="absolute left-4">
+          {showBackBtn && (
+            <Button variant="ghost" size="icon" onClick={onBackClick}>
+              <ArrowLeft size={20} />
+            </Button>
+          )}
+        </div>
+        <h1 className="max-w-[68%] truncate text-center text-lg font-semibold tracking-wide text-foreground">
+          {title}
+        </h1>
+        <div className="absolute right-4 w-9" />
       </div>
-      <h1
-        className="text-lg font-semibold text-gray-900
-       dark:text-gray-100 truncate max-w-[60%] text-center"
-      >
-        {title}
-      </h1>
-      <div className="absolute right-4 w-10"></div>
     </header>
   );
 };

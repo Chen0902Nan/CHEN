@@ -1,7 +1,7 @@
 import axios from "./config";
+import type { GitResponse } from "@/types";
 
 export const fetchCommit = async (diff: string) => {
-  const res = await axios.post("/ai/git", { diff });
-  console.log(res);
-  return res.result;
+  const data = await axios.post<GitResponse, GitResponse>("/ai/git", { diff });
+  return data.result;
 };

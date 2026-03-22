@@ -7,7 +7,7 @@ export default function Chat() {
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
     useChatbot();
   const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault;
+    e.preventDefault();
     if (!input.trim()) return;
     handleSubmit(e);
   };

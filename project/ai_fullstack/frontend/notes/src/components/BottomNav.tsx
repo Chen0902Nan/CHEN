@@ -1,80 +1,85 @@
-import { Home, User, ListOrdered, MessageCircle } from "lucide-react"; // 图标字体库
-import { useNavigate, useLocation } from "react-router-dom";
-import { cn } from "@/lib/utils"; // 组合类名
+import { Home, ListOrdered, User } from "lucide-react";
+import type { ComponentType } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils";
 import { useUserStore } from "@/store/useUserStore";
-import { needsLoginPath } from "@/App";
+import { NEEDS_LOGIN_PATHS } from "@/constants/auth";
+
+interface TabConfig {
+  label: string;
+  path: string;
+  icon: ComponentType<{ size?: number; className?: string }>;
+}
+
+const tabs: TabConfig[] = [
+  {
+    label: "首页",
+    path: "/",
+    icon: Home,
+  },
+  {
+    label: "订单",
+    path: "/order",
+    icon: ListOrdered,
+  },
+  {
+    label: "我的",
+    path: "/mine",
+    icon: User,
+  },
+];
 
 export default function BottomNav() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { isLogin } = useUserStore((state) => state);
-
-  // console.log(pathname, "/////");
-
-  const tabs = [
-    {
-      label: "首页",
-      path: "/",
-      icon: Home,
-    },
-    {
-      label: "我的",
-      path: "/mine",
-      icon: User,
-    },
-    {
-      label: "订单",
-      path: "/order",
-      icon: ListOrdered,
-    },
-  ];
+  const isLogin = useUserStore((state) => state.isLogin);
 
   const handleNav = (path: string) => {
-    if (path == pathname) return;
+    if (path === pathname) return;
 
-    if (needsLoginPath.includes(path) && !isLogin) {
+    if (NEEDS_LOGIN_PATHS.some((needPath) => needPath === path) && !isLogin) {
       navigate("/login");
       return;
     }
 
-    // 修复：添加页面跳转
     navigate(path);
   };
 
   return (
-    <div
-      className="fixed bottom-0 left-0 right-0 h-16
-    border-t bg-background flex items-center justify-around
-    z-50 safe-area-bottom"
-    >
-      {tabs.map((tab) => {
-        const Icon = tab.icon;
-        const isActive = pathname === tab.path;
-        return (
-          <button
-            key={tab.path}
-            onClick={() => handleNav(tab.path)}
-            className="flex flex-col items-center justify-center 
-          w-full h-full space-y-1"
-          >
-            <Icon
-              size={24}
+    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 px-4 pb-4 safe-area-bottom">
+      <div className="pointer-events-auto mx-auto flex h-16 w-full max-w-3xl items-center justify-around rounded-2xl border border-white/70 bg-white/90 px-2 shadow-[0_14px_30px_rgba(15,56,76,0.16)] backdrop-blur-md">
+        {tabs.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = pathname === tab.path;
+          return (
+            <button
+              key={tab.path}
+              type="button"
+              onClick={() => handleNav(tab.path)}
               className={cn(
-                "transition-colors",
+                "flex h-full w-full flex-col items-center justify-center gap-1 rounded-xl transition-all",
                 isActive ? "text-primary" : "text-muted-foreground",
               )}
-            />
-            <span
-              className={cn(
-                "text-xs transition-colors",
-                isActive ? "text-primary font-medium" : "text-muted-foreground",
-              )}
             >
-              {tab.label}
-            </span>
-          </button>
-        );
-      })}
+              <Icon
+                size={20}
+                className={cn(
+                  "transition-transform duration-300",
+                  isActive && "-translate-y-0.5",
+                )}
+              />
+              <span
+                className={cn(
+                  "text-[11px] tracking-wide",
+                  isActive ? "font-semibold" : "font-medium",
+                )}
+              >
+                {tab.label}
+              </span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

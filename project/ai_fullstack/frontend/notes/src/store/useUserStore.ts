@@ -1,7 +1,7 @@
 // localstorage
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { doLogin, getAiavatar } from "@/api/user";
+import { doLogin, getAiAvatar } from "@/api/user";
 import type { User } from "@/types/index";
 
 interface UserState {
@@ -24,11 +24,10 @@ export const useUserStore = create<UserState>()(
       user: null,
       isLogin: false,
       login: async ({ name, password }) => {
-        const res = await doLogin({ name, password });
-        console.log(res, "///////");
-
-        const { user, access_token, refresh_token } = res;
-        console.log(user, access_token, refresh_token);
+        const { user, access_token, refresh_token } = await doLogin({
+          name,
+          password,
+        });
 
         set({
           user,
@@ -39,13 +38,14 @@ export const useUserStore = create<UserState>()(
       },
 
       aiAvatar: async () => {
-        // coze title desc 生成应用logo
-        const name = get().user?.name;
-        const avatar = await getAiavatar(name);
+        const currentUser = get().user;
+        if (!currentUser) return;
+
+        const avatar = await getAiAvatar(currentUser.name);
         set({
           user: {
-            ...get().user,
-            avatar: avatar, 
+            ...currentUser,
+            avatar,
           },
         });
       },

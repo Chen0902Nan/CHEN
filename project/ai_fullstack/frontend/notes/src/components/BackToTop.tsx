@@ -37,7 +37,7 @@ const BackToTop: React.FC<BackToTopProps> = ({ threshold = 400 }) => {
       variant="outline"
       size="icon"
       onClick={scrollTop}
-      className="fixed bottom-6 right-6 rounded-full shadow-lg
+      className="fixed bottom-24 right-5 rounded-full bg-white/90 shadow-lg
        hover:shadow-xl z-50"
     >
       <ArrowUp className="h-4 w-4" />

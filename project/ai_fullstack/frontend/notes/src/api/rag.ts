@@ -1,8 +1,9 @@
 import axios from "./config";
+import type { RagResponse } from "@/types";
 
 export const ask = async (question: string) => {
-  const res = await axios.post("/ai/rag", { question });
-
-  console.log(res);
-  return res.answer;
+  const data = await axios.post<RagResponse, RagResponse>("/ai/rag", {
+    question,
+  });
+  return data.answer;
 };

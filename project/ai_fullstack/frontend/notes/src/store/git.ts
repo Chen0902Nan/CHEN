@@ -10,15 +10,14 @@ interface GitState {
   commit: string;
 }
 
-export const useGitStore = create<GitState>((set, get) => ({
+export const useGitStore = create<GitState>((set) => ({
   loading: false,
   diff: "",
   commit: "",
   setLoading: (loading: boolean) => set({ loading }),
   setDiff: (diff: string) => set({ diff }),
   getCommit: async (diff: string) => {
-    const res = await fetchCommit(diff);
-    console.log(res);
-    set({ commit: res });
+    const commit = await fetchCommit(diff);
+    set({ commit });
   },
 }));

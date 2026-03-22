@@ -1,77 +1,77 @@
-import { useEffect } from "react";
-import SlideShow, { type SlideData } from "@/components/SlideShow";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { useHomeStore } from "@/store/useHomeStore";
+import { useEffect, useMemo } from "react";
+import { Search } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import SlideShow from "@/components/SlideShow";
 import InfiniteScroll from "@/components/InfiniteScroll";
 import PostItem from "@/components/PostItem";
-import { useNavigate } from "react-router-dom";
-import { Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { useHomeStore } from "@/store/useHomeStore";
+import { Badge } from "@/components/ui/badge";
 
 export default function Home() {
   const navigate = useNavigate();
   const { banners, posts, hasMore, loadMore, loading } = useHomeStore();
-  // console.log(posts, posts.length, "????????????????");
+
   useEffect(() => {
-    loadMore();
-  }, []);
+    if (posts.length === 0) {
+      void loadMore();
+    }
+  }, [loadMore, posts.length]);
+
+  const hotTags = useMemo(
+    () => Array.from(new Set(posts.flatMap((post) => post.tags))).slice(0, 6),
+    [posts],
+  );
+
   return (
-    <>
-      <div
-        className="fixed top-0 left-0 right-0 px-4 py-2 bg-background"
-        onClick={() => navigate("/search")}
-      >
-        <div className="relative max-x-md mx-auto">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            readOnly
-            placeholder="搜索你感兴趣的内容"
-            className="pl-9 rounded-full cursor-pointer bg-muted"
-          />
-        </div>
+    <div className="space-y-5 px-4 pt-3">
+      <div className="sticky top-2 z-30">
+        <button
+          type="button"
+          onClick={() => navigate("/search")}
+          className="flex h-12 w-full items-center gap-3 rounded-2xl border border-white/70 bg-white/85 px-4 text-left shadow-[0_8px_22px_rgba(15,56,76,0.08)] backdrop-blur-md transition-all hover:-translate-y-0.5 hover:shadow-[0_12px_26px_rgba(15,56,76,0.12)]"
+        >
+          <Search className="h-4 w-4 text-primary" />
+          <span className="text-sm text-muted-foreground">搜索你感兴趣的内容</span>
+        </button>
       </div>
-      <div className="pt-14 p-4 space-y-4">
-        <SlideShow slides={banners} />
-        <Card>
-          <CardHeader>
-            <CardTitle>欢迎来到React Mobile</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">这是内容区域</p>
-          </CardContent>
-        </Card>
-        <div className="grid grid-cols-2 gap-4">
-          {[
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-            20, 21, 22, 23, 24,
-          ].map((i, index) => (
-            <div
-              key={index}
-              className="h-32 bg-white rounded-lg
-              shadow-sm flex items-center justify-center
-              border"
-            >
-              Item {i}
-            </div>
-          ))}
+
+      <section className="glass-surface overflow-hidden rounded-3xl p-5">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
+          Daily Digest
+        </p>
+        <h1 className="mt-2 text-2xl leading-snug text-foreground">
+          发现值得收藏的技术笔记
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          聚合前端、后端与 AI 实战灵感，支持滚动加载和快速检索。
+        </p>
+        {hotTags.length > 0 && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {hotTags.map((tag) => (
+              <Badge key={tag}>{tag}</Badge>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <SlideShow slides={banners} />
+
+      <section className="space-y-3 pb-2">
+        <div className="flex items-end justify-between">
+          <h2 className="text-xl text-foreground">文章列表</h2>
+          <span className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+            {posts.length} Posts
+          </span>
         </div>
-        <div className="container mx-auto py-8">
-          <h1 className="text-2xl font-bold mb-6">文章列表</h1>
-          {/* 通用的滚动到底部加载更多功能 */}
-          <InfiniteScroll
-            hasMore={hasMore}
-            isLoading={loading}
-            onLoadMore={loadMore}
-          >
-            <ul>
-              {posts.map((post) => (
-                <PostItem key={post.id} post={post} />
-              ))}
-            </ul>
-            {/* 业务组件 */}
-          </InfiniteScroll>
-        </div>
-      </div>
-    </>
+
+        <InfiniteScroll hasMore={hasMore} isLoading={loading} onLoadMore={loadMore}>
+          <ul className="space-y-3">
+            {posts.map((post) => (
+              <PostItem key={post.id} post={post} />
+            ))}
+          </ul>
+        </InfiniteScroll>
+      </section>
+    </div>
   );
 }

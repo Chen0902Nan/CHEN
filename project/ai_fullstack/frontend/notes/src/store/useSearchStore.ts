@@ -4,7 +4,7 @@ import { doSearch } from "@/api/search";
 
 interface SearchState {
   loading: boolean;
-  suggestions: []; //建议列表
+  suggestions: string[]; // 建议列表
   history: string[];
   search: (keyword: string) => Promise<void>;
   addHistory: (keyword: string) => void;
@@ -24,10 +24,7 @@ export const useSearchStore = create<SearchState>()(
         }
         set({ loading: true });
         try {
-          // url ASCII 码 编码
-          const res = await doSearch(encodeURIComponent(keyword));
-          const data: [] = res.data || [];
-          // console.log(data);
+          const data = await doSearch(encodeURIComponent(keyword));
           set({
             suggestions: data,
           });

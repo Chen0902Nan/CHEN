@@ -1,15 +1,13 @@
 import { Outlet } from "react-router-dom";
 import BottomNav from "@/components/BottomNav";
+
 export default function MainLayout() {
   return (
-    <div>
-      <div className="min-h-screen bg-gray-50 pb-16">
-        <div className="h-full w-full ">
-          <Outlet></Outlet>
-        </div>
-        {/* 底栏 */}
-        <BottomNav />
-      </div>
+    <div className="min-h-screen safe-bottom-padding">
+      <main className="mx-auto h-full w-full max-w-3xl">
+        <Outlet />
+      </main>
+      <BottomNav />
     </div>
   );
 }
