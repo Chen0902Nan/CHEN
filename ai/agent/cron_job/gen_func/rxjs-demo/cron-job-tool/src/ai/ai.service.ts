@@ -9,52 +9,6 @@ import {
   SystemMessage,
   AIMessageChunk,
 } from '@langchain/core/messages';
-import { tool } from '@langchain/core/tools';
-import { z } from 'zod';
-
-// 定义一个参数校验schema，这个参数是对象，这个对象一定有userId,且为string
-const queryUserArgsSchema = z.object({
-  userId: z.string().describe('用户ID, 例如: 001, 002, 003'),
-});
-
-type QueryUserArgs = {
-  userId: string;
-};
-
-const database = {
-  users: {
-    '001': {
-      id: '001',
-      name: '张三',
-      email: 'zhangsan@example.com',
-      role: 'admin',
-    },
-    '002': { id: '002', name: '李四', email: 'lisi@example.com', role: 'user' },
-    '003': {
-      id: '003',
-      name: '王五',
-      email: 'wangwu@example.com',
-      role: 'user',
-    },
-  },
-};
-
-const queryUserTool = tool(
-  async ({ userId }: QueryUserArgs) => {
-    const user = database.users[userId];
-    if (!user) {
-      return `用户ID ${userId} 不存在。可用的 ID: 001, 002, 003`;
-    }
-    return `用户信息：\n- ID: ${user.id}\n- 姓名: ${user.name}\n
-        - 邮箱: ${user.email}\n- 角色: ${user.role}`;
-  },
-  {
-    name: 'query_user',
-    description:
-      '查询数据库中的用户信息。输入用户ID， 返回该用户的详细信息(姓名、邮箱、角色)',
-    schema: queryUserArgsSchema,
-  },
-);
 
 @Injectable()
 export class AiService {
@@ -65,9 +19,12 @@ export class AiService {
   private readonly modelWithTools: Runnable<BaseMessage[], AIMessage>;
   // 将llm 和业务逻辑分离  llm 变化太快
   // 注入了 provide 的model
-  constructor(@Inject('CHAT_MODEL') model: ChatOpenAI) {
+  constructor(
+    @Inject('CHAT_MODEL') model: ChatOpenAI,
+    @Inject('QUERY_USER_TOOL') private queryUserTool,
+  ) {
     // 可自动化调用工具的模型= 原模型 + 工具 通过bindTools，将工具绑定到模型上
-    this.modelWithTools = model.bindTools([queryUserTool]);
+    this.modelWithTools = model.bindTools([this.queryUserTool]);
   }
   // 同步调用 llm 完全生成后再返回
   // async runChain(query: string): Promise<string> {
@@ -119,8 +76,7 @@ export class AiService {
         const toolName = toolCall.name;
         if (toolName === 'query_user') {
           // 先做参数校验
-          const args = queryUserArgsSchema.parse(toolCall.args);
-          const result = await queryUserTool.invoke(args);
+          const result = await this.queryUserTool.invoke(toolCall.args);
           messages.push(
             new ToolMessage({
               content: result,

@@ -54,3 +54,32 @@ async await 的前身 也比较复杂
   - agent loop
     - 如果要调用工具，执行tool(args)
   - 直到结束
+
+dom 零级，dom 一级,dom 二级
+冒泡机制
+
+## Event Source
+
+- html5的特性
+  - 语义化标签 优化SEO搜索
+  - video/audio 标签，哔哩哔哩
+  - canvas 游戏和3d
+  - 定位 Geolocation 可以拿到我们的经纬度 实现美团的点外卖
+  - 表单的增强能力 placeholder占位符 required必填项 type='range' input的类型
+  - localStorage/sessionStorage 本地存储
+  - llm 流式输出能力 EventSource能力 自动接收服务器推送的文本数据流
+  - Web Worker JS 多线程
+  - WebSocket 双向通信 用的不是HTTP 可以广播(微信群)
+  - 拖放 API
+  - getUserMedia 摄像头 web直播/投屏
+  - history API 前端路由
+
+- ts 的Patial和Omit
+  Partial可选 Omit排除
+  partial:Partial<Omit<User,'id'>>
+  应用场景：nestjs Patch 局部更新用户信息时，参数的数据校验
+
+- 深化tool
+  - query_user
+    把tool作为provide 再module里声明，和原有的service解耦
+    依赖注入的方式 model.bindTools()
