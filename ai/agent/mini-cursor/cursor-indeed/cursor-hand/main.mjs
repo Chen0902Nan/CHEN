@@ -32,7 +32,7 @@ const tools = [
 // modelWithTools 绑定工具
 const modelWithTools = model.bindTools(tools)
 
-async function runAgerntWithTools (query, maxInterations = 30) {
+async function runAgentWithTools (query, maxInterations = 30) {
   // 检测任务完成情况
   // 不使用tool
   // 在使用tool llm 还在自动进行中
@@ -114,7 +114,7 @@ const case1 = `创建一个功能丰富的 React TodoList 应用：
 2. 使用 pnpm run dev 启动服务器`
 
 try {
-  await runAgerntWithTools(case1)
+  await runAgentWithTools(case1)
 } catch (error) {
   console.log(chalk.red(`\n错误: ${error.message}`))
 }

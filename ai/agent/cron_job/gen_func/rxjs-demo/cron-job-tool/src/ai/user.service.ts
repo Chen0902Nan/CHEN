@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import id from 'zod/v4/locales/id.js';
 
 type User = {
   id: string;

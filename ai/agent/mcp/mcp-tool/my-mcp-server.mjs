@@ -6,7 +6,6 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 // 标准输入输出流 通信
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
-import { Protocol } from '@modelcontextprotocol/sdk/shared/protocol.js'
 import { z } from 'zod'
 // tool 数据服务
 const database = {
