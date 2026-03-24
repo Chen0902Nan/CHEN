@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RAG 武侠问答台</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Noto+Serif+SC:wght@400;600;700&family=ZCOOL+XiaoWei&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="background-glow"></div>
+    <div class="grain-overlay"></div>
+    <div class="app-shell">
+      <header class="hero">
+        <p class="hero-tag">RAG AGENT STUDIO</p>
+        <h1>天龙八部 · 智能问答台</h1>
+        <p class="hero-subtitle">
+          输入问题后，系统会先检索语义片段，再由模型生成有依据的回答。
+        </p>
+      </header>
+
+      <main class="layout">
+        <section class="panel chat-panel">
+          <div class="panel-title-row">
+            <h2>问答对话</h2>
+            <span id="statusBadge" class="status-badge">初始化中</span>
+          </div>
+
+          <ul id="chatTimeline" class="timeline"></ul>
+
+          <form id="chatForm" class="chat-form">
+            <label class="sr-only" for="questionInput">问题输入框</label>
+            <textarea
+              id="questionInput"
+              name="question"
+              rows="3"
+              maxlength="500"
+              placeholder="例如：乔峰为何在少室山之战做出那样的选择？"
+              required
+            ></textarea>
+            <div class="form-controls">
+              <label for="topKInput">TopK</label>
+              <input
+                id="topKInput"
+                name="topK"
+                type="number"
+                min="1"
+                max="8"
+                value="3"
+              />
+              <button id="sendButton" type="submit">发问</button>
+            </div>
+          </form>
+        </section>
+
+        <aside class="panel context-panel">
+          <h2>检索片段</h2>
+          <p class="context-tip">
+            回答会基于这里的片段生成。分数越高，语义相关性越强。
+          </p>
+          <ol id="contextList" class="context-list"></ol>
+        </aside>
+      </main>
+    </div>
+
+    <template id="messageTemplate">
+      <li class="message-item">
+        <div class="message-role"></div>
+        <p class="message-text"></p>
+        <time class="message-time"></time>
+      </li>
+    </template>
+
+    <script type="module" src="./js/app.js"></script>
+  </body>
+</html>
