@@ -30,3 +30,5 @@
 1.  不要为了用而用：很多简单的组件渲染开销远小于 React 进行浅比较的开销。
 2.  Profile 是王道：我会先使用 React DevTools 的 Profiler 观察组件是否有不必要的渲染,再针对性地引入这些缓存工具。
 3.  闭包陷阱：在使用 useMemo 和 useCallback 时，必须严格保证依赖项数组的完整性，否则会导致获取到 stale state（过期数据）的 Bug。
+
+

@@ -59,3 +59,16 @@
 - selector：zustand可以通过制定这个参数，减少重渲染，只关注我们想关注的数据，只更新渲染指定数据改变的组件，减少重渲染带来的性能损耗
 
 - useStroe：selector减少重渲染的关键，内部通过useState和useEffect两个hook函数，响应式数据，只关心useState的setState功能，通过newObj!==oldObj，判断前后数据改变引用是都相同，再用useEffect进行重渲染
+
+1. 第一版，实现最简单的store
+   存储以及管理数据 get,set,let,state={count:0}
+
+2. 第二版，实现subscribe函数，
+   订阅发布者模式,newSet()去重
+
+3. 实现函数式更新和对象合并策略
+   partial =='funciton'
+   newState !=='Object'
+   为什么要用 Object.assign({}, state, nextState) 而不是直接修改？
+   这是面试中非常重要的响应式原理：
+   不可变性 (Immutability)： 在 React 和现代状态管理库中，我们追求“不可变数据”。如果我们直接写 state.count = 2，虽然值变了，但内存地址（引用）没变。React 的对比机制（如 React.memo 或 Zustand 的 selector）会因为引用相同而认为状态没变，导致组件不触发更新。

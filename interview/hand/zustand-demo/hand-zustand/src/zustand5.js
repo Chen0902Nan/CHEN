@@ -44,7 +44,7 @@ const createStore=(createState)=>{
         subscribe,
         destory
     }
-    state=createState(setState,getState);
+    state=createState(setState,getState,api);
     return api;
 }
 
@@ -58,6 +58,8 @@ const useStore=(api,selector)=>{
         //自动订阅 不需要手动subscribe
         //只关心的状态，改变了
         api.subscribe((state,prevState)=>{
+            // const apple=useStore(state=>state.apple)
+            // selector就是state=>state.apple
             const newObj=selector(state);//关心的，就会改变，不关心，不会改变
             const oldObj=selector(prevState);//关心的，旧状态
             if(newObj!==oldObj){
