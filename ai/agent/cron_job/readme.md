@@ -83,3 +83,13 @@ dom 零级，dom 一级,dom 二级
   - query_user
     把tool作为provide 再module里声明，和原有的service解耦
     依赖注入的方式 model.bindTools()
+
+## 邮件tool
+
+- 邮件服务
+  服务器 提供HTTP服务(WEB Server 3000 | Nginx 80) , 邮件服务，数据库服务（3306）rdjpnxricripdcid
+  端口
+  pnpm i nodemailer @nestjs-modules/mailer (nest 接入nodemailer,生态很好)
+  - 发送内容是邮件，不是text/html
+  - 传输？HTTP? QQ邮箱提供的SMTP  408
+

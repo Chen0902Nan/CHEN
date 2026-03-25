@@ -9,7 +9,6 @@ import {
   SystemMessage,
   AIMessageChunk,
 } from '@langchain/core/messages';
-import { StructuredTool } from '@langchain/core/tools';
 
 @Injectable()
 export class AiService {
@@ -23,15 +22,9 @@ export class AiService {
   constructor(
     @Inject('CHAT_MODEL') model: ChatOpenAI,
     @Inject('QUERY_USER_TOOL') private queryUserTool,
-    @Inject('SEND_MAIL_TOOL') private readonly sendMailTool: StructuredTool,
-    @Inject('WEB_SEARCH_TOOL') private readonly webSearchTool: StructuredTool,
   ) {
     // 可自动化调用工具的模型= 原模型 + 工具 通过bindTools，将工具绑定到模型上
-    this.modelWithTools = model.bindTools([
-      this.queryUserTool,
-      this.sendMailTool,
-      this.webSearchTool,
-    ]);
+    this.modelWithTools = model.bindTools([this.queryUserTool]);
   }
   // 同步调用 llm 完全生成后再返回
   // async runChain(query: string): Promise<string> {
@@ -84,24 +77,6 @@ export class AiService {
         if (toolName === 'query_user') {
           // 先做参数校验
           const result = await this.queryUserTool.invoke(toolCall.args);
-          messages.push(
-            new ToolMessage({
-              content: result,
-              name: toolName,
-              tool_call_id: toolCallId,
-            }),
-          );
-        } else if (toolName === 'sendMailTool') {
-          const result = await this.sendMailTool.invoke(toolCall.args);
-          messages.push(
-            new ToolMessage({
-              tool_call_id: toolCallId,
-              name: toolName,
-              content: result,
-            }),
-          );
-        } else if (toolName === 'webSearchTool') {
-          const result = await this.webSearchTool.invoke(toolCall.args);
           messages.push(
             new ToolMessage({
               content: result,
