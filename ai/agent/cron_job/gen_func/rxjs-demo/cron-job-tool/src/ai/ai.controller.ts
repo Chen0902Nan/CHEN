@@ -11,7 +11,7 @@ export class AiController {
   // Serve Send Event 本质是添加了以下的响应头
   // Content-Type: text/event-stream
   // Cache-Control:no-cache 别缓存
-  // Connection:keep-alive 保持连接
+  // Connection:keep-alive 保持连接 长连接
   // Transfer-Encoding:chunked 分块传输
   // 装饰器模式：经典的面向对象设计模式之一
   @Sse('chat/stream')

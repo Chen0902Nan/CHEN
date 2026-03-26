@@ -5,7 +5,8 @@
 工厂模式 useFactory
 
 - 具体实现上，Service 层调用 LangChain 的 .stream() 方法，而不是 .invoke()。
-  .stream() 会把模型输出按 chunk 逐步返回，我通过 for await...of 持续读取这些 chunk。
+  .stream() 会把模型输出按 chunk 逐步返回，我通过 for await...of 持续读取这些 chunk，通过\*function 声明一个生成器函数，
+  对不是工具调用的chunk通过yiedl传递给前端
 
 - 如果是普通聊天模型，我会直接提取文本内容；如果是 Agent / Tool Calling 场景，流里可能夹杂工具调用相关的 chunk，比如 tool_call_chunks，这时候我会先做过滤，只把真正需要展示给用户的文本片段继续往前传。
 
@@ -16,7 +17,7 @@
 ### 异常处理
 
 对于流结束、异常中断、前端关闭连接这些边界情况，我会把一次流式回答当成一个完整生命周期来处理。
-正常结束时，后端会发送一个明确的 done 事件，再 complete 流；前端收到 done 后主动关闭 EventSource，避免自动重连。
+正常结束时，后端会发送一个明确的 done 事件，再关闭流；前端收到 done 后主动关闭 EventSource，避免自动重连。
 异常中断时，后端用 try/catch 捕获错误，记录日志，并通过 error 事件通知前端，前端保留已收到的 partial answer，同时提示用户重试。
 当前端主动关闭连接、页面卸载或者用户点击停止生成时，前端会调用 EventSource.close()，后端通过监听 req.close 事件中止上游 LLM 请求，并释放订阅和资源，避免无效计算和连接泄漏。
 
