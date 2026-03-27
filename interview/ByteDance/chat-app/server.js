@@ -45,10 +45,9 @@ app.use(async (ctx) => {
 // webSocket
 // 处理webSoket链接
 app.ws.use(async (ctx, next) => {
-
-  
   clients.add(ctx.websocket);
 
+  // 向每一个client都发送消息
   ctx.websocket.on("message", (message) => {
     for (const client of clients) {
       client.send(message.toString());
@@ -58,9 +57,7 @@ app.ws.use(async (ctx, next) => {
   ctx.websocket.on("close", () => {
     clients.delete(ctx.websocket);
   });
-
 });
-
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");

@@ -33,3 +33,32 @@ sendBtn.disabled = false;
 }
 window.addEventListener('beforeunload', CloseEventSource);
 ```
+
+### SSE 和 WebSocket的区别
+
+- sse和websocket都是解决服务器主动向客户端推送数据的技术，但他们的定位，实现机制以及适应场景有明显的区别
+
+- 通信方式上
+
+1. sse是建立在http协议上的，只能由服务端向客户端推送数据，如果客户端想要向服务端发送数据，需要通过http的post请求
+2. websocket 是建立在TCP之上的双工协议请求，连接建立后，双方可以在同一个连接上自由的进行全双工通信
+
+- 协议与连接机制
+
+1. sse使用的是标准的http请求，他利用了http长连接的特性，通过Content-Type:text/event-stream告诉浏览器这是一个流式响应，天生适合做llm流式输出
+2. websocket是一个独立的协议(ws://或者wss://)，他通过HTTP的Upgrade机制进行握手，将协议升级为websocket：前端通过const ws=new WebSocket("url")发送协议升级请求 状态码为101,后端通过koa-websocket库拦截请求完成协议升级，是一个长连接的TCP通道
+
+- 特性
+
+1. sse有自动重连机制，是浏览器原生支持的，断开后会自动尝试重连
+2. sse只支持纯文本，websocket支持传输文本+二进制
+3. sse不支持IE浏览器，支持现代浏览器。websocket支持现代浏览器
+
+#### 应用场景
+
+##### 为什么SSE适合LLM
+
+- 协议的完美契合
+  LLM的生成过程本质上就是一个流式数据生产的过程，模型是一个字一个字的吐出token
+
+1. SSE是天然的流式协议，他最核心的就是响应头中的Content-Type:text/event-stream,它允许服务端在一次HTTP请求中，源源不断地向客户端推送数据块，符合LLM的流式数据生产的过程
