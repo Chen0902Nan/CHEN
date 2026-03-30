@@ -2,36 +2,25 @@
  * @param {number[][]} envelopes
  * @return {number}
  */
-
-const binarySearch = function (f, target) {
-  let left = 0,
-    right = f.length - 1;
-  while (left < right) {
-    let mid = Math.floor((right - left) / 2) + left;
-    if (f[mid] < target) {
-      left = mid + 1;
-    } else {
-      right = mid;
+var maxEnvelopes = function(envelopes) {
+    envelopes.sort((a,b)=>a[0]-b[0]||b[1]-a[1])
+    const top=[]
+    let piles=0
+    for(let i=0;i<envelopes.length;i++){
+      let poker=envelopes[i][1]
+      let left=0,right=piles
+      while(left<right){
+        let mid=Math.floor((left+right)/2)
+        if(top[mid]<poker){
+          left=mid+1
+        }else if(top[mid]>poker){
+          right=mid
+        } else{
+          right=mid
+        }
+      }
+      if(left==piles) piles++
+      top[left]=poker
     }
-  }
-  return left;
-};
-
-var maxEnvelopes = function (envelopes) {
-  if (envelopes.length === 0) {
-    return 0;
-  }
-  const len = envelopes.length;
-  envelopes.sort((a, b) => a[0] - b[0] || b[1] - a[1]);
-  const f = [envelopes[0][1]];
-  for (let i = 1; i < len; i++) {
-    const num = envelopes[i][1];
-    if (num > f[f.length - 1]) {
-      f.push(num);
-    } else {
-      const index = binarySearch(f, num);
-      f[index] = num;
-    }
-  }
-  return f.length;
+    return piles
 };

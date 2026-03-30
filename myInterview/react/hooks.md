@@ -31,4 +31,20 @@
 2.  Profile 是王道：我会先使用 React DevTools 的 Profiler 观察组件是否有不必要的渲染,再针对性地引入这些缓存工具。
 3.  闭包陷阱：在使用 useMemo 和 useCallback 时，必须严格保证依赖项数组的完整性，否则会导致获取到 stale state（过期数据）的 Bug。
 
+## useRef
 
+- useRef是一个持久化的容器，它返回一个可变的ref对象，其current属性被初始化为传入的参数
+
+1. 持久性：在整个生命周期内，该对象始终保持同一个引用
+2. 非响应式：修改ref.current不会触发组件的重新渲染
+
+- 使用场景
+
+1. 最经典的访问DOM元素
+2. 存储与渲染无关的变量，比如定时器ID，上一次渲染的props的值，防抖节流的计时器引用
+
+- useRef和useState的根本区别
+
+1. 触发渲染：useState修改值会触发组件重新渲染，useRef修改值不触发组件的重新渲染
+2. 同步/异步更新：useState为了性能采用的是批处理更新机制，即多次setCount(count+1)组件最终只会渲染一次，而useRef的值改变不会触发组件重新渲染，所以更新是同步的
+3. useState的值一般用于渲染UI也就是数据驱动视图，而useRef通常用于逻辑处理或者DOM操作

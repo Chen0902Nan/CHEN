@@ -16,17 +16,17 @@
         }, 1000),
       );
 
-      // function debounce(func, delay) {
-      //   let timer = null;
-      //   return function (...args) {
-      //     const context = this;
-      //     if (timer) clearTimeout(timer);
-      //     timer = setTimeout(() => {
-      //       func.apply(context, args);
-      //       timer = null;
-      //     }, delay);
-      //   };
-      // }
+      function debounce(func, delay) {
+        let timer = null;
+        return function (...args) {
+          const context = this;
+          if (timer) clearTimeout(timer);
+          timer = setTimeout(() => {
+            func.apply(context, args);
+            timer = null;
+          }, delay);
+        };
+      }
 
       function debounce(func, delay, immediate) {
         let timer = null;
@@ -50,6 +50,47 @@
         };
       }
 
+      function debounce(func, delay, leading = false) {
+        let isInvoked = false; //是否执行过
+        let trailing = true;
+        const debounced = function (...args) {
+          return new Promise((resolve, reject) => {
+            clearTimeout(timer);
+            // 如果我们需要立即执行，并且还没有执行过
+            if (leading && !isInvoked) {
+              try {
+                const result = func.apply(this, args);
+                resolve(result);
+                isInvoked = true;
+              } catch (err) {
+                reject(err);
+              }
+              if (!trailing) return;
+            }
+
+            timer = setTimeout(() => {
+              try {
+                isInvoked = true;
+                if (trailing) {
+                  const result = func.apply(this, args);
+                  resolve(result);
+                }
+              } catch (err) {
+                reject(err);
+              }
+            });
+          });
+        };
+        // 函数也是对象
+        debounced.cancel = function () {
+          clearTimeout(timer);
+          // 清楚后 需要重新设置
+          timer = null;
+          isInvoked = false;
+        };
+        return debounced;
+      }
+
       // function throttle(fun, interval) {
       //   let lastTime = 0;
       //   return function (...args) {
@@ -61,6 +102,7 @@
       //     }
       //   };
       // }
+
       function throttle(func, interval) {
         let timer = null;
         let lastTime = 0;
