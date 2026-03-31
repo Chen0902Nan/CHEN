@@ -137,3 +137,27 @@ chat-app 聊天应用
   CSR适合做后台管理系统(自己人用，没有SEO需求)、强交互应用(canvas,工作流)、ios/android(原生做壳子,硬件支持 拍照、蓝牙、陀螺仪，性能要求极高，要做两套) 很多页面是用WebView(都是用的Chrome内核)
   移动端时代流量的入口不再是百度的搜索引擎
 
+### 手写SSR
+
+- express httpserver
+- vite擅长react工程化
+  - fs.readFileSync(index.html)
+  - transFormIndexHtml，
+  - vite.ssrLoadModule /src/entry-server.jsx
+  - 调用render方法 得到组件html字符串 替换标记
+
+- react
+  服务器端运行 编写各个组件
+  react-dom/server 提供了一个renderToString方法
+  react-dom.client 提供了hydrateRoot 水合
+- App.jsx 组件本身
+- entry-server.jsx
+  提供了render方法，供server.js调用
+  不会执行事件监听等前端任务
+- entry-client.jsx
+  调用react-dom/client hydrateRoot 水合一下
+  将服务端返回的静态页面变成动态的可交互的页面
+
+- 水合就是浏览器把服务端生成的HTML“接管”过来，React再跑一遍对比结构，不重建DOM，只绑定事件和状态，让页面变成可交互。
+
+- SSR开发框架 next.js

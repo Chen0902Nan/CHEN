@@ -14,7 +14,8 @@ async function start() {
   const vite = await createViteServer({
     // 中间件 指的是req和res的中间 也就是请求和响应的中间
     // 中间件 vite 有很多的中间件
-    appType: "custom",
+  
+    appType: "custom",  // 让vite接管html响应
   });
   // app使用vite里的所有中间件
   app.use(vite.middlewares);
@@ -32,13 +33,27 @@ async function start() {
         path.resolve(__dirname, "index.html"),
         "utf-8",
       );
-      const { render } = await vite.transformIndexHtml(req.url, template);
-      // console.log(template);
-      res.status(200).set({ "Content-Type": "text/html" }).end(template);
-    } catch (err) {}
+      console.log(template,'0000000');
+      
+      // 让vite接管html
+      // 处理html模版，并返回处理后的html
+      template = await vite.transformIndexHtml(req.url,template);
+      console.log(template,'111111111');
+      // ssrLoadModule 加载服务器端入口，并返回一个对象，对象中包含render函数
+      const { render } = await vite.ssrLoadModule("/src/entry-server.jsx");
+      console.log(template);
+      // react 在服务端将组件和数据渲染为完整HTML字符串
+      // 执行React SSR,得到HTML字符串
+      const appHtml=await render()
+      const html=template.replace('<!--app-html-->',appHtml)
+      res.status(200).set({ "Content-Type": "text/html" }).end(html);
+    } catch (err) {
+      res.status(500).end(err.message)
+    }
   });
 }
 
+// 启动 搭建http响应
 app.listen(3000, () => {
   console.log("http://localhost:3000");
 });
