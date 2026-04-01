@@ -25,3 +25,11 @@
 再 git diff main origin/main 比较一下远程和本地代码有什么区别，确认是否需要合并本地哪些资源的标总和你的
 git merge origin/main
 本地有自己的修改 不想立马合并
+git stash 先进行一次暂存，这是一个栈结构
+暂存后可以切换到其他分支，进行修改
+当再次切换回stash的分支后，可能会发生bug丢失原分支的内容，可以通过git stash pop 弹出上一次的暂存，找到丢失前的代码
+
+## git merge 和 git rebase
+
+merge 合并 缺点：让更新历史变复杂，后期排查问题会很乱
+rebase 变基 优点：改变提交的基点，让提交历史变成一条干净的时间线

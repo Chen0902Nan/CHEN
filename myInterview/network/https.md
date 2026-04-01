@@ -18,3 +18,38 @@
 2. HTTPS:使用了摘要算法来校验数据完整性，如果过程中有人改动了一个字节，加密校验就会失败，通信会被强制中断，保证了页面代码不会被恶意注入
 
 - HTTP和HTTPS都存在TCP，但是HTTPS多一个TLS，
+
+
+## GET 和 POST 的区别，以及一次HTTP请求包含哪些信息
+
+- 核心区别
+  从Restful HTTP语义上来说，GET是获取资源，POST是提交数据，新增资源
+- 数据传输方式
+  GET的参数一般放在URL的 QueryString里，
+  /api/user?id=1&name=andrew 长度受限 2kb-8kb左右
+  POST 数据一般放在Request Body
+  GET 不是不可以发送请求 只是服务器和浏览器约定不用
+
+- 安全性
+  GET/POST 都是明文传输，POST相对安全一点，安全性是来自于HTTPS
+- 幂等性
+  HTTP 是无状态的
+  GET 多次请求不会改变数据
+  POST 不一样的
+- 缓存
+  GET会缓存，
+  POST一般不缓存
+
+- 包含信息
+  - 请求行 请求方法 GET/POST/PUT/PAT/PATH/DELETE/OPTIONS/HEAD等 请求路径、HTTP版本
+  - 请求头
+    Authorization :Token
+    Cookie
+    ContentType
+  - 请求体
+    一般出现在 POST，PUT,PATCH请求中
+- 为什么TCP需要三次握手
+  确认双方发送和接收能力
+  SYN + ACK
+  开始的接受方在发送应答ACK消息的同时，可以发送SYN消息
+
