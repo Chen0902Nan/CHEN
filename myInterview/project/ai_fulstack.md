@@ -12,7 +12,7 @@
   JWT分为三段：Header、Payload、Signature
   - Header：主要声明加密算法以及Token类型
   - Payload：存放具体数据，比如用户id，userName等，token过期时间，这里的是Base64编码，不是加密的，不能携带敏感信息
-  - Signature：服务端使用秘钥Header和Payload进行加密计算校验身份，秘钥存储在服务端。
+  - Signature：服务端使用秘钥将Header和Payload进行加密计算校验身份，秘钥存储在服务端。
 
 - JWT 的优缺点 这是引入双Token的原因
   JWT是无状态的，在颁发的Token过期前，无法修改用户的状态。这样我们对JWT颁发的token的有效时间就很难设定，如果时间过短，用户频繁掉登录状态，体验感极差，如果token过期时间设置的过长，一但这个token被窃取了，用户账号就容易被劫持。

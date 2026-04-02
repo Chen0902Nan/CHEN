@@ -4,6 +4,13 @@
 
 工厂模式 useFactory
 
+// Serve Send Event 本质是添加了以下的响应头
+// Content-Type: text/event-stream
+// Cache-Control:no-cache 别缓存
+// Connection:keep-alive 保持连接 长连接
+// Transfer-Encoding:chunked 分块传输
+// 装饰器模式：经典的面向对象设计模式之一
+
 - 具体实现上，Service 层调用 LangChain 的 .stream() 方法，而不是 .invoke()。
   .stream() 会把模型输出按 chunk 逐步返回，我通过 for await...of 持续读取这些 chunk，通过\*function 声明一个生成器函数，
   对不是工具调用的chunk通过yiedl传递给前端

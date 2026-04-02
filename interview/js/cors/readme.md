@@ -12,7 +12,7 @@
   - jsonp 函数的封装，return一个Promise的实例，拿到json后的前端业务处理 thenable/await
   - 拼接请求参数 params json,for key in key=value放到数组里面 用&join一下
   - 实现细节
-  1. 动态创建一个script标签 document.creatElement(),src 加载脚本不受同源策略的限制，src queryString除了自身参数外，再带上一个callback参数，值为callback + 随机数 (避免缓存)
+  1. 动态创建一个script标签 document.creatElement(),加载脚本不受同源策略的限制，src queryString除了自身参数外，再带上一个callback参数，值为callback + 随机数 (避免缓存)
   2. 后端先解析callback参数的值，设置响应头为text/javascript 返回json的数据用callback的值作为函数包裹返回，即json with padding
 
 - 缺点
@@ -76,8 +76,7 @@ export default defineConfig({
 
 大前端开发时，前端就做完了，很方便
 跨域是基于同源策略的，http请求，这个是服务器策略
-前端全栈开发本地开发的时候使用这个配置
-前端需要后端提供api
+前端全栈开发本地开发的时候使用这个配置，前端需要后端提供api
 vite proxy配置拦截 /api 请求
 向后端api端口发送请求
 vite的请求是后端向后端的请求，不受同源策略的影响，不存在跨域
