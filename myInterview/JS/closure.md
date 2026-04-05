@@ -23,6 +23,32 @@
 
 - 内存泄漏：因为闭包引用的变量不会被立即回收，如果使用不当，会导致内存占用居高不下
 
+## 什么是内存泄漏
+
+本该被回收的内容，因意外引用而无法释放，导致占用持续增长，最终引发页面卡顿甚至崩溃
+
+- 定时器未被清理
+  react的组件卸载了，但是定时器没有取消，定时器内部函数引用了外部变量，变量被长期引用
+
+- 事件监听未被移除
+- DOM的引用未被释放
+  let el=document.getElementById('app')
+  document.body.removeChild(el)
+  el=null //要手动置空
+- 全局变量/变量意外挂载到全局
+  var -> window 这样声明的变量永远都是可达的，垃圾回收机制不会清除
+- 闭包导致的内存泄漏
+- Map/Set使用不当
+  Map和json的区别：obj可以作为key
+  存入Map和Set中的对象都是强引用,就算手动obj=null，也还存在Map中，不会被回收
+  要使用const map=new WeakMap()
+- 订阅发布者模式
+  如果Set不取消订阅，也会一直引用
+- Promise一直不结束
+  一直处于pendding，且引用了外部的大对象
+- Ajax api请求发起了，但结果还未到达，组件卸载了
+  controller.abort()
+
 ## 如何处理内存泄漏
 
 1. 手动将闭包引用的变量置为null
