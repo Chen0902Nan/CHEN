@@ -1,0 +1,10 @@
+node_modules
+*.epub
+.env
+.git
+tests/
+ebook-writer.mjs
+ebook-query.mjs
+ebook-rag.mjs
+readme.md
+*.md

@@ -71,3 +71,89 @@ iframe 标签 ， 网页里打开另一个网页，性能差，不建议用
 之所以它能跨域，是因为：
 它不是网络请求：它不走 HTTP/HTTPS 协议栈，而是浏览器提供的内部通信 API，因此不属于同源策略限制的 Ajax 请求范畴。
 它是‘显式授权’的：同源策略的初衷是防止未授权的脚本读取敏感数据。而 postMessage 要求发送方和接收方显式地确认目标和来源（通过 event.origin），这相当于在两个不同源的文档之间建立了一个‘信任连接’，从而在安全的前提下实现了通信。”
+
+### CORS 预检请求
+
+CORS是目前Web开发中最主流、最标准的跨域解决方案
+CORS的核心在于浏览器会自动在HTTP请求头中添加信息，而服务器通过响应头来告知浏览器是否允许跨域
+
+前端通过请求头：Origin:http://a.com 告诉后端我是谁
+后端收到请求后通过设置响应头：Access-Control-Allow-Origin:http://a.com 来设置白名单，允许前端的访问
+
+浏览器对比二者，如果匹配，则允许前端代码读取服务器返回的数据，如果不匹配或者没有这个响应头，浏览器就会报跨域错误
+
+- CORS请求分为简单请求和复杂请求
+
+1. 简单请求 GET、POST、HEAD
+   只能包含标准的请求头：Content-Type:仅限于text/plain,multipart/form-data,application/x-www-form-urlencoded
+2. 预检请求 PUT、DELETE
+   请求头设置了Content-Type:allication/json的请求
+   浏览器会先发送一个OPTIONS请求
+   浏览器先询问服务器，我接下来要发送一个PUT请求，你允许吗
+   后端服务器响应，返回
+   Access-Control-Allow-Methods:PUT
+   Access-Control-Allow-Headers:Content-Type等信息
+   只有预检通过了，浏览器才会发送真正的业务请求
+
+- 关键响应头
+  Access-Control-Allow-Origin:允许访问的白名单
+  Access-Control-Allow-Methods:允许访问的方法
+  Access-Control-Allow-Headers:允许前端携带的自定义Header
+  Access-Control-Allow-Credentials:是否允许携带Cookie，
+
+### Ngnix 反向代理
+
+- 通过使用 Ngnix反向代理处理跨域问题，是一种架构层面的方法。前端不需要处理跨域问题，后端也不用写复杂的CORS逻辑，所有跨域限制在进入真正的后端业务逻辑之前，就被Ngnix在网关层处理掉了
+
+- 核心原理：同源欺骗
+  - 原来的情况
+    前端a.com，后端api.b.com -> 跨域
+  - Ngnix将a.com和a.com/api都指向同一个Ngnix
+    前端请求a.com/api/user
+    Ngnix拦截到/api的前缀，将请求转发给api.b.com/user
+    浏览器视角：我的所有请求都是发往a.com的，符合同源策略
+
+- Ngnix 两种设置
+
+1.  透明代理 location中设置前端静态资源， proxy_pass中将请求转发到后端地址
+    server {
+    listen 80;
+    server_name a.com;
+
+        # 1. 前端静态资源
+        location / {
+            root /var/www/html/dist;
+            index index.html;
+        }
+
+        # 2. API 接口反向代理
+        location /api/ {
+            # 将请求转发到后端地址
+            proxy_pass http://api.b.com/;
+
+            # 关键 Header 传递
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+
+    }
+
+2. 手动配置响应头
+
+location /api/ {
+    # 强制给后端响应加上 CORS 头
+    add_header 'Access-Control-Allow-Origin' '$http_origin' always;
+    add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE' always;
+    add_header 'Access-Control-Allow-Headers' 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization' always;
+    
+    # 提前处理 OPTIONS 请求
+    if ($request_method = 'OPTIONS') {
+        return 204;
+    }
+    
+    proxy_pass http://api.b.com/;
+}
+
+如果条件允许，我首选 Nginx 反向代理。我会通过路径映射，把前后端部署在同一个域名下，从根本上绕过跨域限制。这不仅性能最好（OPTIONS 请求直接在 Nginx 层消化），而且解耦了业务代码，便于统一管理安全策略。
+如果是分布式或微服务架构，或者业务上有对外提供 API 的需求，我会选择 CORS。但我会由 Nginx 或 API 网关统一注入 CORS Header，而不是让每个业务后端单独配置。
