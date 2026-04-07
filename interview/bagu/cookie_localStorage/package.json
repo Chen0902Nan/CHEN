@@ -1,0 +1,19 @@
+{
+  "name": "cookie_localstorage",
+  "version": "1.0.0",
+  "description": "- 共性：cookie/localStorage/sessionStorage 本质都是浏览器端的存储方案,实现状态持久化\r   - 都是键值对存储\r     cookie a=1;b=2\r   - 都只能存字符串\r   - 都遵守同源策略\r   - 都用于保存用户状态",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "express": "^5.2.1",
+    "path": "^0.12.7",
+    "uuid": "^13.0.0"
+  }
+}
