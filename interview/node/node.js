@@ -9,7 +9,7 @@ setTimeout(() => {
 setImmediate(() => {
   console.log("immediate");
 });
-//poil阶段
+//poll阶段
 fs.readFile(__filename, () => {
   console.log("readFile");
 

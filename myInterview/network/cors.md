@@ -139,21 +139,73 @@ CORS的核心在于浏览器会自动在HTTP请求头中添加信息，而服务
 
     }
 
-2. 手动配置响应头
+2.  手动配置响应头
 
-location /api/ {
-    # 强制给后端响应加上 CORS 头
-    add_header 'Access-Control-Allow-Origin' '$http_origin' always;
-    add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE' always;
-    add_header 'Access-Control-Allow-Headers' 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization' always;
-    
+location /api/ { # 强制给后端响应加上 CORS 头
+add_header 'Access-Control-Allow-Origin' '$http_origin' always;
+add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE' always;
+add_header 'Access-Control-Allow-Headers' 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization' always;
+
     # 提前处理 OPTIONS 请求
     if ($request_method = 'OPTIONS') {
         return 204;
     }
-    
+
     proxy_pass http://api.b.com/;
+
 }
+
+3. 性能优化策略
+
+- 启用gzip压缩，减少(传输体积)
+  对于JSON数据效果尤其明显，大约可以减少70%——90%的体积
+
+```
+gzip on;
+gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/json;
+gzip_min_length 1k; # 小于 1k 不压缩，节省 CPU
+gzip_comp_level 6;  # 压缩等级 1-9，6 是性价比最高的折中点
+```
+
+- 利用Ngnix作为缓存层(降低后端压力)
+  如果是 GET 请求的接口（如基础数据查询），可以在 Nginx 层缓存，直接返回，无需打到后端。
+  区别于浏览器强缓存，主要是高配API请求，强缓存主要是静态资源
+
+```
+proxy_cache_path /data/nginx/cache levels=1:2 keys_zone=my_cache:10m max_size=10g inactive=60m;
+
+location /api/ {
+    proxy_cache my_cache;
+    proxy_cache_valid 200 302 10m; # 200/302 状态缓存 10 分钟
+    proxy_cache_valid 404 1m;
+    proxy_pass http://backend_server;
+}
+```
+
+调整缓冲区配置
+如果你的 API 返回数据较大，Nginx 默认缓冲区可能不够，导致写临时文件，从而产生磁盘 I/O。
+
+```
+proxy_buffer_size 128k;
+proxy_buffers 4 256k;
+proxy_busy_buffers_size 256k;
+```
+
+- 开启 Keep-Alive (长连接)
+  默认情况下，Nginx 到后端后端是短连接，每次请求都 TCP 三次握手。开启长连接能显著降低延迟。
+
+```
+upstream backend_server {
+    server 127.0.0.1:8080;
+    keepalive 32; # 保持 32 个空闲连接
+}
+
+location /api/ {
+    proxy_http_version 1.1;
+    proxy_set_header Connection ""; # 清除 Connection 头，使之支持 Keep-Alive
+    proxy_pass http://backend_server;
+}
+```
 
 如果条件允许，我首选 Nginx 反向代理。我会通过路径映射，把前后端部署在同一个域名下，从根本上绕过跨域限制。这不仅性能最好（OPTIONS 请求直接在 Nginx 层消化），而且解耦了业务代码，便于统一管理安全策略。
 如果是分布式或微服务架构，或者业务上有对外提供 API 的需求，我会选择 CORS。但我会由 Nginx 或 API 网关统一注入 CORS Header，而不是让每个业务后端单独配置。

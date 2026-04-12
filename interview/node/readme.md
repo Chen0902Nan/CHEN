@@ -34,7 +34,7 @@ node的特性是异步无阻塞，单线程高并发（单线程简单，I/O,网
   每轮循环先执行宏任务，再清空微任务队列，并去渲染更新或响应用户
   宏任务（script开始） -> 清空微任务队列 -> 下一轮
 - nodejs(服务器，操作系统，文件系统，数据库) 更复杂1，事件循环
-  分为多个阶段，timer（定时器），poil(文件，网络)，check（poil之后都会来检查），同时也有promise,process.nextTick微任务（属于每个阶段），
+  分为多个阶段，timer（定时器），poll(文件，网络)，check（poll之后都会来检查），同时也有promise,process.nextTick微任务（属于每个阶段），
   timer(定时器) -> poil(轮询I/O，文件读取，网络，数据库) -> check(poil空闲结束后，强制进入此阶段核查执行) -> microtask 随阶段执行
 
 check 只有一种任务：setImmediate() 注册的回调函数！
