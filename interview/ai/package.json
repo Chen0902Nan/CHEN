@@ -1,0 +1,17 @@
+{
+  "name": "ai",
+  "version": "1.0.0",
+  "description": "Prompt技巧，让模型一步一步思考",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "openai": "^6.34.0"
+  }
+}

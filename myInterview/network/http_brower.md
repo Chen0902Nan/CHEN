@@ -6,7 +6,7 @@
   在解析过程中，如果遇到link,style等css请求，浏览器会发起CSS请求并交给CSS解析器，生成CSSOM树
 - 接着，如果在解析HTML的过程中遇到JavaScript，默认情况下JS会阻塞DOM构建(document.title 修改节点) 浏览器会暂停DOM解析，交给V8引擎执行JS，执行完之后在继续解析HTML
 - 然后，当DOM Tree和CSSOM Tree都构建完后合并生成Render Tree
-  渲染树只包含需要显示的节点，display；none的节点不会进入渲染树
+  渲染树只包含需要显示的节点，display:none的节点不会进入渲染树
 - 接着进入Layout(回流/重绘)阶段，浏览器会根据盒模型、位置、尺寸等信息计算每个元素在页面（文档流）中的几何位置和大小，生成布局树
 - 然后是Paint(绘制)，浏览器会把每个元素的颜色、背景、阴影、边框等绘制出来
 - 最后进入Composite(合成)阶段，浏览器会把页面拆成多个图层，比如transform,opacity,position:fixed、动画等元素可能单独成为合成层，然后交给GPU做图层合并，最终显示到屏幕上
