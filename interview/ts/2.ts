@@ -11,3 +11,4 @@ type MyPick<T, K extends keyof T> = {
 type MyOmit<T, K extends keyof T> = {
   [P in K as P extends K ? never : P]: T[P];
 };
+
