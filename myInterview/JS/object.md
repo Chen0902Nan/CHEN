@@ -3,7 +3,7 @@
 1. for in 循环:for(const x of obj)...
    这种遍历方法会附带上对象原型链上的属性，要结合hasOwnProperty()
 
-```
+```js
 for(let key in obj){
   if(obj.hasOwnProperty(key)){
     console.log(key,obj[key])
@@ -13,7 +13,7 @@ for(let key in obj){
 
 2. Object.keys() 返回的是一个数组
 
-```
+```js
 Object.keys(obj).forEach(key=>{
   console.log(key,obj[key])
 })
@@ -21,14 +21,15 @@ Object.keys(obj).forEach(key=>{
 
 3. Object.values() 返回一个数组
 
-```
+```js
 Object.values(obj).forEach(value=>{
   console.log(value)
 })
 ```
 
 4. Object.entries() 返回键和值，一个二维数组 [key,value]
-```
+
+```js
 const obj = { a: 1, b: 2 };
 for (const [key, value] of Object.entries(obj)) {
     console.log(`${key}: ${value}`);

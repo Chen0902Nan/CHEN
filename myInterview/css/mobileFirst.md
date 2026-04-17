@@ -19,7 +19,7 @@
    适用场景：响应式网站（如官网）。通常用于调整布局结构，比如手机端是单列，平板是双列，PC 是四列。
    示例：
 
-```
+```css
    .container { width: 100%; }
    @media (min-width: 768px) {
    .container { width: 750px; } /_ 平板以上固定宽度 _/
