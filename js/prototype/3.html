@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // Person.prototype 也是函数是对象的表现
+      // constructor + prototype=抽象的类
+      function Person(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      Person.prototype = {
+        species: "人类",
+      };
+      var person = new Person("华高俊", 18); // 实例 对象
+      console.log(person.__proto__ == Person.prototype);
+      // 构造函数
+      console.log(
+        Person == Person.prototype.constructor,
+        Person.prototype.constructor
+      );
+    </script>
+  </body>
+</html>

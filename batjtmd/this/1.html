@@ -1,0 +1,24 @@
+<script>
+  var a = {
+    name: "Cherry",
+    func1: function () {
+      console.log(this.name);
+    },
+    func2: function () {
+      // this
+      console.log(this);
+      // call apply 指定this 指向 立即运行
+      setTimeout(
+        function () {
+          // 不一样
+          console.log(this);
+          this.func1();
+          return function () {
+            console.log("haha");
+          };
+        }.call(a),
+        3000
+      );
+    },
+  };
+</script>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 模拟new 的功能
+      function objectFactory(Constructor, ...args) {
+        var obj = new Object(); //从空对象开始
+        Constructor.apply(obj, args);
+        return obj;
+      }
+      function Person(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      Person.prototype.species = "人类";
+      Person.prototype.sayHi = function () {
+        console.log(`你好，我是${this.name}`);
+      };
+      let p = new Person("柯基", 18);
+      let zzp = objectFactory(Person, "华高俊", 20);
+      console.log(p, zzp);
+    </script>
+  </body>
+</html>

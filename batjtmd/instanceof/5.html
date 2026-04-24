@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //继承的类只有构造函数，没有原型对象
+      function Animal() {
+        this.species = "动物"; //浪费内存
+      }
+      function Cat(name, color) {
+        //{} <- this
+        //拿到父类的属性
+        // Animal.call(this)
+        this.name = name;
+        this.color = color;
+      }
+      //覆盖
+      //原型对象由constructor 和其他属性方法构成
+      //Animal 实例constructor 指向Animal
+      Cat.prototype = new Animal();
+      Cat.prototype.constructor = Cat;
+      const cat = new Cat("小黑", "黑色");
+      console.log(cat.species);
+      console.log(
+        cat.__proto__.constructor,
+        Cat.prototype.constructor,
+        cat.constructor
+      );
+    </script>
+  </body>
+</html>

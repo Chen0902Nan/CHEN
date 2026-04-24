@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>直接继承prototype</title>
+  </head>
+  <body>
+    <script>
+      function Animal() {}
+      Animal.prototype.species = "动物"; //性能
+      function Cat(name, color) {
+        Animal.call(this);
+        this.name = name;
+        this.color = color;
+      }
+      //原来默认constructor是Cat
+      //现在被覆盖为Animal
+      //引用式
+      Cat.prototype = Animal.prototype; //副作用
+      Cat.prototype.constructor = Cat;
+      Cat.prototype.sayHi = function () {
+        console.log("你好");
+      };
+      var cat = new Cat("小黑", "黑色");
+      console.log(cat.species);
+      console.log(Animal.prototype.constructor);
+      // 指向Cat;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>浮动干扰示例</title>
+    <style>
+      body {
+        padding: 20px;
+        font-family: sans-serif;
+        line-height: 1.6;
+      }
+
+      /* 左侧元素：设置了浮动 */
+      .float-box {
+        width: 150px;
+        height: 150px;
+        background-color: #ff6b6b;
+        color: white;
+        float: left; /*关键：向左浮动 */
+        margin-right: 10px;
+      }
+
+      /* 右侧元素：普通文本或块级元素 */
+      .content-box {
+        background-color: #4ecdc4;
+        padding: 10px;
+        color: #333;
+        /* 注意：这里没有设置宽度，也没有清除浮动 */
+        display: flow-root;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="float-box">我是浮动的盒子</div>
+
+    <div class="content-box">
+      <h3>我是右边的内容</h3>
+      <p>
+        我是普通文本内容。因为左边的盒子浮动了，脱离了文档流，
+        我会像水一样流过去，填补它留下的空缺。
+        你会发现我的文字被挤到了浮动盒子的右侧，甚至如果文字够长，还会环绕在它下方。
+        这通常不是我们想要的左右分栏布局效果。
+      </p>
+    </div>
+  </body>
+</html>

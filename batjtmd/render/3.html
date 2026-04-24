@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    /* 选择器优先级 类名选择器 10分  id选择器 100分 */
+      p {
+      color: blue;
+    }
+
+    /* 2. class 选择器：.highlight 是绿色 */
+    .highlight {
+      color: green;
+    }
+
+    /* 3. 内联样式（在 HTML 中）：红色 */
+  </style>
+</head>
+<body>
+  <!-- 标签选择器，1分 -->
+  <p class="highlight" style="color: red;">
+    <!-- 内联样式不建议 -->
+这段文字什么颜色
+  </p>
+</body>
+</html>

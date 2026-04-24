@@ -1,0 +1,21 @@
+# Vibe Coding 氛围编程
+
+- 不再是程序员的纯 coding 了
+- prompt、 AI 编辑器(trae，cursor,用 claude code)
+  提出需求 AI 直接开干
+
+Vibe Coding 不再需要逐行编写精确的代码，而是向 AI 描述你想要实现的“氛围”或“感觉”
+AI 会理解你的模糊意图，并将其转化为具体的代码实现。
+
+- 请帮我把页面设计的科技感多一点
+- 复制黏贴代码中的 bug，让 Ai 修复 舒服的改 bug 氛围
+
+## Trae
+
+- AI 编辑器，沉浸到 AI 的编程氛围中
+  编程 Agent,
+- 超越指令的规则
+  约定
+  - .trae
+    - rules
+      project_rules.md

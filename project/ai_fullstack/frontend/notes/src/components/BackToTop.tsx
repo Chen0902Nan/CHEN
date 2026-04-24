@@ -1,0 +1,48 @@
+import React, { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { ArrowUp } from "lucide-react";
+// 节流函数 性能优化
+import { throttle } from "@/utils";
+
+interface BackToTopProps {
+  // 滚动超过多少像素后显示按钮
+  threshold?: number;
+}
+
+const BackToTop: React.FC<BackToTopProps> = ({ threshold = 400 }) => {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const scrollTop = () => {
+    window.scrollTo({
+      top: 0,
+      // 平滑滚动
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      setIsVisible(window.scrollY > threshold);
+    };
+
+    const throttle_func = throttle(toggleVisibility, 200);
+
+    window.addEventListener("scroll", throttle_func);
+    return () => window.removeEventListener("scroll", throttle_func);
+  }, [threshold]);
+
+  if (!isVisible) return null;
+
+  return (
+    <Button
+      variant="outline"
+      size="icon"
+      onClick={scrollTop}
+      className="fixed bottom-24 right-5 rounded-full bg-white/90 shadow-lg
+       hover:shadow-xl z-50"
+    >
+      <ArrowUp className="h-4 w-4" />
+    </Button>
+  );
+};
+
+export default BackToTop;

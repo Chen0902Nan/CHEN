@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      .triangle {
+        width: 0;
+        height: 0;
+        border-left: 50px solid transparent;
+        border-right: 50px solid transparent;
+        border-top: 50px solid transparent;
+        border-bottom: 50px solid red;
+      }
+
+      .sector-conic {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%; /* 必须是圆形 */
+        /* 语法：conic-gradient(颜色 起始角度, 颜色 结束角度, 透明 结束角度) */
+        /* 下面这个例子画一个 90度 (0deg 到 90deg) 的红色扇形 */
+        background: conic-gradient(red 0deg 90deg, transparent 90deg 270deg);
+      }
+
+      /* 画一个 120度 的蓝色扇形 */
+      .sector-120 {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: conic-gradient(blue 0deg 120deg, transparent 120deg 240deg);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="triangle"></div>
+    <br />
+    <div class="sector-conic"></div>
+    <br />
+    <div class="sector-120"></div>
+  </body>
+</html>

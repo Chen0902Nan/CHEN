@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Cat(name, color) {
+        this.name = name;
+        this.color = color;
+      }
+      // constructor 在共享属性或方法面前有点孤木难支
+      // prototype 解决浪费和共享
+      Cat.prototype.type = "猫科动物";
+      Cat.prototype.eat = function () {
+        console.log("eat jerry");
+      };
+      const cat1 = new Cat("tom", "黑色");
+      console.log(Cat.prototype.isPrototypeOf(cat1));
+      // 判断是自己的属性还是原型上的属性
+      console.log(cat1.hasOwnProperty("type"));
+      console.log(cat1.hasOwnProperty("name"));
+      console.log("name" in cat1);
+      console.log("type" in cat1);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+body,html{
+  height: 100%;
+}
+
+body,html{
+  /* fz10 */
+  font-size: 10px;
+  background: url('./background.jpg') bottom center no-repeat;
+  /* 背景图片等比例放缩，将超过盒子大小的图片放进盒子中 */
+  background-size: cover;
+
+}

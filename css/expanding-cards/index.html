@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>弹性布局</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+.box{
+  background-color: red;
+  height: 100px;
+  width: 50%;
+  margin-bottom: 10px;;
+  display: flex;
+  /* display: inline-block; */
+}
+.box:last-of-type{
+background-color: pink;
+}
+.item{
+  flex: 1;
+  background-color: green;
+  font-size: 20px;
+  color: black;
+  display: inline-block;
+  /* width: 33.33%; */
+}
+.item:nth-child(2){
+  background-color: yellow;
+}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="item">1</div>
+    <div class="item">2</div>
+    <div class="item">3</div>
+  </div><div class="box">
+    <!-- <div class="item">1</div>
+    <div class="item">2</div>
+    <div class="item">3</div> -->
+  </div>
+  <script>
+
+  </script>
+</body>
+</html>

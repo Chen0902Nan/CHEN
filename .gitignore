@@ -1,0 +1,4 @@
+# 忽略的文件
+node_modules/
+.env
+.env.local

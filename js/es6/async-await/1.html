@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // fetch("https://api.github.com/users/shunwuyu/repos")
+      //   .then((res) => {
+      //     return res.json();
+      //     console.log(res.json());
+      //   })
+      //   .then((data) => {
+      //     console.log(data);
+      //   });
+
+      // es8 async 修饰异步函数
+      const main = async () => {
+        // 等待右边的promise
+        // res拿到值后，才会继续执行接下来的代码
+        // async await 成双结对 ，顶层可以只用await
+        const res = await fetch("https://api.github.com/users/shunwuyu/repos");
+        const data = await res.json();
+        console.log(data);
+      };
+      main();
+    </script>
+  </body>
+</html>

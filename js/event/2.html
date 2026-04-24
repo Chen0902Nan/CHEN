@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>事件委托</title>
+  </head>
+  <body>
+    <ul id="list">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+    </ul>
+    <script>
+      const list = document.getElementById("list");
+      // list 中的任何一个li都会触发
+      list.addEventListener("click", function (e) {
+        // if (e.target.tagName === "LI") {
+        //   console.log(e.target.innerHTML);
+        // }
+        console.log(e.target.innerHTML);
+      });
+      // const lists = document.querySelectorAll("#list li");
+      // for (let i = 0; i < lists.length; i++) {
+      //   lists[i].addEventListener("click", function () {
+      //     console.log(this.innerHTML);
+      //   });
+      // }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "林晓晓",
+      "hometown": "桂林"
+    },
+    {
+      "id": 2,
+      "username": "陈宇航",
+      "hometown": "厦门"
+    },
+    {
+      "id": 3,
+      "username": "张雨婷",
+      "hometown": "昆明"
+    },
+    {
+      "id": 4,
+      "username": "李泽宇",
+      "hometown": "大连"
+    },
+    {
+      "id": 5,
+      "username": "王思睿",
+      "hometown": "成都"
+    },
+    {
+      "id": 6,
+      "username": "刘梦琪",
+      "hometown": "西安"
+    },
+    {
+      "id": 7,
+      "username": "赵天宇",
+      "hometown": "青岛"
+    },
+    {
+      "id": 8,
+      "username": "孙雅静",
+      "hometown": "杭州"
+    }
+  ]
+}

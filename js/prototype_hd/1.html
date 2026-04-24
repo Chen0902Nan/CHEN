@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 父类
+      function Animal(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      Animal.prototype.species = "动物";
+
+      function Cat(name, age, color) {
+        // console.log(this);
+
+        // {}空对象 ->
+        // 构造函数式继承
+        // 手动指定
+        // Animal.call(this, name, age);
+        // 功能一样，传参方式不一样
+        // Animal.apply(this, [name, age]);
+        this.color = color;
+      }
+      Cat.prototype = new Animal();
+      Cat.prototype.constructor = Cat;
+
+      const cat = new Cat("加菲猫", 2, "orange");
+      console.log(cat.constructor);
+
+      console.log(cat);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,115 @@
+<!-- 新闻详情页 -->
+<view class="container">
+  <view class="hero-card section-card">
+    <view class="section-kicker">深度阅读</view>
+    <view class="news-title">{{news.title}}</view>
+
+    <view class="author-info" wx:if="{{news.author}}">
+      <image
+        class="author-avatar"
+        src="{{news.authorAvatar || '/images/default_avatar.png'}}"
+        mode="aspectFill"
+      ></image>
+      <view class="author-meta">
+        <text class="author-name">{{news.author}}</text>
+        <text class="publish-time">{{news.publishTime}}</text>
+      </view>
+      <button
+        class="follow-btn {{isFollowing ? 'following' : ''}}"
+        bindtap="onFollow"
+        wx:if="{{news.authorId && !isAuthor}}"
+      >
+        {{isFollowing ? '已关注' : '关注'}}
+      </button>
+    </view>
+
+    <view class="news-stats">
+      <text class="view-count">{{news.view_count || 0}} 阅读</text>
+    </view>
+  </view>
+
+  <view wx:if="{{news.image}}" class="cover-card section-card">
+    <image class="news-image" src="{{news.image}}" mode="widthFix"></image>
+  </view>
+
+  <view class="news-content section-card">
+    <view class="content-head">
+      <text class="content-title">正文</text>
+      <text class="content-tip">持续为你更新相关讨论</text>
+    </view>
+    <rich-text class="content-html" nodes="{{news.contentHtml || news.content}}"></rich-text>
+  </view>
+
+  <view class="action-bar section-card">
+    <view class="action-item" bindtap="onLike">
+      <image class="action-icon" src="../../images/{{isLiked ? 'like_active' : 'like'}}.png"></image>
+      <text class="action-text">点赞 {{likeCount}}</text>
+    </view>
+
+    <view class="action-item" bindtap="onFavorite">
+      <image class="action-icon" src="../../images/{{isFavorited ? 'favorite_active' : 'favorite'}}.png"></image>
+      <text class="action-text">收藏 {{favoriteCount}}</text>
+    </view>
+
+    <view class="action-item" bindtap="onComment">
+      <image class="action-icon" src="../../images/comment.png"></image>
+      <text class="action-text">评论 {{commentCount}}</text>
+    </view>
+  </view>
+
+  <view class="author-action-bar section-card" wx:if="{{isAuthor}}">
+    <view class="author-action-item" bindtap="onEditNews">
+      <text class="author-action-icon">✏️</text>
+      <text class="author-action-text">编辑文章</text>
+    </view>
+    <view class="author-action-divider"></view>
+    <view class="author-action-item delete" bindtap="onDeleteNews">
+      <text class="author-action-icon">🗑️</text>
+      <text class="author-action-text">删除文章</text>
+    </view>
+  </view>
+
+  <view class="comment-section section-card">
+    <view class="comment-head">
+      <text class="comment-title">评论 {{commentCount}}</text>
+      <text class="comment-subtitle">看看大家都在聊什么</text>
+    </view>
+
+    <block wx:for="{{comments}}" wx:for-item="comment" wx:key="_id">
+      <view class="comment-item">
+        <image
+          class="comment-avatar"
+          src="{{comment.userAvatar || '/images/default_avatar.png'}}"
+          mode="aspectFill"
+        ></image>
+        <view class="comment-content">
+          <text class="comment-nickname">{{comment.userNickname || '匿名用户'}}</text>
+          <view class="comment-text">{{comment.content}}</view>
+          <view class="comment-meta">
+            <text class="comment-time">{{comment.createTime}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <view wx:if="{{comments.length === 0}}" class="no-comments">
+      <image class="no-comments-image" src="/images/empty_state.png" mode="aspectFit"></image>
+      <text class="no-comments-title">还没有评论</text>
+      <text class="no-comments-desc">抢先说说你的观点吧</text>
+    </view>
+  </view>
+
+  <view class="comment-compose">
+    <view class="comment-input">
+      <input
+        class="input"
+        placeholder="写下你的评论..."
+        value="{{commentText}}"
+        bindinput="onCommentInput"
+        confirm-type="send"
+        bindconfirm="onSubmitComment"
+      />
+      <button class="submit-btn" bindtap="onSubmitComment">发送</button>
+    </view>
+  </view>
+</view>

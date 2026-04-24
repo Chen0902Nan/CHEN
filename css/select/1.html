@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .todo-list {
+        list-style: none;
+        padding: 0;
+        width: 300px;
+      }
+      .todo-list li {
+        padding: 12px 15px;
+        margin-bottom: 8px;
+        background-color: #f9f9f9;
+        border-left: 4px solid #ddd;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+      }
+      .todo-list li:hover {
+        background-color: #edf7ff;
+        transform: translateX(5px);
+      }
+      .todo-list li.completed {
+        color: #999;
+        text-decoration: line-through;
+        border-left-color: #4caf50;
+      }
+      .todo-list li.important {
+        font-weight: bold;
+        border-left-color: #ff9800;
+      }
+      .todo-list li:last-child {
+        margin-bottom: 0;
+      }
+      .todo-list li::before {
+        content: "☐ ";
+        margin-right: 8px;
+      }
+      .todo-list li.completed::before {
+        content: "☑ ";
+      }
+    </style>
+  </head>
+  <body>
+    <ul class="todo-list">
+      <li class="completed">学习HTML基础</li>
+      <li class="important">掌握CSS选择器</li>
+      <li>探索JavaScript奥秘</li>
+      <li>喝一杯水</li>
+    </ul>
+  </body>
+</html>

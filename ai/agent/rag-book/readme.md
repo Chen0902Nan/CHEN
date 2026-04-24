@@ -1,0 +1,47 @@
+# RAG 电子书
+
+- 一本电子书，如何做rag
+
+- RAG 的流程
+
+1. 知识库
+2. @langchain/community
+   来自社区的各种loader
+3. Splitter
+4. Document
+   pageContent
+   meta:
+5. Embedding Model
+6. Milvus
+
+## 开发流程
+
+- ensureBookCollection
+  - 判断集合是否存在 hasCollection
+  - 创建集合 createCollection
+    schema
+  - 创建索引
+  - 加载集合 loadCollection
+
+- 选取向量数据库
+- 创建COLLECTION
+- 数据清洗与提取
+- 切割
+- 向量化存储
+- 加载数据库
+- 对question向量化，进行数据库COSIN搜索，选取K条相近数据
+- 通过llm对question和语义化得到的k条数据，通过Prompt进行回答
+
+## MVP
+
+- Vibe Coding
+  - 代码平权
+  - idea 设计师
+    Minimum Viable Product
+    cursor/claude code 编程Agent MVP
+    产品原型是产品经理设计出来的原型稿
+- 正式的商业级别开发
+  程序员 继续vibe coding
+- 语义搜索和文本匹配
+  - 文本匹配 低级搜索 like %段誉%
+  - 语义搜索更加强大

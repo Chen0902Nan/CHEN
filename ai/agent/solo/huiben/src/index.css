@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 导入中文字体 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+@layer base {
+  :root {
+    font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    line-height: 1.5;
+    font-weight: 400;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+    /* 绘本岛品牌色彩变量 */
+    --color-primary-50: #FAF8F3;
+    --color-primary-100: #F5F1E8;
+    --color-primary-200: #E8DCC0;
+    --color-primary-300: #D4C5A0;
+    --color-primary-400: #C4B080;
+    --color-primary-500: #B5A06A;
+    --color-primary-600: #A68B5B;
+    --color-primary-700: #8B7355;
+    --color-primary-800: #6B5D4F;
+    --color-primary-900: #4A4A4A;
+    
+    --color-secondary-50: #FFF8DC;
+    --color-secondary-100: #FFE4B5;
+    --color-secondary-200: #FFD700;
+    --color-secondary-300: #FFA500;
+    --color-secondary-400: #FF8C00;
+    --color-secondary-500: #FF7F50;
+    
+    --color-accent-50: #F0F8FF;
+    --color-accent-100: #E0F6FF;
+    --color-accent-200: #87CEEB;
+    --color-accent-300: #5F9EA0;
+    --color-accent-400: #4682B4;
+    --color-accent-500: #1E90FF;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-primary-50);
+    color: var(--color-primary-900);
+    overflow-x: hidden;
+  }
+  
+  /* 滚动条样式 */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--color-primary-100);
+    border-radius: 3px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-primary-300);
+    border-radius: 3px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-400);
+  }
+}
+
+@layer components {
+  /* 绘本岛特色组件样式 */
+  .btn-primary {
+    @apply bg-accent-200 hover:bg-accent-300 text-primary-900 font-medium py-3 px-6 rounded-2xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary-100 hover:bg-secondary-200 text-primary-800 font-medium py-3 px-6 rounded-2xl transition-all duration-200 shadow-md hover:shadow-lg;
+  }
+  
+  .card {
+    @apply bg-white rounded-3xl shadow-lg p-6 border border-primary-100 hover:shadow-xl transition-all duration-300;
+  }
+  
+  .card-gentle {
+    @apply bg-gradient-to-br from-primary-50 to-secondary-50 rounded-4xl shadow-lg p-6 border border-primary-100 hover:shadow-xl transition-all duration-300;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-3 rounded-2xl border-2 border-primary-200 focus:border-accent-300 focus:outline-none transition-colors duration-200 bg-white;
+  }
+  
+  .text-gradient {
+    @apply bg-gradient-to-r from-accent-300 to-accent-500 bg-clip-text text-transparent;
+  }
+  
+  /* 动画效果 */
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .animate-pulse-gentle {
+    animation: pulse-gentle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  @keyframes pulse-gentle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+}

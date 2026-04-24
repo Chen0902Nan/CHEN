@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 简单数据类型，不能new
+      // 构造函数，代码可读性
+      const wes = Symbol("Wes");
+      const person = Symbol("Wes");
+      // console.log(wes == person);
+      const classRoom = {
+        [Symbol("Mark")]: { grade: 50, gender: "male" },
+        [Symbol("oliva")]: { grade: 80, gender: "female" },
+        [Symbol("oliva")]: { grade: 85, gender: "female" },
+        dl: "111",
+      };
+      //  for key in
+      for (const person in classRoom) {
+        // Symbol作为key，不可以被枚举
+        console.log(person, "///");
+      }
+      // console.log(classRoom);
+      const syms = Object.getOwnPropertySymbols(classRoom);
+      console.log(syms);
+      const data = syms.map((item) => {
+        return classRoom[item];
+      });
+      console.log(data);
+    </script>
+  </body>
+</html>

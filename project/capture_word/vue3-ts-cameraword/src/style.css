@@ -1,0 +1,58 @@
+/* Modern Reset (基于 Josh Comeau 的理念精简) */
+
+/* 1. 使用更直观的盒模型 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 2. 移除默认边距 */
+* {
+  margin: 0;
+}
+
+/* 3. 允许继承字体大小并设置行高 */
+html {
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+/* 4. 移除列表样式 */
+ul,
+ol {
+  list-style: none;
+}
+
+/* 5. 移除图片默认行为 */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 6. 移除表单元素默认样式 */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* 7. 移除链接默认颜色和下划线 (可选，视设计需求而定) */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 8. 确保表格边框合并 */
+table {
+  border-collapse: collapse;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>手写 Ajax</title>
+  </head>
+  <body>
+    <script>
+      const getJSON = (url) =>
+        // 返回Promise实例， Promise类定义了then方法
+        new Promise((resolve, reject) => {
+          // executer 执行器函数 同步执行
+          // 将耗时的异步任务放在里面
+          const xhr = new XMLHttpRequest();
+          xhr.open("GET", url, true);
+          xhr.send();
+          xhr.onreadystatechange = function () {
+            // readyState 5个状态 0-4 4表示已完成
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              const data = JSON.parse(xhr.responseText);
+              // 成功之后 将数据传给实例化对象
+              resolve(data);
+            }
+          };
+          xhr.onerror = function () {
+            reject("请求出错了");
+          };
+        });
+
+      // promise 是es6提供的异步编程解决方案，优于回调函数
+      // promise 实例 then
+      // promise
+      // promise 实例 resolve 后运行
+      getJSON("https://api.github.com/users/shunwuyu")
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    </script>
+  </body>
+</html>

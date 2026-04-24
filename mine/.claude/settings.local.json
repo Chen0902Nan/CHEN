@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pdftotext \"d:/workspace/lesson_zp/陈炳南-AIGC全栈开发-Prompt Engineer-15179073448.pdf\" -)",
+      "Bash(python3 -c ':*)",
+      "Bash(python -c ':*)",
+      "Bash(/d/workspace/lesson_zp/.venv/Scripts/python -c ':*)",
+      "Bash(/d/workspace/lesson_zp/.venv/Scripts/python -m pip list)",
+      "Bash(ls *.pdf)"
+    ]
+  }
+}

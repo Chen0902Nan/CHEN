@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2024 赛博朋克 GDP 全息地球</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #000;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      /* UI 容器 */
+      #ui-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        background: radial-gradient(
+          circle at center,
+          transparent 0%,
+          #000 120%
+        );
+      }
+
+      /* 标题区域 */
+      #header {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        color: #fff;
+      }
+      h1 {
+        font-size: 32px;
+        margin: 0;
+        color: #00ffff;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        text-shadow: 0 0 20px #00ffff;
+        font-weight: 800;
+      }
+      .subtitle {
+        font-size: 14px;
+        color: #0088ff;
+        letter-spacing: 2px;
+        margin-top: 5px;
+      }
+
+      /* 悬浮提示框 (更科幻) */
+      #tooltip {
+        position: absolute;
+        background: rgba(0, 10, 20, 0.85);
+        border: 1px solid #00ffff;
+        border-left: 4px solid #00ffff;
+        color: #fff;
+        padding: 15px;
+        pointer-events: none;
+        display: none;
+        backdrop-filter: blur(10px);
+        transform: translate(20px, -50%);
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+        font-family: "Courier New", monospace;
+      }
+      #tooltip::before {
+        content: "";
+        position: absolute;
+        top: -1px;
+        right: -1px;
+        bottom: -1px;
+        left: -1px;
+        z-index: -1;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(0, 255, 255, 0.1),
+          transparent
+        );
+      }
+      .tt-label {
+        font-size: 10px;
+        color: #0088ff;
+        text-transform: uppercase;
+      }
+      .tt-value {
+        font-size: 24px;
+        color: #fff;
+        font-weight: bold;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ui-layer">
+      <div id="header">
+        <h1>Global Economy 2024</h1>
+        <div class="subtitle">/// HOLOGRAPHIC VISUALIZATION SYSTEM ///</div>
+      </div>
+    </div>
+
+    <div id="tooltip">
+      <div class="tt-label">TARGET ENTITY</div>
+      <div id="tt-name" style="font-size: 18px; margin-bottom: 5px">
+        COUNTRY
+      </div>
+      <div class="tt-label">ESTIMATED GDP</div>
+      <div id="tt-value" class="tt-value">$00.0 T</div>
+    </div>
+
+    <!-- 引入库：注意这里引入了 EffectComposer 用于后期处理 -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import * as THREE from "three";
+      import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+
+      // --- 1. 场景基础 ---
+      const scene = new THREE.Scene();
+      // 深空背景色，带一点蓝调
+      scene.background = new THREE.Color(0x000205);
+      scene.fog = new THREE.FogExp2(0x000205, 0.02);
+
+      const camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      camera.position.set(0, 25, 70);
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true }); // 在使用后期处理时，自带的抗锯齿可能无效，但先开着
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      // 色调映射，让亮部更自然
+      renderer.toneMapping = THREE.ReinhardToneMapping;
+      document.body.appendChild(renderer.domElement);
+
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.autoRotate = true;
+      controls.autoRotateSpeed = 0.8;
+      controls.minDistance = 20;
+      controls.maxDistance = 200;
+
+      // --- 2. 后期处理 (关键步骤：辉光效果) ---
+      const renderScene = new RenderPass(scene, camera);
+
+      // 参数：分辨率, 强度, 半径, 阈值
+      // 强度(1.5)决定了亮度的夸张程度
+      const bloomPass = new UnrealBloomPass(
+        new THREE.Vector2(window.innerWidth, window.innerHeight),
+        1.5,
+        0.4,
+        0.85
+      );
+      bloomPass.threshold = 0; // 任何亮度的物体都参与辉光
+      bloomPass.strength = 2.0; // 超强辉光
+      bloomPass.radius = 0.5;
+
+      const composer = new EffectComposer(renderer);
+      composer.addPass(renderScene);
+      composer.addPass(bloomPass);
+
+      // --- 3. 打造赛博朋克地球 ---
+      const earthGroup = new THREE.Group();
+      scene.add(earthGroup);
+      const EARTH_RADIUS = 16;
+
+      // A. 核心黑体 (遮挡背面)
+      const blackSphere = new THREE.Mesh(
+        new THREE.SphereGeometry(EARTH_RADIUS - 0.1, 64, 64),
+        new THREE.MeshBasicMaterial({ color: 0x000000 })
+      );
+      earthGroup.add(blackSphere);
+
+      // B. 粒子表面 (代替线框，更具科技感)
+      const particlesGeo = new THREE.BufferGeometry();
+      const particleCount = 4000; // 粒子数量
+      const posArray = new Float32Array(particleCount * 3);
+
+      for (let i = 0; i < particleCount * 3; i += 3) {
+        // 在球面上均匀分布点
+        const phi = Math.acos(-1 + (2 * i) / 3 / particleCount);
+        const theta = Math.sqrt(particleCount * Math.PI) * phi;
+
+        posArray[i] = EARTH_RADIUS * Math.cos(theta) * Math.sin(phi);
+        posArray[i + 1] = EARTH_RADIUS * Math.sin(theta) * Math.sin(phi);
+        posArray[i + 2] = EARTH_RADIUS * Math.cos(phi);
+      }
+      particlesGeo.setAttribute(
+        "position",
+        new THREE.BufferAttribute(posArray, 3)
+      );
+
+      const particlesMat = new THREE.PointsMaterial({
+        size: 0.15,
+        color: 0x0088ff, // 基础蓝
+        transparent: true,
+        opacity: 0.8,
+        blending: THREE.AdditiveBlending,
+      });
+      const earthParticles = new THREE.Points(particlesGeo, particlesMat);
+      earthGroup.add(earthParticles);
+
+      // C. 经纬线 (保留少量线条作为骨架)
+      const wireGeo = new THREE.WireframeGeometry(
+        new THREE.SphereGeometry(EARTH_RADIUS, 16, 16)
+      );
+      const wireMat = new THREE.LineBasicMaterial({
+        color: 0x0033aa,
+        transparent: true,
+        opacity: 0.15,
+      });
+      const earthLines = new THREE.LineSegments(wireGeo, wireMat);
+      earthGroup.add(earthLines);
+
+      // D. 大气辉光 (由内而外的亮光)
+      const glowGeo = new THREE.SphereGeometry(EARTH_RADIUS + 3, 64, 64);
+      // 自定义着色器太复杂，这里用背面渲染+叠加混合模拟
+      const glowMat = new THREE.MeshBasicMaterial({
+        color: 0x00aaff,
+        transparent: true,
+        opacity: 0.15,
+        side: THREE.BackSide,
+        blending: THREE.AdditiveBlending,
+      });
+      const atmosphere = new THREE.Mesh(glowGeo, glowMat);
+      scene.add(atmosphere);
+
+      // E. 旋转的数据环 (装饰)
+      function createRing(radius, color) {
+        const ringGeo = new THREE.TorusGeometry(radius, 0.05, 16, 100);
+        const ringMat = new THREE.MeshBasicMaterial({ color: color });
+        const ring = new THREE.Mesh(ringGeo, ringMat);
+        ring.rotation.x = Math.PI / 2;
+        return ring;
+      }
+      const ring1 = createRing(EARTH_RADIUS + 4, 0x00ffff);
+      const ring2 = createRing(EARTH_RADIUS + 6, 0xff00ff);
+      ring1.rotation.x = Math.PI / 2 + 0.2;
+      ring2.rotation.y = 0.5;
+      scene.add(ring1);
+      scene.add(ring2);
+
+      // --- 4. 数据与能量柱 ---
+      const gdpData = [
+        { name: "USA", value: 28.0, lat: 38.0, lon: -97.0, color: 0x00ffff }, // 美国 - 青色
+        { name: "CHINA", value: 18.5, lat: 35.0, lon: 105.0, color: 0xff0055 }, // 中国 - 玫红
+        { name: "GERMANY", value: 4.7, lat: 51.0, lon: 10.0, color: 0xffaa00 }, // 德国 - 橙色
+        { name: "JAPAN", value: 4.1, lat: 36.0, lon: 138.0, color: 0xffaa00 },
+        { name: "INDIA", value: 4.1, lat: 22.0, lon: 79.0, color: 0xffaa00 },
+        { name: "UK", value: 3.5, lat: 54.0, lon: -2.0, color: 0x00ff00 },
+        { name: "FRANCE", value: 3.1, lat: 46.0, lon: 2.0, color: 0x00ff00 },
+        { name: "BRAZIL", value: 2.3, lat: -10.0, lon: -55.0, color: 0x00ff00 },
+        { name: "ITALY", value: 2.3, lat: 42.5, lon: 12.5, color: 0x00ff00 },
+        { name: "CANADA", value: 2.2, lat: 56.0, lon: -106.0, color: 0x00ff00 },
+        { name: "RUSSIA", value: 2.0, lat: 60.0, lon: 90.0, color: 0x00ff00 },
+      ];
+
+      function latLongToVector3(lat, lon, radius) {
+        const phi = (90 - lat) * (Math.PI / 180);
+        const theta = (lon + 180) * (Math.PI / 180);
+        const x = -(radius * Math.sin(phi) * Math.cos(theta));
+        const z = radius * Math.sin(phi) * Math.sin(theta);
+        const y = radius * Math.cos(phi);
+        return new THREE.Vector3(x, y, z);
+      }
+
+      const barGroup = new THREE.Group();
+      earthGroup.add(barGroup); // 柱子随地球转
+      const bars = [];
+
+      gdpData.forEach((data) => {
+        // 使用 BoxGeometry
+        const h = Math.max(data.value * 0.8, 0.5);
+        const geometry = new THREE.BoxGeometry(0.6, 1, 0.6);
+        geometry.translate(0, 0.5, 0);
+
+        // 关键：MeshBasicMaterial 配合 Bloom 才能发光。不要用 Standard/Phong
+        const material = new THREE.MeshBasicMaterial({
+          color: data.color,
+          transparent: true,
+          opacity: 0.8,
+        });
+
+        const bar = new THREE.Mesh(geometry, material);
+        const pos = latLongToVector3(data.lat, data.lon, EARTH_RADIUS);
+
+        bar.position.copy(pos);
+        bar.lookAt(0, 0, 0);
+        // 修正 lookAt 后的方向，让底部对准球心，向上生长
+        const normal = pos.clone().normalize();
+        bar.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal);
+
+        bar.userData = {
+          name: data.name,
+          value: data.value,
+          targetH: h,
+          pulseSpeed: Math.random() * 2 + 1, // 随机呼吸速度
+        };
+        bar.scale.set(1, 0.01, 1);
+
+        barGroup.add(bar);
+        bars.push(bar);
+
+        // 添加底部光点，增加根部亮度
+        const pointLightGeo = new THREE.SphereGeometry(0.4, 8, 8);
+        const pointLightMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const point = new THREE.Mesh(pointLightGeo, pointLightMat);
+        point.position.copy(pos);
+        earthGroup.add(point);
+      });
+
+      // --- 5. 背景星空粒子 ---
+      const starsGeo = new THREE.BufferGeometry();
+      const starsCount = 2000;
+      const starsPos = new Float32Array(starsCount * 3);
+      for (let i = 0; i < starsCount * 3; i++) {
+        starsPos[i] = (Math.random() - 0.5) * 400;
+      }
+      starsGeo.setAttribute("position", new THREE.BufferAttribute(starsPos, 3));
+      const starsMat = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 0.5,
+        sizeAttenuation: true,
+      });
+      const starField = new THREE.Points(starsGeo, starsMat);
+      scene.add(starField);
+
+      // --- 6. 交互与动画 ---
+      const raycaster = new THREE.Raycaster();
+      const mouse = new THREE.Vector2();
+      const tooltip = document.getElementById("tooltip");
+      let hoveredBar = null;
+
+      window.addEventListener("mousemove", (e) => {
+        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        tooltip.style.left = e.clientX + 20 + "px";
+        tooltip.style.top = e.clientY + "px";
+      });
+
+      const clock = new THREE.Clock();
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        const time = clock.getElapsedTime();
+        const delta = clock.getDelta();
+
+        controls.update();
+
+        // 地球粒子闪烁效果
+        // 简单模拟：通过旋转粒子层
+        earthParticles.rotation.y = -time * 0.05;
+
+        // 环的旋转
+        ring1.rotation.x = Math.sin(time * 0.2) * 0.5 + Math.PI / 2;
+        ring1.rotation.y += 0.01;
+        ring2.rotation.x += 0.015;
+
+        // 柱子动画
+        bars.forEach((bar) => {
+          // 1. 生长动画
+          if (bar.scale.y < bar.userData.targetH) {
+            bar.scale.y += (bar.userData.targetH - bar.scale.y) * 0.05;
+          } else {
+            // 2. 呼吸效果 (到达高度后开始律动)
+            const scale =
+              bar.userData.targetH +
+              Math.sin(time * bar.userData.pulseSpeed) * 0.5;
+            bar.scale.y = scale;
+          }
+        });
+
+        // 交互检测
+        raycaster.setFromCamera(mouse, camera);
+        // 注意：因为柱子在 group 里，且地球在转，检测稍显复杂，这里简化逻辑
+        const intersects = raycaster.intersectObjects(barGroup.children);
+
+        if (intersects.length > 0) {
+          const obj = intersects[0].object;
+          if (hoveredBar !== obj) {
+            if (hoveredBar)
+              hoveredBar.material.color.setHex(
+                hoveredBar.userData.originalColor
+              );
+
+            hoveredBar = obj;
+            // 保存原始颜色以便恢复 (虽然这里我们没存，简单设为白色高亮)
+            if (!hoveredBar.userData.originalColor)
+              hoveredBar.userData.originalColor =
+                hoveredBar.material.color.getHex();
+
+            hoveredBar.material.color.set(0xffffff); // 悬停变白
+
+            document.getElementById("tt-name").innerText =
+              hoveredBar.userData.name;
+            document.getElementById("tt-value").innerText =
+              "$" + hoveredBar.userData.value.toFixed(1) + " T";
+            tooltip.style.display = "block";
+            document.body.style.cursor = "pointer";
+          }
+        } else {
+          if (hoveredBar) {
+            hoveredBar.material.color.setHex(hoveredBar.userData.originalColor);
+            hoveredBar = null;
+            tooltip.style.display = "none";
+            document.body.style.cursor = "default";
+          }
+        }
+
+        // 关键：使用 composer 渲染而不是 renderer
+        composer.render();
+      }
+
+      animate();
+
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        composer.setSize(window.innerWidth, window.innerHeight);
+      });
+    </script>
+  </body>
+</html>

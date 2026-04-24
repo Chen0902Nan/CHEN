@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=, initial-scale=1.0" />
+    <title>防抖</title>
+  </head>
+  <body>
+    <div>
+      <input type="text" id="undebounce" />
+      <input type="text" id="debounce" />
+      <input type="text" id="throttle" />
+    </div>
+    <script>
+      // 高阶函数 -> 参数或者返回值(闭包)是一个函数(函数就是对象)
+      //       function debounce(fn, delay) {
+      //   var id; // 自由变量
+      //   return function(args) {
+      //     if(id) clearTimeout(id);
+      //     var that = this;
+      //     id = setTimeout(function(){
+      //       fn.call(that, args)
+      //     }, delay);
+      //   }
+      // }
+      function debounce(fn, delay) {
+        let timer = null; // 自由变量
+        return function (...args) {
+          if (timer) clearTimeout(timer);
+          timer = setTimeout(() => {
+            // 保证内部的this和调用时一致
+            // 将事件处理器的函数参数全部收集
+            fn.apply(this, args);
+          }, delay);
+        };
+      }
+      function throttle(fn, delay) {
+        // 节流 fn 是要执行的任务
+        let last, deferTimer;
+        return function (args) {
+          let that = this; // this丢失问题
+          let _args = arguments; // 类数组对象
+          let now = +new Date(); // 强制类型转换 转换成为毫秒数
+          // last 上次执行过 并且还没到执行时间
+          if (last && now < last + delay) {
+            clearTimeout(deferTimer);
+            deferTimer = setTimeout(function () {
+              last = now;
+              fn.apply(that, _args);
+            }, delay);
+            // 负责第一次执行，以及每一次到达规定时间后执行
+          } else {
+            last = now;
+            fn.apply(that, _args);
+          }
+        };
+      }
+
+      const ajax = function (content) {
+        console.log("ajax request", content);
+      };
+      const debounceAjax = debounce(function (content) {
+        console.log("ajax request", content);
+      }, 500);
+      const throttleAjax = throttle(function (content) {
+        console.log("ajax request", content);
+      });
+
+      const inputa = document.getElementById("undebounce");
+      const inputb = document.getElementById("debounce");
+      const inputc = document.getElementById("throttle");
+      // 频繁触发
+      inputa.addEventListener("keyup", function (e) {
+        ajax(e.target.value); // 复杂事件
+      });
+      inputb.addEventListener("keyup", function (e) {
+        debounceAjax(e.target.value);
+      });
+      inputc.addEventListener("keyup", function (e) {
+        throttleAjax(e.target.value);
+      });
+    </script>
+  </body>
+</html>

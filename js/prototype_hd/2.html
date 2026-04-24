@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>利用空对象作为中介</title>
+  </head>
+  <body>
+    <script>
+      function Animal(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      Animal.prototype.species = "动物";
+      function Cat(name, age, color) {}
+
+      var F = function () {}; // 空的函数
+      F.prototype = Animal.prototype; // 不改F
+      var f = new F(); // 空对象 与F.prototype 独立的对象
+      Cat.prototype = f;
+      Cat.prototype.constructor = Cat;
+      console.log(Animal.prototype.constructor);
+      var cat = new Cat("加菲猫", 2, "黄色");
+      console.log(cat.__proto__);
+      console.log(cat.__proto__.constructor);
+
+      function extend(Child, Parent) {
+        // 引入一个空对象 Function 实例化 不走Object,没必要把祖师爷请出来
+        // 原型链的概念
+        // 目的地是 Parent.prototype
+        F.prototype = Parent.prototype;
+        // Cat.prototype=new F() 实例,原型对象
+        // 出发点 Cat.prototype
+        const F = new Function();
+        // 只修改 F 不会修改到原型对象上的属性和方法
+        Child.prototype = new F();
+        Child.prototype.constructor = Child;
+      }
+    </script>
+  </body>
+</html>

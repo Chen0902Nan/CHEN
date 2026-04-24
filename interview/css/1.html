@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>外边距重叠示例</title>
+    <style>
+      body {
+        padding: 20px;
+        font-family: sans-serif;
+      }
+
+      /* 父元素：没有边框，没有内边距 */
+      .parent {
+        background-color: #e0e0e0; /* 灰色背景 */
+        width: 300px;
+        /* 注意：这里没有 border 和 padding */
+        overflow: hidden;
+      }
+
+      /* 子元素 */
+      .child {
+        background-color: #ff6b6b; /* 红色背景 */
+        height: 100px;
+        width: 100px;
+        color: white;
+
+        /* 关键属性：设置了上外边距 */
+        margin-top: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>预期效果：子元素距离父元素顶部 50px</h3>
+    <h3>实际效果：父元素也被推下去了 50px</h3>
+
+    <div class="parent">
+      <div class="child">我是子元素</div>
+    </div>
+  </body>
+</html>

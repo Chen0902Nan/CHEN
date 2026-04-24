@@ -1,0 +1,21 @@
+// {
+//   // ... 你已有的其他设置 ...
+
+//   // 在保存时格式化文件
+//   "editor.formatOnSave": true,
+
+//   // 可选： 如果没有指定默认格式化工具，则使用 Prettier
+//   "editor.defaultFormatter": "esbenp.prettier-vscode"
+// }
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "liveServer.settings.port": 5501,
+  
+}
