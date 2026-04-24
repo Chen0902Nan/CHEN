@@ -11,7 +11,7 @@
    然后通过top,left设置为50%
    transform:translate(-50%,-50%)
 3. 网格布局 Grid
-   display:gird;
+   display:grid;
    place-items:center
 4. 子绝父相
    但是子元素的top,right,bottom,left都设置为0，给定一个高度，margin:auto
@@ -19,4 +19,3 @@
 5. 单行文本
    height:100px
    line-height：100px
-

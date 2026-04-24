@@ -30,15 +30,15 @@
 
 正常结束发 done，异常中断发 error，前端关闭就 abort 上游请求并清理资源。
 
-```
+```js
 function CloseEventSource() {
-if (es) {
-es.close();
-es = null;
+  if (es) {
+    es.close();
+    es = null;
+  }
+  sendBtn.disabled = false;
 }
-sendBtn.disabled = false;
-}
-window.addEventListener('beforeunload', CloseEventSource);
+window.addEventListener("beforeunload", CloseEventSource);
 ```
 
 ### SSE 和 WebSocket的区别
@@ -143,6 +143,6 @@ window.addEventListener('beforeunload', CloseEventSource);
 
 #### SSE请求的过程中，突然网络中断，怎么连接回当前节点，怎么定位到发到哪了，后端继续从这个地方往下发
 
-1. 服务端可以在每次数据推送中维护一个唯一标识符{"seq":"1024","content":"xxx"}seq
+1. 服务端可以在每次数据推送中维护一个唯一标识符 Last-Event-Id {"seq":"1024","content":"xxx"}seq
 2. 前端的EventSource在onerror触发时，浏览器会自动重连，我们可以控制这个重连行为。前端在收到每一条数据后，将当前的seq存入sessionStorage或者内存变量中，在EventSource初始化或者重连时，通过url参数将上次成功发送的seq传给后端
 3. 后端收到上一次的seq后检查存储系统中seq的对应位置，如果上一次seq对应的任务没结束，就从该位置开始，

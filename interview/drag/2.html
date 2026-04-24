@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>最简单拖拽排序</title>
+    <style>
+      .list {
+        width: 300px;
+        margin: 20px;
+      }
+      .item {
+        padding: 10px;
+        margin: 5px 0;
+        background: #f0f0f0;
+        cursor: move; /* 鼠标变成拖拽样式 */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="list" id="list">
+      <div class="item" draggable="true">列表项 1</div>
+      <div class="item" draggable="true">列表项 2</div>
+      <div class="item" draggable="true">列表项 3</div>
+      <div class="item" draggable="true">列表项 4</div>
+    </div>
+
+    <script>
+      const list = document.getElementById("list");
+      let dragItem = null; // 记录正在拖拽的元素
+
+      // 监听拖拽开始
+      list.addEventListener("dragstart", (e) => {
+        dragItem = e.target;
+        e.target.style.opacity = "0.5"; // 拖拽时半透明
+      });
+
+      // 监听拖拽结束
+      list.addEventListener("dragend", (e) => {
+        e.target.style.opacity = "1";
+        dragItem = null;
+      });
+
+      // 监听拖拽经过（核心排序逻辑）
+      list.addEventListener("dragover", (e) => {
+        e.preventDefault(); // 必须阻止默认行为才能触发放置
+
+        const afterElement = getDragAfterElement(list, e.clientY);
+        if (afterElement) {
+          list.insertBefore(dragItem, afterElement);
+        } else {
+          list.appendChild(dragItem);
+        }
+      });
+
+      // 计算应该插入到哪个元素下方
+      function getDragAfterElement(container, y) {
+        const items = [...container.querySelectorAll(".item:not(.dragging)")];
+
+        return items.reduce(
+          (closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+
+            if (offset < 0 && offset > closest.offset) {
+              return { offset: offset, element: child };
+            } else {
+              return closest;
+            }
+          },
+          { offset: Number.NEGATIVE_INFINITY },
+        ).element;
+      }
+    </script>
+  </body>
+</html>

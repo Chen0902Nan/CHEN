@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>极简虚拟列表</title>
+    <style>
+        /* 1. 可视区容器：窗口大小固定，允许滚动 */
+        .v-container {
+            height: 400px;
+            width: 300px;
+            border: 2px solid #333;
+            overflow-y: auto;
+            position: relative;
+            margin: 50px auto;
+        }
+
+        /* 2. 滚动占位符：撑起滚动条的高度 (总数据量 * 每项高度) */
+        .v-phantom {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            z-index: -1;
+        }
+
+        /* 3. 真实渲染列表：通过 transform 跟着窗口跑 */
+        .v-list {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            width: 100%;
+        }
+
+        .v-item {
+            height: 50px;
+            box-sizing: border-box;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app" class="v-container">
+        <div id="phantom" class="v-phantom"></div>
+        <div id="list" class="v-list"></div>
+    </div>
+
+    <script>
+        // --- 模拟数据 ---
+        const listData = Array.from({ length: 100000 }).map((_, i) => `第 ${i} 条数据`);
+        const itemHeight = 50;      // 每项高度
+        const visibleCount = 8;     // 窗口能看到的数量 (400 / 50)
+        const bufferCount = 2;      // 缓冲区：上下额外多画 2 条
+
+        const container = document.getElementById('app');
+        const phantom = document.getElementById('phantom');
+        const list = document.getElementById('list');
+
+        // 初始化：撑开总高度
+        phantom.style.height = listData.length * itemHeight + 'px';
+
+        function update() {
+            const scrollTop = container.scrollTop;
+
+            // 1. 计算起始索引 (考虑缓冲区)
+            // 原始位置 - 缓冲区数量 = 真正的渲染起点
+            let start = Math.floor(scrollTop / itemHeight) - bufferCount;
+            start = Math.max(0, start); // 不能小于 0
+
+            // 2. 计算结束索引
+            let end = start + visibleCount + bufferCount * 2;
+            end = Math.min(listData.length, end); // 不能超过总数
+
+            // 3. 截取数据并渲染
+            const visibleData = listData.slice(start, end);
+            list.innerHTML = visibleData.map(item => `<div class="v-item">${item}</div>`).join('');
+
+            // 4. 计算并设置【偏移量】
+            // 核心逻辑：原本应该偏移 scrollTop，但因为多画了 start 之前的，所以得补回来
+            const offset = start * itemHeight;
+            list.style.transform = `translateY(${offset}px)`;
+            
+            console.log(`当前起始点: ${start}, 偏移量: ${offset}px`);
+        }
+
+        // 监听滚动
+        container.addEventListener('scroll', update);
+
+        // 初始化渲染
+        update();
+    </script>
+</body>
+</html>
