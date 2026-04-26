@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(psql --version)",
+      "Bash(pnpm install *)",
+      "Bash(pnpm run *)",
+      "Bash(curl -s http://localhost:3000/api)",
+      "Bash(pkill -f \"nest start\")",
+      "Bash(psql *)",
+      "Read(//c/Program Files/**)",
+      "Read(//c/Program Files \\(x86\\)/**)",
+      "Bash(where psql *)"
+    ]
+  }
+}
