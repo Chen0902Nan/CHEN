@@ -34,7 +34,7 @@ HTTP HypeText Transfer Protocol 是基于TCP/IP的应用层协议，是互联网
 - 缓存机制
   1.1引入了 Cache-Control等复杂的缓存验证机制
 
-- 分快传输 Transfer-Encoding：chunked,服务器边生成边发，浏览器边解析，无需等待完整文件，SSE流式传输，文件流
+- 分快传输 Transfer-Encoding：chunked，服务器边生成边发，浏览器边解析，无需等待完整文件，SSE流式传输，文件流
 
 - OPTIONS请求
   在处理跨域的时候，如果是PUT/DELETE这种复杂请求，浏览器会发送两次请求，第一次为OPTIONS预检请求，服务器通过Access-Control-Origin、Access-Control-Allow-Methods等字段响应，规定客户端可以进行的操作
