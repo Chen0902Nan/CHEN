@@ -114,7 +114,7 @@ observation会发送给LLM 作为下一轮Thought的输入
 
 Thought不是ReAct发明的新东西，而是Chain of Thought(Cot)在Agent场景的应用
 
-Cot是2022年Goole 提出的一种提示技术，核心思想是让LLM在回答问题前先写出推理步骤
+Cot是2022年Google 提出的一种提示技术，核心思想是让LLM在回答问题前先写出推理步骤
 
 Roger 有5个网球，它又买了2罐，每罐3个球，他现在有了多少个球？
 

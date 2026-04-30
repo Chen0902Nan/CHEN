@@ -36,7 +36,7 @@
 - ETag/If-None-Match hash 计算有没有改变
   资源的唯一的指纹
   1. 首次请求，服务器响应头返回一个ETag,作为资源的唯一指纹
-  2. 再次请求，当强缓存失败，浏览器会再次请求，并在请求头中带上 If-Node-Match，If-None-Match 其实就是上次的ETag
+  2. 再次请求，当强缓存失败，浏览器会再次请求，并在请求头中带上 If-None-Match，If-None-Match 其实就是上次的ETag
   3. 服务器判断If-None-Match和资源当前的ETag
      相同：304
      不同：200 + 新的资源
