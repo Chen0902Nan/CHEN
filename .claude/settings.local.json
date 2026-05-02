@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:)"
+      "WebFetch(domain:)",
+      "Bash(python -c \"import numpy; import pygame; print\\('依赖库已安装'\\)\")",
+      "Bash(pip install *)",
+      "Bash(python -c \"from PIL import Image; print\\('Pillow已安装'\\)\")",
+      "Bash(python -c \"import roberts_hidden_removal; print\\('Roberts模块导入成功'\\)\")",
+      "Bash(python -c \"import z_buffer_hidden_removal; print\\('Z-buffer模块导入成功'\\)\")"
     ]
   }
 }
