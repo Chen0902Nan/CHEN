@@ -21,17 +21,24 @@
   typeorm + @nestjs/typeorm orm typeorm 作为nestjs 插件启动
   - 创建users模块
     nest g resource users --no-spec
-     nest g resource ai --no-spec
+    nest g resource ai --no-spec
 
   ## 定时任务
+
   cron job
   定时任务就是指定一个时间，到时会执行某个任务
 
   cron 一个表达式
 
-  7 12 13 10 * ？ 
+  7 12 13 10 * ？
   秒 分 时 日 月 星期(1-7)
   *任意一个月份 每个月
   ？ 忽略 星期几都可以
 
   有多种类型的cron job openclaw 自动化 定时任务非常有需要
+
+  ## tools 模块
+  - AI Module imports
+  - ai模块，providers 越来越多，呈增长趋势
+    不方便管理
+  - agent ？

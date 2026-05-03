@@ -1,31 +1,32 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import {User} from './entities/user.entity'
 import { EntityManager } from 'typeorm';
-import { User } from './entities/user.entity';
+
 
 @Injectable()
 export class UsersService {
   @Inject(EntityManager)
-  entityMannager: EntityManager;
-
+  entityManager!:EntityManager;
+  
   create(createUserDto: CreateUserDto) {
-    return this.entityMannager.save(User, createUserDto);
+    return this.entityManager.save(User,createUserDto)
   }
 
   findAll() {
-    return this.entityMannager.find(User);
+    return this.entityManager.find(User);
   }
 
   findOne(id: number) {
-    return this.entityMannager.findOne(User, { where: { id } });
+    return this.entityManager.findOne(User,{where:{id}});
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return this.entityMannager.update(User, id, updateUserDto);
+    return this.entityManager.update(User,id,updateUserDto);
   }
 
   remove(id: number) {
-    return this.entityMannager.delete(User, id);
+    return this.entityManager.delete(User,id);
   }
 }
