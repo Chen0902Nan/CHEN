@@ -4,7 +4,6 @@ import { AiService } from './ai.service';
 import { Observable,from } from 'rxjs';
 //map 映射
 import { map } from 'rxjs';
-import strict from 'assert/strict';
 
 @Controller('ai')
 export class AiController {

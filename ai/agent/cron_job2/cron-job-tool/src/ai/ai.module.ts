@@ -13,7 +13,6 @@ import { ToolModule } from 'src/tool/tool.module';
   controllers: [AiController],
   providers: [
     AiService,
-    
   ],
 })
 export class AiModule {}

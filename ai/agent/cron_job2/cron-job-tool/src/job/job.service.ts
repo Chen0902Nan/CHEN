@@ -32,14 +32,14 @@ export class JobService implements OnApplicationBootstrap {
     async addJob(
         input:
         |{type:'cron';instruction:string;cron:string;isEnabled?:boolean}
-        |{type:'every';instruction:string;erveryMs:number;isEnabled?:boolean}
+        |{type:'every';instruction:string;everyMs:number;isEnabled?:boolean}
         |{type:'at';instruction:string;at:Date;isEnabled?:boolean}
     ){
         const entity=this.entityManager.create(Job,{
             instruction:input.instruction,
             type:input.type,
             cron:input.type==='cron'?input.cron:null,
-            everyMs:input.type==='every'?input.erveryMs:null,
+            everyMs:input.type==='every'?input.everyMs:null,
             at:input.type==='at'?input.at:null,
             isEnabled:input.isEnabled??true,
             lastRun:null
