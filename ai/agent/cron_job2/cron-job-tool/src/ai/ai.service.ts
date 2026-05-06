@@ -19,16 +19,18 @@ export class AiService {
   constructor(
     @Inject('CHAT_MODEL') model: ChatOpenAI,
     @Inject('WEB_SEARCH_TOOL') private readonly webSearchTool: StructuredTool,
-    @Inject('DB_USER_CRUD_TOOL')
+    @Inject('DB_USERS_CRUD_TOOL')
     private readonly dbUsersCrudTool: StructuredTool,
     @Inject('SEND_MAIL_TOOL') private readonly sendMailTool: StructuredTool,
     @Inject('TIME_NOW_TOOL') private readonly timeNowTool: StructuredTool,
+    @Inject('CRON_JOB_TOOL') private readonly cronJobTool: StructuredTool,
   ) {
     this.modelWithTools = model.bindTools([
       this.webSearchTool,
       this.dbUsersCrudTool,
       this.sendMailTool,
       this.timeNowTool,
+      this.cronJobTool,
     ]);
   }
 
@@ -36,7 +38,7 @@ export class AiService {
     const messages: BaseMessage[] = [
       new SystemMessage(
         `你是一个通用任务助手，可以根据用户的目标规划步骤，并在需要时调用工具：\`db_users_crud\`（用户
-         +数据库增删改查）、\`send_mail\`（发送邮件）、\`time_now\`（获取当前时间）、\`web_search\`（网页搜索）`,
+         +数据库增删改查）、\`send_mail\`（发送邮件）、\`time_now\`（获取当前时间）、\`web_search\`（网页搜索）、\`cron_job\`（设置定时任务）`,
       ),
       new HumanMessage(query),
     ];
@@ -94,6 +96,15 @@ export class AiService {
               content: result,
               name: toolName,
               tool_call_id: toolCallId,
+            }),
+          );
+        } else if (toolName === 'cron_job') {
+          const result = await this.cronJobTool.invoke(toolCall.args);
+          messages.push(
+            new ToolMessage({
+              tool_call_id: toolCallId,
+              name: toolName,
+              content: result,
             }),
           );
         }

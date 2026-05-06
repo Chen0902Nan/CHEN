@@ -37,4 +37,10 @@ export class Job{
 
     @Column({type:'timestamp',nullable:true})
     lastRun!:Date|null;
+
+    @CreateDateColumn()
+    createdAt!:Date;
+
+    @UpdateDateColumn()
+    updatedAt!:Date;
 }

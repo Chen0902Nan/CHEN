@@ -24,6 +24,7 @@ export class TimeNowToolService {
         schema: z.object({
           timezone: z
             .string()
+            .default('Asia/Shanghai')
             .describe('时区，如 Asia/Shanghai、America/New_York'),
         }),
       },

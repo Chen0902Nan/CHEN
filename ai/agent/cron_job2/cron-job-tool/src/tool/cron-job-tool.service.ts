@@ -48,6 +48,7 @@ export class CronJobToolService {
           '指定触发时间点 (type=at 时需要，ISO 字符串，例如 2026-03-18T12:34:56.000Z;到点执行一次后自动停用)',
         ),
     });
+
     this.tool = tool(
       async ({
         action,
@@ -135,8 +136,9 @@ export class CronJobToolService {
       },
       {
         name: 'cron_job',
-        description:
-          '管理服务端定时任务（支持 list/add/toggle）。\n\n类型语义：\n- type=at：到指定时间点只执行一次，执行后自动停用。\n- type=every：按固定毫秒间隔循环执行。\n- type=cron：按 Cron 表达式循环执行。\n',
+        description: `管理服务端定时任务（支持 list/add/toggle）。\n\n类型语义：
+                \n- type=at：到指定时间点只执行一次，执行后自动停用。\n
+                - type=every：按固定毫秒间隔循环执行。\n- type=cron：按 Cron 表达式循环执行。\n`,
         schema: cronJobArgsSchema,
       },
     );
